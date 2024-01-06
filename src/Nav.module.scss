@@ -1,10 +1,45 @@
 .wrapper{
     display: flex;
     justify-content: space-between;
-    width: 100%;
+    width: 300px;
     padding: 1rem;
-    background-color: dodgerblue;
-    color: white;
+    background-color: rgb(245, 245, 250);
+    color: rgb(0, 0, 0);
     font-size: 1.5rem;
     font-weight: 500;
+    height: 100vh;
+    flex-flow: column nowrap;
+}
+
+
+.account{
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    // justify-content: center;
+    margin-top: 1rem;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    padding: 1rem;
+    .accountContainer{
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: flex-start;
+        // width: 80%;
+        margin-left: 1rem;
+        .username{
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        .profilePic{
+            // width: 1rem;
+            // height: 1rem;
+            // border-radius: 50%;
+            border: 1px solid rgba(0, 0, 0, 0.25);
+            padding: 5px;
+            margin-right: 1.5rem;
+        }
+    }
+    
 }
