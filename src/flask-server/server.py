@@ -84,7 +84,7 @@ def analyze():
         return jsonify({"error": str(e)}), 500
     
 @app.route('/api/reviews/upload', methods=['POST'])
-def upload_reviews(results):
+def upload_reviews():
     data = request.get_json()
     
     if data is None:
