@@ -1,5 +1,5 @@
-import React from "react";
 import { Chart } from "react-google-charts";
+import React from "react";
 
 // export const data = [
 //   ["Product", "Flagged", "Total"],
@@ -25,6 +25,8 @@ export const options = {
       0: { side: "right" },
     },
   },
+  colors: ["#96C1F8", "#FF8C9D"],
+
 };
 
 export const BarChart = (props) => {
