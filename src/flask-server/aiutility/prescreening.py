@@ -3,6 +3,8 @@ from googleapiclient import discovery
 import json
 from dotenv import load_dotenv
 
+load_dotenv()
+
 client = discovery.build(
     "commentanalyzer",
     "v1alpha1",

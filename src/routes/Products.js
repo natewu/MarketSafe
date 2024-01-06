@@ -1,5 +1,6 @@
+import { React, useState } from 'react';
+
 import AddIcon from '@mui/icons-material/Add';
-import React from 'react';
 import styles from './Products.module.scss';
 
 // Mock data
@@ -11,20 +12,60 @@ const products = [
  { id: 2, img: 'https://via.placeholder.com/150', title: 'Product 2', desc: 'This is product 2' },
  // Add more products as needed
 ];
-
-function AddProduct() {
-    console.log("bithc")
-}
-
+   
 export default function Products() {
- return (
-   <div className={`${styles.Products} p6`}>
+
+
+    const [isOpen, setIsOpen] = useState(false);
+    const [url, setUrl] = useState('');
+    
+       
+    const handleSubmit = () => {
+        console.log(url);
+        setIsOpen(false);
+       };
+     
+    return (
+    <div className={`${styles.Products}`}>
+        {isOpen && (
+            <div className="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                <div className="flex items-center justify-center min-h-screen">
+                <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+                <div className="bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
+                    <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div className="sm:flex sm:items-start">
+                        <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                        <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                            Add Product
+                        </h3>
+                        <div className="mt-2">
+                            <input type="text" value={url} onChange={e => setUrl(e.target.value)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter URL"/>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button onClick={handleSubmit} type="button" className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
+                        Submit
+                    </button>
+                    <button onClick={() => setIsOpen(false)} type="button" className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                        Close
+                    </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+      )}
+
+
+
+   <div className={` p6`}>
     <div className='grid grid-cols-2 gap-3'>
         <div>
             <h1 className="text-4xl font-bold text-gray-800 mb-4">Shopping Dashboard</h1>
         </div>
         <div>
-            <button onClick={AddProduct} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+            <button onClick={() => setIsOpen(true)} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
                 <span className='mr-4'><AddIcon></AddIcon></span>
                 Add Product
             </button>
@@ -54,6 +95,7 @@ export default function Products() {
        ))}
      </div>
      </div>
-   </div>
+     </div>
+     </div>
  );
 }
