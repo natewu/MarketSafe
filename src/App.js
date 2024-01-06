@@ -1,3 +1,5 @@
+import './global.scss';
+
 import {Link, Route, Routes} from "react-router-dom";
 
 import Home from "./routes/Home";
@@ -11,6 +13,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />}></Route>
+        <Route path="/account" element={<Home />}></Route>
       </Routes>      
   
     </div>
