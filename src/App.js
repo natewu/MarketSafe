@@ -4,6 +4,7 @@ import {Link, Route, Routes} from "react-router-dom";
 
 import Home from "./routes/Home";
 import NavBar from "./Nav";
+import Products from "./routes/Products";
 import styles from "./App.module.scss";
 import { useEffect } from "react";
 
@@ -25,10 +26,12 @@ function App() {
     <div className={`${styles.App}`}>
       <NavBar />
 
-      <Routes>
-        <Route path="/" element={<Home />}></Route>
-      </Routes>      
-  
+      <div className={`${styles.content}`}>
+        <Routes>
+          <Route path="/" element={<Home />}></Route>
+          <Route path="/products" element={<Products />}></Route>
+        </Routes>      
+      </div>
     </div>
   );
 }

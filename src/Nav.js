@@ -17,6 +17,7 @@ const NavBar = () => {
 
             <div className={styles.navItems}>
                <NavItem title="Home" icon={<Skeleton variant="circular" width={40} height={40} />} />
+               <NavItem title="Products" icon={<Skeleton variant="circular" width={40} height={40} />} />
                <NavItem title="Account" icon={<Skeleton variant="circular" width={40} height={40} />} />
                <NavItem title="Settings" icon={<Skeleton variant="circular" width={40} height={40} />} />
             </div>
