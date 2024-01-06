@@ -5,6 +5,12 @@ from app import create_app,db
 from aiutility.detection import *
 from aiutility.prescreening import *
 from models import Review, Product, User, UsersShema,products_schema, users_schema,user_schema, reviews_schema
+import re
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
 
 # Create an application instance
 app = create_app()
@@ -36,7 +42,33 @@ def create_user():
     
     return jsonify({"message": "User created successfully", "user": UsersShema.dump(new_user)}), 201
 
-@app.route('/api/analyze', methods=['POST'])
+@app.route("/add_product", methods=["POST"])
+def add_product():
+	print(request.get_json())
+	url = request.json['url']
+	#url = "http://www.amazon.com/Kindle-Wireless-Reading-Display-Generation/dp/B0015T963C";
+	regex = re.search("amazon.ca/([\\w-]+/)?(dp|gp/product)/(\\w+/)?(\\w{10})", url);
+	ASIN = regex.group(4)
+
+	url = "https://real-time-amazon-data.p.rapidapi.com/product-details"
+
+	querystring = {"asin":ASIN,"country":"CA"}
+
+	headers = {
+		"X-RapidAPI-Key": os.environ.get('RAPID_API_KEY'),
+		"X-RapidAPI-Host": "real-time-amazon-data.p.rapidapi.com"
+	}
+
+	response = requests.get(url, headers=headers, params=querystring)
+
+	print(response.json())
+     
+	# Process the URL and add the product to the database
+	# ...
+	return jsonify({'message': 'Product added successfully'})
+
+
+@app.route('/analyze', methods=['POST'])
 def analyze():
     data = request.json
     product = data.get('product')
