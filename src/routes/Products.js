@@ -2,6 +2,7 @@ import { React, useState, useEffect } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
 import styles from "./Products.module.scss";
+import { useNavigate } from 'react-router-dom';
 
 // Mock data
 const products = [
@@ -143,6 +144,7 @@ export default function Products(props) {
     console.log(url);
     setIsOpen(false);
   };
+  
 
     const [isOpen, setIsOpen] = useState(false);
     const [url, setUrl] = useState('');
@@ -273,8 +275,15 @@ export default function Products(props) {
 }
 
 export function Product({ product }) {
-  return (
-    <div className={styles.product}>
+    const navigate = useNavigate();
+
+    
+    const goToProductPage = (id) => {
+        navigate(`/product/${id}`);
+      };
+
+    return (
+    <div className={styles.product} onClick={() => goToProductPage(product.id)}>
       <div className={styles.product__img}>
         <img src={product.img} alt={product.title} />
       </div>

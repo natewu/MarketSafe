@@ -6,6 +6,7 @@ import { Dashboard } from "./routes/Dashboard";
 import Home from "./routes/Home";
 import NavBar from "./Nav";
 import Products from "./routes/Products";
+import ProductPage from "./routes/ProductPage";
 import styles from "./App.module.scss";
 import { useEffect, useState } from "react";
 import { Collections } from "./routes/Collections";
@@ -186,6 +187,7 @@ function App() {
               <Products products={products} changeProducts={changeProducts} />
             }
           ></Route>
+          <Route path="/product/:id" element={<ProductPage />} />
           <Route
             path="/collections"
             element={<Collections changeProducts={changeProducts} />}

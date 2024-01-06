@@ -22,7 +22,7 @@ class Review(db.Model):
 
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), primary_key=True)
+    title = db.Column(db.String(100))
     image_url = db.Column(db.String(100))
     price = db.Column(db.Float)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now)
