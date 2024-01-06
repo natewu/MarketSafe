@@ -1,10 +1,8 @@
 from flask import current_app,jsonify,request
 from app import create_app,db
-from models import User, Post, UsersShema
 from aiutility.detection import *
 from aiutility.prescreening import *
-
-# from eyewearSimilarity import *
+from models import Review, Product, User,products_schema, users_schema,user_schema, reviews_schema
 
 # Create an application instance
 app = create_app()
