@@ -1,11 +1,9 @@
 import os
-from flask import Flask, request, jsonify
 import requests
 import json
 from dotenv import load_dotenv
 from pprint import pprint
 
-app = Flask(__name__)
 load_dotenv()
 
 # GPT4 Detection
@@ -76,21 +74,6 @@ def analyze_product_reviews(product, reviews):
     print(prompt)
     
     return model_detect(prompt)
-
-@app.route('/analyze', methods=['POST'])
-def analyze():
-    data = request.json
-    product = data.get('product')
-    reviews = data.get('reviews')
-    
-    if not product or not reviews:
-        return jsonify({"error": "Product or reviews not provided"}), 400
-
-    try:
-        analysis_result = analyze_product_reviews(product, reviews)
-        return jsonify(analysis_result)
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
     # this is to test the model
