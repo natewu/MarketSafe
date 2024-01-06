@@ -159,11 +159,12 @@ const handleRefreshClick = () => {
 export default function Products(props) {
   const [isOpen, setIsOpen] = useState(false);
   const [url, setUrl] = useState("");
+  const [products, setProducts] = useState([]);
   
   useEffect(() => {
     axios.get("http://localhost:5000/api/products").then((res) => {
       console.log(res.data);
-      props.setProducts(res.data);
+      setProducts(res.data);
     });
   }, []);
 
@@ -174,7 +175,7 @@ export default function Products(props) {
       })
       .then((res) => {
         console.log(res.data);
-        props.setProducts([...props.products, res.data]);
+        setProducts([...products, res.data]);
         setIsOpen(false);
         setUrl("");
       });
@@ -284,7 +285,7 @@ export default function Products(props) {
           </div>
         </div>
         <div className={styles.product__box}>
-          {props.products.map((product) => (
+          {products.map((product) => (
             <Product key={product.id} product={product} />
           ))}
         </div>
