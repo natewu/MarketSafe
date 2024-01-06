@@ -1,8 +1,10 @@
+import csv
+from io import StringIO
 from flask import current_app,jsonify,request
 from app import create_app,db
 from aiutility.detection import *
 from aiutility.prescreening import *
-from models import Review, Product, User,products_schema, users_schema,user_schema, reviews_schema
+from models import Review, Product, User, UsersShema,products_schema, users_schema,user_schema, reviews_schema
 
 # Create an application instance
 app = create_app()
@@ -30,15 +32,8 @@ def create_user():
     new_user = User(username=username, email=email)
     db.session.add(new_user)
     db.session.commit()
-
-    for post_data in posts_data:
-        title = post_data.get('title')
-        body = post_data.get('body')
-        if title and body:
-            new_post = Post(title=title, body=body, user_id=new_user.id)
-            db.session.add(new_post)
+    # adding into database
     
-    db.session.commit()
     return jsonify({"message": "User created successfully", "user": UsersShema.dump(new_user)}), 201
 
 @app.route('/analyze', methods=['POST'])
@@ -55,6 +50,37 @@ def analyze():
         return jsonify(analysis_result)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+@app.route('/upload', methods=['POST'])
+def upload_reviews():
+    # Assuming the CSV data is sent in the request's files with the key 'file'
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file part in the request'}), 400
+    
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({'error': 'No selected file'}), 400
+
+    file_stream = StringIO(file.stream.read().decode("UTF8"), newline=None)
+    csv_reader = csv.reader(file_stream)
+    next(csv_reader, None)  # Skip the header row
+
+    for row in csv_reader:
+        # Create a new Review instance
+        new_review = Review(
+            content=row[3],
+            title=row[2],
+            rating=float(row[1]),  
+            reviewer=row[0],
+            product_id=1  # Default ID for NOW
+        )
+        db.session.add(new_review)
+
+    # Commit all the new reviews to the database
+    db.session.commit()
+    
+    return jsonify({'message': 'Reviews uploaded successfully'}), 201
+
     
 if __name__ == "__main__":
 	app.run(debug=True)
