@@ -1,75 +1,90 @@
 import AddIcon from "@mui/icons-material/Add";
-import React from "react";
+import { useState, useRef } from "react";
 import styles from "./Products.module.scss";
 import TransferList from "../components/TransferList";
 import Modal from "@mui/material/Modal";
-import { useRef } from "react";
 import Grid from "@mui/material/Grid";
+import { useNavigate } from "react-router-dom";
 
-// Mock data
-const products = [
-  {
-    id: 1,
-    img: "https://via.placeholder.com/150",
-    title: "Collection 1",
-    desc: "This is product 1",
-    num: 10,
-    collection: [{ title: "Product 1", desc: "This is product 1" }],
-  },
-  {
-    id: 2,
-    img: "https://via.placeholder.com/150",
-    title: "Product 2",
-    desc: "This is product 2",
-    num: 10,
-    collection: [{ title: "Product 2", desc: "This is product 2" }],
-  },
-  {
-    id: 2,
-    img: "https://via.placeholder.com/150",
-    title: "Product 2",
-    desc: "This is product 2",
-    num: 10,
-  },
-  {
-    id: 2,
-    img: "https://via.placeholder.com/150",
-    title: "Product 2",
-    desc: "This is product 2",
-    num: 10,
-  },
-  {
-    id: 2,
-    img: "https://via.placeholder.com/150",
-    title: "Product 2",
-    desc: "This is product 2",
-    num: 10,
-  },
-  // Add more products as needed
-];
-
-function AddCollection() {
-  //get list of products
-}
-
-export function Collections() {
+export function Collections(props) {
+  const navigate = useNavigate();
   const collectionName = useRef();
-  const [show, setShow] = React.useState(false);
-  const [all, setAll] = React.useState([
-    { title: "Product 1", desc: "This is product 1" },
+  const [show, setShow] = useState(false);
+  // list of all products
+  const [allProducts, setAllProducts] = useState([
+    {
+      img: "https://via.placeholder.com/300",
+      title: "Product 2",
+      desc: "This is product 2",
+      num: 10,
+    },
+    {
+      img: "https://via.placeholder.com/300",
+      title: "Product 2",
+      desc: "This is product 2",
+      num: 10,
+    },
   ]);
-  const [current, setCurrent] = React.useState([]);
+  // current collections
+  const [collections, changeCollections] = useState([
+    {
+      img: "https://via.placeholder.com/300",
+      title: "Collection 1",
+      desc: "This is collection 1",
+      num: 10,
+      collection: [
+        {
+          id: 1,
+          img: "https://via.placeholder.com/300",
+          title: "Product 1",
+          desc: "This is product 1",
+        },
+      ],
+    },
+    {
+      img: "https://via.placeholder.com/300",
+      title: "Product 2",
+      desc: "This is product 2",
+      num: 10,
+      collection: [
+        {
+          id: 1,
+          img: "https://via.placeholder.com/300",
+          title: "Product 1",
+          desc: "This is product 1",
+        },
+      ],
+    },
+  ]);
+
+  const [current, setCurrent] = useState([]);
+
+  // #region TransferList
   function handleClose() {
     setShow(false);
   }
   function handleOpen() {
     setShow(true);
   }
+  // #endregion
 
-  function createCollection(collection) {
+  function createCollection(products) {
     handleClose();
-    console.log(collection);
+    const collection = {
+      img: "https://via.placeholder.com/300",
+      title: collectionName.current.value,
+      desc: "This is collection 23",
+      num: products.length,
+      collection: products,
+    };
+
+    changeCollections([...collections, collection]);
   }
+
+  const displayProducts = (products) => {
+    props.changeProducts(products);
+    navigate("/products");
+  };
   return (
     <div className={`${styles.Products} p6`}>
       <Modal
@@ -87,7 +102,7 @@ export function Collections() {
           </Grid>
 
           <TransferList
-            all={all}
+            all={allProducts}
             current={current}
             handleClose={handleClose}
             createCollection={createCollection}
@@ -130,23 +145,23 @@ export function Collections() {
         </div>
       </div>
       <div className="mt-4">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-2">
-          Collection
-        </h2>
         <div className="grid grid-cols-3 gap-4">
-          {products.map((product) => (
-            <div key={product.id} className="rounded-lg overflow-hidden">
-              <img
-                src={product.img}
-                alt={product.title}
-                className="w-full h-64 object-cover block mx-auto"
-              />
-              <div className="p-4">
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                  {product.title}
-                </h3>
-                <p className="text-gray-600">{product.desc}</p>
-                <p className="text-gray-600">{product.num} items</p>
+          {collections.map((collection, index) => (
+            <div
+              key={index}
+              className="rounded-lg overflow-hidden"
+              onClick={() => {
+                displayProducts(collection.collection);
+              }}
+            >
+              <div className={styles.product}>
+                <div className={styles.product__img}>
+                  <img src={collection.img} alt={collection.title} />
+                </div>
+                <div className={styles.product__info}>
+                  <p className={styles.product__title}>{collection.title}</p>
+                  <p className={styles.product__desc}>{collection.desc}</p>
+                </div>
               </div>
             </div>
           ))}

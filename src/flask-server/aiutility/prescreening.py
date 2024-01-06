@@ -33,7 +33,7 @@ def analyze_review(review):
     return response
 
 result = analyze_review("This product is bad, it easily broke and I had to return it twice.")
-print(json.dumps(result, indent=2))
+#print(json.dumps(result, indent=2))
 
 """
 Output format:
