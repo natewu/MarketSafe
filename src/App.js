@@ -1,18 +1,17 @@
-import {Link, Route, Routes} from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
 
 import Home from "./routes/Home";
 import NavBar from "./Nav";
-import styles from './App.module.scss';
+import styles from "./App.module.scss";
 
 function App() {
   return (
     <div className={`${styles.App}`}>
-    <NavBar />
+      <NavBar />
 
       <Routes>
         <Route path="/" element={<Home />}></Route>
-      </Routes>      
-  
+      </Routes>
     </div>
   );
 }
