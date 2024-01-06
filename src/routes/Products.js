@@ -1,6 +1,8 @@
-import { React, useState, useEffect } from "react";
+import { React, useEffect, useState } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
+import Papa from 'papaparse';
+import axios from "axios";
 import styles from "./Products.module.scss";
 import { useNavigate } from 'react-router-dom';
 
@@ -129,36 +131,55 @@ const products = [
   // Add more products as needed
 ];
 
+const handleRefreshClick = () => {
+  // Assuming the CSV file is publicly accessible from the public directory
+  const csvReviewPath = 'data/generated_reviews.csv';
+
+  Papa.parse(csvReviewPath, {
+    download: true,
+    header: true,
+    complete: function(results) {
+      // Here we have the CSV file data as an array of objects
+      console.log(results.data);
+
+      // Send this data to the backend
+      axios.post('http://localhost:5000/api/reviews/upload', results.data)
+        .then(response => {
+          // Handle the response from the server here
+          console.log('Reviews added to the database', response);
+        })
+        .catch(error => {
+          // Handle any errors here
+          console.error('Error uploading reviews to the database', error);
+        });
+    }
+  });
+};
+
+
 export default function Products(props) {
   const [isOpen, setIsOpen] = useState(false);
   const [url, setUrl] = useState("");
-
+  
   useEffect(() => {
-    return () => {
-      // wont work correctly with strict mode on
-      //   console.log("called");
-      props.changeProducts(products);
-    };
+    axios.get("http://localhost:5000/api/products").then((res) => {
+      console.log(res.data);
+      props.setProducts(res.data);
+    });
   }, []);
 
-    const handleSubmit = async () => {
-        const product = { url };
-        const response = await fetch("/add_product", {
-            method: "POST",
-            headers: {
-                'Content-Type' : 'application/json'
-            },
-            body: JSON.stringify(product)
-        });
-     
-        if (response.ok){
-            console.log("Product added successfully");
-            setIsOpen(false);
-        } else {
-            console.error("Failed to add product");
-        }
-     };
-     
+  const handleSubmit = () => {
+    axios
+      .post("http://localhost:5000/api/products", {
+        url: url,
+      })
+      .then((res) => {
+        console.log(res.data);
+        props.setProducts([...props.products, res.data]);
+        setIsOpen(false);
+        setUrl("");
+      });
+  };
 
   return (
     <div className={`${styles.Products} m-14`}>
@@ -235,6 +256,14 @@ export default function Products(props) {
               Add Product
             </button>
           </div>
+          <div>
+          <button
+            onClick={handleRefreshClick}
+            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Refresh Reviews
+          </button>
+        </div>
         </div>
         <div className="mt-4">
           <div className="flex space-x-4 items-center">
