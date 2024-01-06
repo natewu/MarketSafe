@@ -20,6 +20,7 @@ export function Dashboard() {
       </div>
       <div className={styles.container}>
         <ComponentWrapper
+         title="Product flagged reviews"
           component={
             <BarChart
               data={[
@@ -31,6 +32,7 @@ export function Dashboard() {
           }
         />
         <ComponentWrapper
+            title="Total bots"
           component={
             <PieChart
               data={[
@@ -61,5 +63,11 @@ function GlanceItem({title, value, icon}){
 }
 
 function ComponentWrapper(props) {
-  return <div className={styles.component_wrapper}>{props.component}</div>;
+  return (
+   <div className={styles.component_wrapper}>
+      <h1 className={styles.title}>{props.title}</h1>
+      {props.component}
+      
+   </div>
+   );
 }

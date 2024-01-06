@@ -85,4 +85,12 @@
     margin: 1rem;
     padding: 1rem;
     width: auto;
+    min-width: 600px;
+    .title{
+        font-size: 1.5rem;
+        font-weight: 500;
+        text-align: left;
+        width: 100%;
+        padding: 0.25rem 1rem;
+    }
 }
