@@ -19,7 +19,7 @@
     "react-google-charts": "^4.0.1",
     "react-papaparse": "^4.4.0",
     "react-router-dom": "^6.4.3",
-    "react-scripts": "^3.0.1",
+    "react-scripts": "^5.0.1",
     "sass": "^1.58.3",
     "web-vitals": "^2.1.4"
   },

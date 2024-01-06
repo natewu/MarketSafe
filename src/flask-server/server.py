@@ -13,7 +13,7 @@ with app.app_context():
 	db.create_all()
 
 
-@app.route('/create_user', methods=['POST'])
+@app.route('/api/create_user', methods=['POST'])
 def create_user():
     data = request.get_json()
     
@@ -36,7 +36,7 @@ def create_user():
     
     return jsonify({"message": "User created successfully", "user": UsersShema.dump(new_user)}), 201
 
-@app.route('/analyze', methods=['POST'])
+@app.route('/api/analyze', methods=['POST'])
 def analyze():
     data = request.json
     product = data.get('product')
@@ -51,35 +51,31 @@ def analyze():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
-@app.route('/upload', methods=['POST'])
-def upload_reviews():
-    # Assuming the CSV data is sent in the request's files with the key 'file'
-    if 'file' not in request.files:
-        return jsonify({'error': 'No file part in the request'}), 400
+@app.route('/api/reviews/upload', methods=['POST'])
+def upload_reviews(results):
+    data = request.get_json()
     
-    file = request.files['file']
-    if file.filename == '':
-        return jsonify({'error': 'No selected file'}), 400
+    if data is None:
+        return jsonify({"error": "No data provided"}), 400
 
-    file_stream = StringIO(file.stream.read().decode("UTF8"), newline=None)
-    csv_reader = csv.reader(file_stream)
-    next(csv_reader, None)  # Skip the header row
+    try:
+        for entry in data:
+            new_review = Review(
+                content=entry.get('Description', ''),
+                title=entry.get('Title', ''),
+                rating=float(entry.get('Rating', 0)),  
+                reviewer=entry.get('UserName', ''),
+                product_id=1  # Default ID for NOW
+            )
+            db.session.add(new_review)
 
-    for row in csv_reader:
-        # Create a new Review instance
-        new_review = Review(
-            content=row[3],
-            title=row[2],
-            rating=float(row[1]),  
-            reviewer=row[0],
-            product_id=1  # Default ID for NOW
-        )
-        db.session.add(new_review)
+        db.session.commit()
 
-    # Commit all the new reviews to the database
-    db.session.commit()
-    
-    return jsonify({'message': 'Reviews uploaded successfully'}), 201
+        return jsonify({'message': 'Reviews uploaded successfully'}), 200
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
 
     
 if __name__ == "__main__":

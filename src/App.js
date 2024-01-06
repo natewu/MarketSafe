@@ -9,8 +9,6 @@ import Products from "./routes/Products";
 import styles from "./App.module.scss";
 import { useEffect, useState } from "react";
 import { Collections } from "./routes/Collections";
-import axios from "axios";
-import Papa from 'papaparse';
 
 function App() {
   const [products, changeProducts] = useState([
@@ -148,31 +146,6 @@ function App() {
     });
   }, []);
 
-  const handleRefreshClick = () => {
-    // Assuming the CSV file is publicly accessible from the public directory
-    const csvReviewPath = 'data/generated_reviews.csv';
-  
-    Papa.parse(csvReviewPath, {
-      download: true,
-      header: true,
-      complete: function(results) {
-        // Here we have the CSV file data as an array of objects
-        console.log(results.data);
-  
-        // Send this data to the backend
-        axios.post('/api/reviews/upload', results.data)
-          .then(response => {
-            // Handle the response from the server here
-            console.log('Reviews added to the database', response);
-          })
-          .catch(error => {
-            // Handle any errors here
-            console.error('Error uploading reviews to the database', error);
-          });
-      }
-    });
-  };
-
   return (
     <div className={`${styles.App}`}>
       <NavBar />
@@ -192,9 +165,6 @@ function App() {
           ></Route>
         </Routes>
       </div>
-        <Button variant="contained" onClick={handleRefreshClick}>
-          Refresh Reviews
-        </Button>
     </div>
   );
 }

@@ -2,6 +2,8 @@ import { React, useState, useEffect } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
 import styles from "./Products.module.scss";
+import axios from "axios";
+import Papa from 'papaparse';
 
 // Mock data
 const products = [
@@ -128,6 +130,32 @@ const products = [
   // Add more products as needed
 ];
 
+const handleRefreshClick = () => {
+  // Assuming the CSV file is publicly accessible from the public directory
+  const csvReviewPath = 'data/generated_reviews.csv';
+
+  Papa.parse(csvReviewPath, {
+    download: true,
+    header: true,
+    complete: function(results) {
+      // Here we have the CSV file data as an array of objects
+      console.log(results.data);
+
+      // Send this data to the backend
+      axios.post('http://localhost:5000/api/reviews/upload', results.data)
+        .then(response => {
+          // Handle the response from the server here
+          console.log('Reviews added to the database', response);
+        })
+        .catch(error => {
+          // Handle any errors here
+          console.error('Error uploading reviews to the database', error);
+        });
+    }
+  });
+};
+
+
 export default function Products(props) {
   const [isOpen, setIsOpen] = useState(false);
   const [url, setUrl] = useState("");
@@ -219,6 +247,14 @@ export default function Products(props) {
               Add Product
             </button>
           </div>
+          <div>
+          <button
+            onClick={handleRefreshClick}
+            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Refresh Reviews
+          </button>
+        </div>
         </div>
         <div className="mt-4">
           <div className="flex space-x-4 items-center">
