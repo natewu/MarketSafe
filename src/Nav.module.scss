@@ -44,9 +44,12 @@
     
 }
 
+.mainContainer{
+    margin-bottom: 1rem;
+}
+
 .navItem{
     align-items: center;
-    // background-color: rgba(0, 0, 0, 0.00);
     border-radius: 10px;
     cursor: pointer;
     display: flex;
@@ -68,7 +71,6 @@
 
 .logo{
     align-items: center;
-    // background-color: rgba(0, 0, 0, 0.05);
     border-radius: 10px;
     cursor: pointer;
     display: flex;

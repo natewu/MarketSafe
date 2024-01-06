@@ -6,7 +6,6 @@ import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import styles from './Nav.module.scss';
 
 const NavBar = () => {
-   // const [active, setActive] = React.useState();
    return (
       <nav className={styles.wrapper}>
          <div className={styles.main}>
@@ -35,39 +34,11 @@ const NavBar = () => {
 };
 
 export function NavItem({title, icon}) {
-   const history = useNavigate();
-   const location = useLocation();
-   const [active, setActive] = React.useState(false);
-
-   const handleClick = () => {
-      history(`/${title.toLowerCase()}`);
-   }
-
-   // useEffect(() => {
-   //    // check if current page is the same as the nav item
-   //    if(location.pathname === `/${title.toLowerCase()}`) {
-   //       setActive(true);
-   //    } else {
-   //       setActive(false);
-   //    }
-   //    return() => {
-   //       setActive(false);
-   //    }
-   // }, [location, title]);
-
-   // console.log(active, location.pathname, title);
-
+   
    return (
       <NavLink 
          to={`/${title.toLowerCase()}`} 
-         // activeClassName={styles.active}
-         // activeStyle={
-         // }
-         //    backgroundColor: "rgba(0,0,0,0.05)"
          className={styles.navItem} 
-         // onClick={handleClick} 
-      
-         // style={{backgroundColor: active ? "rgba(0,0,0,0.05)": "rgba(0,0,0,0) !important"}}
       >
          <IconButton className={styles.icon}>
             {icon}
