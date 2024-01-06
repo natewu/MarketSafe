@@ -8,20 +8,27 @@
     box-sizing: border-box;
     align-self: flex-start;
     // overflow: scroll;
-    height: 100vh;
+    // height: 100vh;
 }
 .products_wrapper{
     width: 100%;
 }
-.products{
-    overflow-y: auto;
-    height: 100%;
-    flex: 0.8;
-    // display: flex;
-    flex-flow: column wrap;
+
+.product__box{
+    display: flex;
     width: 100%;
+    flex-flow: row wrap;
+    overflow: scroll;
+    height: 80vh;  
+    padding: 1rem; 
+    margin: 2rem 0 0 0;
 }
 
-.item{
-    width: 200px;
+.product{
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+    flex: 1/3;
+    margin: 2rem;
 }
