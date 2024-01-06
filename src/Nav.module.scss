@@ -1,10 +1,83 @@
 .wrapper{
+    background-color: rgb(245, 245, 250);
+    color: rgb(0, 0, 0);
     display: flex;
-    justify-content: space-between;
-    width: 100%;
-    padding: 1rem;
-    background-color: dodgerblue;
-    color: white;
+    flex-flow: column nowrap;
     font-size: 1.5rem;
     font-weight: 500;
+    height: 100vh;
+    justify-content: space-between;
+    padding: 1rem;
+    width: 300px;
 }
+
+
+.account{
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    display: flex;
+    flex-flow: row nowrap;
+    // justify-content: center;
+    margin-top: 1rem;
+    padding: 1rem;
+    .accountContainer{
+        align-items: center;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-start;
+        // width: 80%;
+        margin-left: 1rem;
+        .username{
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        .profilePic{
+            // width: 1rem;
+            // height: 1rem;
+            // border-radius: 50%;
+            border: 1px solid rgba(0, 0, 0, 0.25);
+            margin-right: 1.5rem;
+            padding: 5px;
+        }
+    }
+    
+}
+
+.navItem{
+    align-items: center;
+    // background-color: rgba(0, 0, 0, 0.00);
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    margin-bottom: 1rem;
+    padding: 0.5rem 1rem;
+    .icon{
+        margin-right: 1rem;
+    }
+
+    font-size: 1.25rem;
+    font-weight:400;
+
+    &:hover{
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+}
+
+.logo{
+    align-items: center;
+    // background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    margin-bottom: 1rem;
+    padding: 1rem 1rem;
+    .icon{
+        margin-right: 1rem;
+    }
+}
+
