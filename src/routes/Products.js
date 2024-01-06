@@ -159,41 +159,26 @@ const handleRefreshClick = () => {
 export default function Products(props) {
   const [isOpen, setIsOpen] = useState(false);
   const [url, setUrl] = useState("");
-
+  
   useEffect(() => {
-    return () => {
-      // wont work correctly with strict mode on
-      //   console.log("called");
-      props.changeProducts(products);
-    };
+    axios.get("http://localhost:5000/api/products").then((res) => {
+      console.log(res.data);
+      props.setProducts(res.data);
+    });
   }, []);
+
   const handleSubmit = () => {
-    console.log(url);
-    setIsOpen(false);
+    axios
+      .post("http://localhost:5000/api/products", {
+        url: url,
+      })
+      .then((res) => {
+        console.log(res.data);
+        props.setProducts([...props.products, res.data]);
+        setIsOpen(false);
+        setUrl("");
+      });
   };
-
-    const [isOpen, setIsOpen] = useState(false);
-    const [url, setUrl] = useState('');
-
-
-    const handleSubmit = async () => {
-        const product = { url };
-        const response = await fetch("/add_product", {
-            method: "POST",
-            headers: {
-                'Content-Type' : 'application/json'
-            },
-            body: JSON.stringify(product)
-        });
-     
-        if (response.ok){
-            console.log("Product added successfully");
-            setIsOpen(false);
-        } else {
-            console.error("Failed to add product");
-        }
-     };
-     
 
   return (
     <div className={`${styles.Products} m-14`}>
