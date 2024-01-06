@@ -5,7 +5,6 @@ import json
 from dotenv import load_dotenv
 from pprint import pprint
 
-app = Flask(__name__)
 load_dotenv()
 
 # GPT4 Detection
