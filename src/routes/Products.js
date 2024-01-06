@@ -1,4 +1,5 @@
 import { React, useState } from 'react';
+
 import AddIcon from '@mui/icons-material/Add';
 import styles from './Products.module.scss';
 
@@ -25,7 +26,7 @@ export default function Products() {
        };
      
     return (
-    <div>
+    <div className={`${styles.Products}`}>
         {isOpen && (
             <div className="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
                 <div className="flex items-center justify-center min-h-screen">
@@ -58,7 +59,7 @@ export default function Products() {
 
 
 
-   <div className="p-6">
+   <div className={` p6`}>
     <div className='grid grid-cols-2 gap-3'>
         <div>
             <h1 className="text-4xl font-bold text-gray-800 mb-4">Shopping Dashboard</h1>

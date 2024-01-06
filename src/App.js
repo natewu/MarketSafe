@@ -2,6 +2,7 @@ import './global.scss';
 
 import {Link, Route, Routes} from "react-router-dom";
 
+import { Dashboard } from "./routes/Dashboard";
 import Home from "./routes/Home";
 import NavBar from "./Nav";
 import Products from "./routes/Products";
@@ -29,6 +30,7 @@ function App() {
       <div className={`${styles.content}`}>
         <Routes>
           <Route path="/" element={<Home />}></Route>
+          <Route path="/dashboard" element={<Dashboard />}></Route>
           <Route path="/products" element={<Products />}></Route>
         </Routes>      
       </div>
