@@ -1,17 +1,21 @@
 import "./global.scss";
 
 import { Link, Route, Routes } from "react-router-dom";
-
+import React from "react";
 import { Dashboard } from "./routes/Dashboard";
 import Home from "./routes/Home";
 import NavBar from "./Nav";
 import Products from "./routes/Products";
 import styles from "./App.module.scss";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Collections } from "./routes/Collections";
-import { BarChart } from "./components/BarChart";
-
+import CollectionProducts from "./components/CollectionProducts";
 function App() {
+  const [products, changeProducts] = useState([]);
+
+  const setNewProducts = (productData) => {
+    changeProducts(productData);
+  };
   useEffect(() => {
     // disable text select
     const noSelectElements = document.querySelectorAll(".no-select");
@@ -33,7 +37,14 @@ function App() {
           <Route path="/" element={<Home />}></Route>
           <Route path="/dashboard" element={<Dashboard />}></Route>
           <Route path="/products" element={<Products />}></Route>
-          <Route path="/collections" element={<Collections />}></Route>
+          <Route
+            path="/collections"
+            element={<Collections changeProducts={setNewProducts} />}
+          ></Route>
+          <Route
+            path="/collectionss"
+            element={<CollectionProducts products={products} />}
+          ></Route>
         </Routes>
       </div>
     </div>
