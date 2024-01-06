@@ -13,13 +13,13 @@ export function Collections(props) {
   // list of all products
   const [allProducts, setAllProducts] = useState([
     {
-      img: "https://via.placeholder.com/150",
+      img: "https://via.placeholder.com/300",
       title: "Product 2",
       desc: "This is product 2",
       num: 10,
     },
     {
-      img: "https://via.placeholder.com/150",
+      img: "https://via.placeholder.com/300",
       title: "Product 2",
       desc: "This is product 2",
       num: 10,
@@ -28,18 +28,32 @@ export function Collections(props) {
   // current collections
   const [collections, changeCollections] = useState([
     {
-      img: "https://via.placeholder.com/150",
+      img: "https://via.placeholder.com/300",
       title: "Collection 1",
       desc: "This is collection 1",
       num: 10,
-      collection: [{ title: "Product 1", desc: "This is product 1" }],
+      collection: [
+        {
+          id: 1,
+          img: "https://via.placeholder.com/300",
+          title: "Product 1",
+          desc: "This is product 1",
+        },
+      ],
     },
     {
-      img: "https://via.placeholder.com/150",
+      img: "https://via.placeholder.com/300",
       title: "Product 2",
       desc: "This is product 2",
       num: 10,
-      collection: [{ title: "Product 2", desc: "This is product 2" }],
+      collection: [
+        {
+          id: 1,
+          img: "https://via.placeholder.com/300",
+          title: "Product 1",
+          desc: "This is product 1",
+        },
+      ],
     },
   ]);
 
@@ -57,7 +71,7 @@ export function Collections(props) {
   function createCollection(products) {
     handleClose();
     const collection = {
-      img: "https://via.placeholder.com/150",
+      img: "https://via.placeholder.com/300",
       title: collectionName.current.value,
       desc: "This is collection 23",
       num: products.length,
@@ -69,7 +83,7 @@ export function Collections(props) {
 
   const displayProducts = (products) => {
     props.changeProducts(products);
-    navigate("/collectionss");
+    navigate("/products");
   };
   return (
     <div className={`${styles.Products} p6`}>
@@ -131,9 +145,6 @@ export function Collections(props) {
         </div>
       </div>
       <div className="mt-4">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-2">
-          Collection
-        </h2>
         <div className="grid grid-cols-3 gap-4">
           {collections.map((collection, index) => (
             <div
@@ -143,17 +154,14 @@ export function Collections(props) {
                 displayProducts(collection.collection);
               }}
             >
-              <img
-                src={collection.img}
-                alt={collection.title}
-                className="w-full h-64 object-cover block mx-auto"
-              />
-              <div className="p-4">
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                  {collection.title}
-                </h3>
-                <p className="text-gray-600">{collection.desc}</p>
-                <p className="text-gray-600">{collection.num} items</p>
+              <div className={styles.product}>
+                <div className={styles.product__img}>
+                  <img src={collection.img} alt={collection.title} />
+                </div>
+                <div className={styles.product__info}>
+                  <p className={styles.product__title}>{collection.title}</p>
+                  <p className={styles.product__desc}>{collection.desc}</p>
+                </div>
               </div>
             </div>
           ))}

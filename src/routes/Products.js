@@ -134,10 +134,11 @@ export default function Products(props) {
 
   useEffect(() => {
     return () => {
-      //replace with databse call
+      // wont work correctly with strict mode on
+      //   console.log("called");
       props.changeProducts(products);
     };
-  });
+  }, []);
   const handleSubmit = () => {
     console.log(url);
     setIsOpen(false);
@@ -239,7 +240,7 @@ export default function Products(props) {
           </div>
         </div>
         <div className={styles.product__box}>
-          {products.map((product) => (
+          {props.products.map((product) => (
             <Product key={product.id} product={product} />
           ))}
         </div>
