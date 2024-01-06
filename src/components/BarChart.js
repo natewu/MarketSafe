@@ -27,11 +27,11 @@ export const options = {
   },
 };
 
-export const BarChart = (data) => {
+export const BarChart = (props) => {
   return (
     <Chart
       chartType="BarChart"
-      data={data}
+      data={props.data}
       options={options}
       width={"100%"}
       height={"auto"}
