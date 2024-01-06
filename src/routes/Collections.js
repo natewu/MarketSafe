@@ -3,7 +3,8 @@ import React from "react";
 import styles from "./Products.module.scss";
 import TransferList from "../components/TransferList";
 import Modal from "@mui/material/Modal";
-import Button from "@mui/material/Button";
+import { useRef } from "react";
+import Grid from "@mui/material/Grid";
 
 // Mock data
 const products = [
@@ -13,6 +14,7 @@ const products = [
     title: "Collection 1",
     desc: "This is product 1",
     num: 10,
+    collection: [{ title: "Product 1", desc: "This is product 1" }],
   },
   {
     id: 2,
@@ -20,6 +22,7 @@ const products = [
     title: "Product 2",
     desc: "This is product 2",
     num: 10,
+    collection: [{ title: "Product 2", desc: "This is product 2" }],
   },
   {
     id: 2,
@@ -50,12 +53,22 @@ function AddCollection() {
 }
 
 export function Collections() {
+  const collectionName = useRef();
   const [show, setShow] = React.useState(false);
+  const [all, setAll] = React.useState([
+    { title: "Product 1", desc: "This is product 1" },
+  ]);
+  const [current, setCurrent] = React.useState([]);
   function handleClose() {
     setShow(false);
   }
   function handleOpen() {
     setShow(true);
+  }
+
+  function createCollection(collection) {
+    handleClose();
+    console.log(collection);
   }
   return (
     <div className={`${styles.Products} p6`}>
@@ -65,7 +78,21 @@ export function Collections() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <TransferList all={[0, 1, 2, 3]} current={[4, 5, 6]}></TransferList>
+        <>
+          <Grid container justifyContent="center" alignItems="center">
+            <input
+              placeholder="Name of collection"
+              ref={collectionName}
+            ></input>
+          </Grid>
+
+          <TransferList
+            all={all}
+            current={current}
+            handleClose={handleClose}
+            createCollection={createCollection}
+          ></TransferList>
+        </>
       </Modal>
 
       <div className="grid grid-cols-2 gap-3">

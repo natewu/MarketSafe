@@ -121,7 +121,7 @@ export default function TransferList(props) {
                   }}
                 />
               </ListItemIcon>
-              <ListItemText id={labelId} primary={`List item ${value + 1}`} />
+              <ListItemText id={labelId} primary={`${value.title}`} />
             </ListItem>
           );
         })}
@@ -142,6 +142,7 @@ export default function TransferList(props) {
               onClick={handleCheckedRight}
               disabled={leftChecked.length === 0}
               aria-label="move selected right"
+              style={{ backgroundColor: "white" }}
             >
               &gt;
             </Button>
@@ -152,6 +153,7 @@ export default function TransferList(props) {
               onClick={handleCheckedLeft}
               disabled={rightChecked.length === 0}
               aria-label="move selected left"
+              style={{ backgroundColor: "white" }}
             >
               &lt;
             </Button>
@@ -160,7 +162,24 @@ export default function TransferList(props) {
 
         <Grid item>{customList("Chosen", right)}</Grid>
       </Grid>
-      <Button>Hello</Button>
+      <Grid container justifyContent="center" alignItems="center">
+        <Button
+          style={{ backgroundColor: "white" }}
+          variant="outlined"
+          onClick={props.handleClose}
+        >
+          Go Back
+        </Button>
+        <Button
+          style={{ backgroundColor: "white" }}
+          variant="outlined"
+          onClick={() => {
+            props.createCollection(right);
+          }}
+        >
+          Create
+        </Button>
+      </Grid>
     </div>
   );
 }
