@@ -8,7 +8,7 @@ export const data = [
 
 export const options = {
   title: "Bots vs Humans",
-  colors: ["#FB7A21", "#FFFFFF"],
+  colors: ["#96C1F8", "#FF8C9D"],
 };
 export const PieChart = (props) => {
   return (
