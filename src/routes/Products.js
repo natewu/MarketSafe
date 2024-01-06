@@ -144,6 +144,29 @@ export default function Products(props) {
     setIsOpen(false);
   };
 
+    const [isOpen, setIsOpen] = useState(false);
+    const [url, setUrl] = useState('');
+
+
+    const handleSubmit = async () => {
+        const product = { url };
+        const response = await fetch("/add_product", {
+            method: "POST",
+            headers: {
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify(product)
+        });
+     
+        if (response.ok){
+            console.log("Product added successfully");
+            setIsOpen(false);
+        } else {
+            console.error("Failed to add product");
+        }
+     };
+     
+
   return (
     <div className={`${styles.Products} m-14`}>
       {isOpen && (

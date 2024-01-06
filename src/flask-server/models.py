@@ -7,6 +7,7 @@ class Review(db.Model):
     content = db.Column(db.String(500))
     title = db.Column(db.String(100))
     reviewer = db.Column(db.String(100))
+    rating = db.Column(db.Float())
     percentProfanity = db.Column(db.Float())
     percentThreat = db.Column(db.Float())
     percentInsult = db.Column(db.Float())
@@ -50,7 +51,7 @@ class ProductShema(ma.Schema):
 class ReviewShema(ma.Schema):
     class Meta:
         # Fields to expose
-        fields = ("id","content", "title", "reviewer", "reviews",
+        fields = ("id","content", "title", "reviewer", "reviews", "rating",
             "percentProfanity", "percentThreat", "percentInsult", "percentToxicity", "percentSevereToxicity",
             "percentSexuallyExplicit", "isMisinformation", "isHarmfulContent", "misinformationExplanation",
             "harmfulContentExplanation")
