@@ -1,6 +1,7 @@
 import {React, useState} from 'react';
 import AddIcon from '@mui/icons-material/Add';
-
+import React from 'react';
+import styles from './Products.module.scss';
 
 // Mock data
 const products = [

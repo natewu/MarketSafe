@@ -1,2 +1,5 @@
 node_modules
-database.db
+.env
+__pycache__
+package-lock.json
+src/flask-server/instance/database.db
