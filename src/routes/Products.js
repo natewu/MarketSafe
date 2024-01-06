@@ -298,11 +298,11 @@ export function Product({ product }) {
   return (
     <div className={styles.product}>
       <div className={styles.product__img}>
-        <img src={product.img} alt={product.title} />
+        <img src={product.image_url} alt={product.title} />
       </div>
       <div className={styles.product__info}>
         <p className={styles.product__title}>{product.title}</p>
-        <p className={styles.product__desc}>{product.desc}</p>
+        <p className={styles.product__desc}>{product.description}</p>
       </div>
     </div>
   );
