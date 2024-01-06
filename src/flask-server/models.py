@@ -22,6 +22,7 @@ class Review(db.Model):
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), primary_key=True)
+    image_url = db.Column(db.String(100))
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now)
     description = db.Column(db.Text, nullable=True)
     reviews = db.relationship('Review', backref="product", lazy=True)
