@@ -140,15 +140,6 @@ export default function Products(props) {
       props.changeProducts(products);
     };
   }, []);
-  const handleSubmit = () => {
-    console.log(url);
-    setIsOpen(false);
-  };
-  
-
-    const [isOpen, setIsOpen] = useState(false);
-    const [url, setUrl] = useState('');
-
 
     const handleSubmit = async () => {
         const product = { url };
