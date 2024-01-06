@@ -1,14 +1,15 @@
 import "./global.scss";
 
 import { Link, Route, Routes } from "react-router-dom";
-import React from "react";
+import { useEffect, useState } from "react";
+
+import { Collections } from "./routes/Collections";
 import { Dashboard } from "./routes/Dashboard";
 import Home from "./routes/Home";
 import NavBar from "./Nav";
 import Products from "./routes/Products";
+import React from "react";
 import styles from "./App.module.scss";
-import { useEffect, useState } from "react";
-import { Collections } from "./routes/Collections";
 
 function App() {
   const [products, changeProducts] = useState([

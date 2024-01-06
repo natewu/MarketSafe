@@ -1,9 +1,9 @@
-import { React, useState, useEffect } from "react";
+import { React, useEffect, useState } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
-import styles from "./Products.module.scss";
-import axios from "axios";
 import Papa from 'papaparse';
+import axios from "axios";
+import styles from "./Products.module.scss";
 
 // Mock data
 const products = [
@@ -157,21 +157,6 @@ const handleRefreshClick = () => {
 
 
 export default function Products(props) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [url, setUrl] = useState("");
-
-  useEffect(() => {
-    return () => {
-      // wont work correctly with strict mode on
-      //   console.log("called");
-      props.changeProducts(products);
-    };
-  }, []);
-  const handleSubmit = () => {
-    console.log(url);
-    setIsOpen(false);
-  };
-
     const [isOpen, setIsOpen] = useState(false);
     const [url, setUrl] = useState('');
 
