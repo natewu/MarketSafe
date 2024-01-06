@@ -9,6 +9,7 @@ import Products from "./routes/Products";
 import styles from "./App.module.scss";
 import { useEffect } from "react";
 import { Collections } from "./routes/Collections";
+import { BarChart } from "./components/BarChart";
 
 function App() {
   useEffect(() => {

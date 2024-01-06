@@ -1,3 +1,27 @@
 .Products{
     width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    flex: 1;
+    margin-top: 1rem;
+    box-sizing: border-box;
+    align-self: flex-start;
+    // overflow: scroll;
+    height: 100vh;
+}
+.products_wrapper{
+    width: 100%;
+}
+.products{
+    overflow-y: auto;
+    height: 100%;
+    flex: 0.8;
+    // display: flex;
+    flex-flow: column wrap;
+    width: 100%;
+}
+
+.item{
+    width: 200px;
 }

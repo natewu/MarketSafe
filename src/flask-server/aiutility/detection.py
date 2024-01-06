@@ -1,11 +1,9 @@
 import os
-from flask import Flask, request, jsonify
 import requests
 import json
 from dotenv import load_dotenv
 from pprint import pprint
 
-app = Flask(__name__)
 load_dotenv()
 
 # GPT4 Detection
@@ -57,7 +55,7 @@ def analyze_product_reviews(product, reviews):
     """
     
     # concatenate harmful_content with presecreening output later
-    prompt = f"Can you tell me, in these two categories with the the following reviews: {reviews}, based on the product description: {product}?" + "\n Back up each of your claims in these categories, as well as saying 'yes' or 'no': Misinformation, Harmful content. Please answer in the following format:" + """\n
+    prompt = f"Can you tell me, in these two categories with the the following reviews: {reviews}, based on the product description: {product}?" + "\n Back up each of your claims in these categories, as well as saying 'yes' or 'no': Misinformation, Harmful content. Misinformation includes a bad review expecting something that was clearly not part of the product. Please answer in the following format:" + """\n
     {
         "detection": [
             {
@@ -77,24 +75,9 @@ def analyze_product_reviews(product, reviews):
     
     return model_detect(prompt)
 
-@app.route('/analyze', methods=['POST'])
-def analyze():
-    data = request.json
-    product = data.get('product')
-    reviews = data.get('reviews')
-    
-    if not product or not reviews:
-        return jsonify({"error": "Product or reviews not provided"}), 400
-
-    try:
-        analysis_result = analyze_product_reviews(product, reviews)
-        return jsonify(analysis_result)
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
 if __name__ == "__main__":
     # this is to test the model
-    product = "FluffyUnion Cat Water Fountain with Stainless Steel Lid, 2.4L/81oz Automatic water dispenser for Cats and Dogs About this item Stainless steel top: High grade stainless steel top is unbreakable, durable and easy to clean. Stainless steel top is hygienic and dishwasher-safe. Water level window: Stainless steel top pet fountain features water level window that will indicate the level of the water. It’s easier and convenient for you to see when it’s needed to be refilled. Circulating filtration system: the circulating filtration system uses a replaceable charcoal filter to purify the water, remove hair, dirt and food particles and a pre-filter sponge to catch the hair and debris. It provides fresh clean water to your lovely pets. Hassle-free: the pet fountain only takes a few minutes to set up. Disassembling for cleaning and maintenance is easy. BPA free cat fountain is safe for your pets. Call or email our customer support team in California if you have any questions. 360° multi-directional streams aerate the water for added oxygen and freshness. A source of running water encourages pets to drink more rather than still water. Hydration helps prevent your pet from urinary and kidney diseases."
-    reviews = "Rating: 2/5 I put chocolate in this fountain and it didnt melt at all, it broke too and the seller wouldn't refund me, this chocolate fountain sucks"
+    product = "Item detailsKidsRobot Nano R3 Dev Board with I/O Expansion Shield, Compatible with Arduino Nano 3.0, Pre-Soldered Headers, USB Type-C Interface (DO NOT Support Apple M1 CPU)"
+    reviews = "Rating 1/5: The manufacturer’s drivers absolutely won’t work on a Mac, even an Intel Mac. Garbage.."
     
     pprint(analyze_product_reviews(product, reviews))

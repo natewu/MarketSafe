@@ -1,8 +1,8 @@
 from flask import current_app,jsonify,request
 from app import create_app,db
-from models import User, Post, UsersShema
-
-# from eyewearSimilarity import *
+from aiutility.detection import *
+from aiutility.prescreening import *
+from models import Review, Product, User,products_schema, users_schema,user_schema, reviews_schema
 
 # Create an application instance
 app = create_app()
@@ -41,5 +41,20 @@ def create_user():
     db.session.commit()
     return jsonify({"message": "User created successfully", "user": UsersShema.dump(new_user)}), 201
 
+@app.route('/analyze', methods=['POST'])
+def analyze():
+    data = request.json
+    product = data.get('product')
+    reviews = data.get('reviews')
+    
+    if not product or not reviews:
+        return jsonify({"error": "Product or reviews not provided"}), 400
+
+    try:
+        analysis_result = analyze_product_reviews(product, reviews)
+        return jsonify(analysis_result)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
 if __name__ == "__main__":
 	app.run(debug=True)
