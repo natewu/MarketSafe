@@ -4,6 +4,8 @@
   background: white;
   font-family: "Raleway", sans-serif;
   display: flex;
+  overflow:auto;
+  height: 100vh;
 }
 
 .App img {
@@ -40,8 +42,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   box-sizing: border-box;
   padding: 0 1rem;
   width: 100%;
+  height: 100vh;
+  overflow: hidden;
 }
