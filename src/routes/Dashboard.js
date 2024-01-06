@@ -1,9 +1,9 @@
 import { BarChart } from "../components/BarChart";
-import InventoryIcon from '@mui/icons-material/Inventory';
+import {ReactComponent as Comment} from "../svg/comment.svg";
+import {ReactComponent as People} from "../svg/people.svg";
 import { PieChart } from "../components/PieChart";
-import RateReviewIcon from '@mui/icons-material/RateReview';
 import { Skeleton } from "@mui/material";
-import SmartToyIcon from '@mui/icons-material/SmartToy';
+import {ReactComponent as Ticket} from "../svg/ticket.svg";
 import styles from "./Dashboard.module.scss";
 
 export function Dashboard() {
@@ -14,9 +14,9 @@ export function Dashboard() {
         <h1>Welcome back, {user}! 👋</h1>
       </div>
       <div className={styles.glance}>
-        <GlanceItem title="Total Reviews" value="5k" icon={<RateReviewIcon/>} />
-        <GlanceItem title="Total Products" value="500" icon={<InventoryIcon/>} />
-        <GlanceItem title="Total Detections" value="20" icon={<SmartToyIcon/>} />
+        <GlanceItem title="Total Reviews" value="5k" icon={<Comment/>} />
+        <GlanceItem title="Total Products" value="500" icon={<Ticket/>} />
+        <GlanceItem title="Total Detections" value="20" icon={<People/>} />
       </div>
       <div className={styles.container}>
         <ComponentWrapper
