@@ -1,5 +1,6 @@
 .wrapper{
-    background-color: rgb(245, 245, 250);
+    background-color: rgba(252, 252, 253);
+
     color: rgb(0, 0, 0);
     display: flex;
     flex-flow: column nowrap;
@@ -9,6 +10,7 @@
     justify-content: space-between;
     padding: 1rem;
     width: 300px;
+    border-right: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 

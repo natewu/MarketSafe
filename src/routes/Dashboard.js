@@ -19,7 +19,7 @@ export function Dashboard() {
         <GlanceItem title="Total Detections" value="20" icon={<SmartToyIcon/>} />
       </div>
       <div className={styles.container}>
-        <DummyComponent
+        <ComponentWrapper
           component={
             <BarChart
               data={[
@@ -30,9 +30,7 @@ export function Dashboard() {
             />
           }
         />
-      </div>
-      <div className={styles.container}>
-        <DummyComponent
+        <ComponentWrapper
           component={
             <PieChart
               data={[
@@ -62,6 +60,6 @@ function GlanceItem({title, value, icon}){
    )
 }
 
-function DummyComponent(props) {
-  return <div className={styles.dummy}>{props.component}</div>;
+function ComponentWrapper(props) {
+  return <div className={styles.component_wrapper}>{props.component}</div>;
 }
