@@ -128,53 +128,42 @@ def get_product(product_id):
 		})
 	
 @app.route('/api/reviews/upload', methods=['POST'])
-def upload_reviews():
-	data = request.get_json()
-	
-	if data is None:
-		return jsonify({"error": "No data provided"}), 400
+def post_reviews():
+    data = request.get_json()
 
-<<<<<<< Updated upstream
-	try:
-		for entry in data:
-			new_review = Review(
-				content=entry.get('Description', ''),
-				title=entry.get('Title', ''),
-				rating=float(entry.get('Rating', 0)),  
-				reviewer=entry.get('UserName', ''),
-				product_id=1  # Default ID for NOW
-			)
-			db.session.add(new_review)
-=======
+    if data is None:
+        return jsonify({"error": "No data provided"}), 400
+
     try:
         for entry in data:
             analysis_result = analyze_product_reviews('Xbox 360', entry.get('Description', ''))
-            
+
             misinformation_data = next((item for item in analysis_result['detection'] if item['name'] == 'misinformation'), None)
-            harmful_data = next((item for item in analysis_result['detection'] if item['name'] == 'misinformation'), None)
-            # use this to produce model output
+            harmful_content_data = next((item for item in analysis_result['detection'] if item['name'] == 'harmful_content'), None)
+
             new_review = Review(
                 content=entry.get('Description', ''),
                 title=entry.get('Title', ''),
-                rating=float(entry.get('Rating', 0)),  
+                rating=float(entry.get('Rating', 0)),
                 reviewer=entry.get('UserName', ''),
-                product_id=1,  # Default ID for 
-                isMisinformation = misinformation_data['verdict'] == 'yes',
-                isHarmfulContent = harmful_data['verdict'] == 'yes',
-                misinformationExplanation = misinformation_data['explanation'] if misinformation_data else '',
-                harmfulContentExplanation = harmful_data['explanation'] if misinformation_data else '',
-                
+                product_id=1,  # Replace with actual product_id as needed
+                isMisinformation=misinformation_data['verdict'] == 'yes',
+                misinformationExplanation=misinformation_data['explanation'] if misinformation_data else '',
+                isHarmfulContent=harmful_content_data['verdict'] == 'yes',
+                harmfulContentExplanation=harmful_content_data['explanation'] if harmful_content_data else ''
             )
+
+            # Add the new Review to the session
             db.session.add(new_review)
->>>>>>> Stashed changes
 
-		db.session.commit()
+        # Commit all the new reviews to the database
+        db.session.commit()
 
-		return jsonify({'message': 'Reviews uploaded successfully'}), 200
+        return jsonify({"message": "Reviews uploaded successfully"}), 200
 
-	except Exception as e:
-		db.session.rollback()
-		return jsonify({'error': str(e)}), 500
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
 	
 	
 @app.route('/api/reviews/<int:product_id>', methods=['GET'])
