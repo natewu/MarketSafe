@@ -1,61 +1,28 @@
 import AddIcon from "@mui/icons-material/Add";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import styles from "./Products.module.scss";
 import TransferList from "../components/TransferList";
 import Modal from "@mui/material/Modal";
 import Grid from "@mui/material/Grid";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
 
 export function Collections(props) {
   const navigate = useNavigate();
   const collectionName = useRef();
   const [show, setShow] = useState(false);
   // list of all products
-  const [allProducts, setAllProducts] = useState([
-    {
-      img: "https://via.placeholder.com/300",
-      title: "Product 2",
-      desc: "This is product 2",
-      num: 10,
-    },
-    {
-      img: "https://via.placeholder.com/300",
-      title: "Product 2",
-      desc: "This is product 2",
-      num: 10,
-    },
-  ]);
-  // current collections
-  const [collections, changeCollections] = useState([
-    {
-      img: "https://via.placeholder.com/300",
-      title: "Collection 1",
-      desc: "This is collection 1",
-      num: 10,
-      collection: [
-        {
-          id: 1,
-          img: "https://via.placeholder.com/300",
-          title: "Product 1",
-          desc: "This is product 1",
-        },
-      ],
-    },
-    {
-      img: "https://via.placeholder.com/300",
-      title: "Product 2",
-      desc: "This is product 2",
-      num: 10,
-      collection: [
-        {
-          id: 1,
-          img: "https://via.placeholder.com/300",
-          title: "Product 1",
-          desc: "This is product 1",
-        },
-      ],
-    },
-  ]);
+  const [allProducts, setAllProducts] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:5000/api/products").then((res) => {
+      console.log(res.data);
+      setAllProducts(res.data);
+    });
+  }, []);
 
   const [current, setCurrent] = useState([]);
 
@@ -78,7 +45,7 @@ export function Collections(props) {
       collection: products,
     };
 
-    changeCollections([...collections, collection]);
+    props.changeCollections([...props.collections, collection]);
   }
 
   const displayProducts = (products) => {
@@ -93,21 +60,38 @@ export function Collections(props) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <>
-          <Grid container justifyContent="center" alignItems="center">
-            <input
-              placeholder="Name of collection"
-              ref={collectionName}
-            ></input>
-          </Grid>
-
-          <TransferList
-            all={allProducts}
-            current={current}
-            handleClose={handleClose}
-            createCollection={createCollection}
-          ></TransferList>
-        </>
+        <Card
+          sx={{
+            width: "30vw",
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          <CardContent>
+            <Grid container justifyContent="center" alignItems="center">
+              <input
+                placeholder="Name of collection"
+                ref={collectionName}
+                style={{
+                  border: "1px solid black",
+                  padding: "10px",
+                  borderRadius: "5px",
+                  textAlign: "center",
+                  margin: "10px",
+                }}
+              ></input>
+            </Grid>
+            <TransferList
+              all={allProducts}
+              current={current}
+              handleClose={handleClose}
+              createCollection={createCollection}
+            ></TransferList>
+          </CardContent>
+          <CardActions></CardActions>
+        </Card>
       </Modal>
 
       <div className="grid grid-cols-2 gap-3">
@@ -146,7 +130,7 @@ export function Collections(props) {
       </div>
       <div className="mt-4">
         <div className="grid grid-cols-3 gap-4">
-          {collections.map((collection, index) => (
+          {props.collections.map((collection, index) => (
             <div
               key={index}
               className="rounded-lg overflow-hidden"

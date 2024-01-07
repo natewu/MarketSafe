@@ -42,6 +42,12 @@ def create_user():
 	
 	return jsonify({"message": "User created successfully", "user": UsersShema.dump(new_user)}), 201
 
+@app.route("/api/users/<int:user_id>", methods=["GET"])
+def get_user(user_id):
+	user = User.query.get_or_404(user_id)
+	return jsonify(user_schema.dump(user))
+
+# @app.route("/add_product", methods=["POST"])
 @app.route("/api/products/add", methods=["POST"])
 def add_product():
 	print(request.get_json())

@@ -1,17 +1,28 @@
+import { useEffect, useState } from "react";
+
 import { BarChart } from "../components/BarChart";
 import { ReactComponent as Comment } from "../svg/comment.svg";
 import { ReactComponent as People } from "../svg/people.svg";
 import { PieChart } from "../components/PieChart";
 import { Skeleton } from "@mui/material";
 import { ReactComponent as Ticket } from "../svg/ticket.svg";
+import axios from "axios";
 import styles from "./Dashboard.module.scss";
 
 export function Dashboard() {
-  const user = "Mr. Kong";
+   const [user, setUser] = useState('');
+
+   useEffect(()=>{
+      axios.get('http://localhost:5000/api/users/1').then((res)=>{
+        setUser(res.data)
+        console.log(res.data)
+      })
+   }, [])
+//   const user = "Mr. Kong";
   return (
     <div className={styles.wrapper}>
       <div className={styles.header}>
-        <h1>Welcome back, {user}! 👋</h1>
+        <h1>Welcome back, {user.firstName}! 👋</h1>
       </div>
       <div className={styles.glance}>
         <GlanceItem title="Total Reviews" value="5k" icon={<Comment />} />
