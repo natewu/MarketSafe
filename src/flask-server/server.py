@@ -19,6 +19,8 @@ import re
 from dotenv import load_dotenv
 import os
 
+from aiutility.statisticsLoader import get_stats
+
 load_dotenv()
 
 
@@ -120,6 +122,14 @@ def analyze():
     try:
         analysis_result = analyze_product_reviews(product, reviews)
         return jsonify(analysis_result)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+@app.route("/analyze/product/<int:product_id>", methods=["GET"])
+def get_statistics_on_product(product_id):
+    product = Product.query.get(product_id)
+    try:
+        return jsonify(get_stats(product.to_dict()))
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
