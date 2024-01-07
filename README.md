@@ -30,7 +30,7 @@ First and foremost, we've crafted MarketSafe with 💙. We have built a ML-enabl
 
 
 ## Challenges we ran into   😤
-
+Developing the MarketSafe review analyzer using machine learning posed unique challenges for our diverse team spread across different time zones, including British Columbia, Alberta, and Georgia, USA. 
 ## Accomplishments that we're proud of 💚
 
 ## What we learned 🙌
