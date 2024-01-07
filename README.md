@@ -62,7 +62,9 @@ We will develop an API that can be integrated into various platforms and systems
 By realizing these goals, MarketSafe aspires to become a cornerstone of digital integrity, fostering a safer, more transparent, and trustworthy online environment for businesses and consumers worldwide.
 
 <img width="913" alt="image" src="https://github.com/natewu/HackED24/assets/74941296/cfb538a1-250b-4224-9a4b-53752dafc66a">
-![image](https://github.com/natewu/HackED24/assets/36091727/370975ca-6be9-4382-9fab-d63cb5230ed2)
+
+![image](https://github.com/natewu/HackED24/assets/36091727/09841837-c475-47b9-90ff-475b5dc7bf0a)
+
 
 
 # Installation instructions
