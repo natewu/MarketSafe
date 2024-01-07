@@ -120,8 +120,9 @@ def analyze():
 		return jsonify({"error": "Product or reviews not provided"}), 400
 	try:
 		analysis_result = analyze_product_reviews(product, reviews)
+		print(analysis_result)
 		# Update each review in the database
-		for review in analysis_result['reviews']:
+		for review in reviews:
 			db_review = Review.query.get(review['id'])
 
 			# Update the fields
@@ -135,6 +136,7 @@ def analyze():
 			db.session.commit()
 		return jsonify(analysis_result)
 	except Exception as e:
+		print(e)
 		return jsonify({"error": str(e)}), 500
     
 @app.route("/analyze/product/<int:product_id>", methods=["GET"])
