@@ -51,7 +51,8 @@ const NavBar = () => {
       <div className={styles.account}>
         <div className={styles.accountContainer}>
           <IconButton className={styles.profilePic}>
-            <PermIdentityIcon />
+            <img className={styles.avatar} src="https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortFlat&accessoriesType=Prescription01&hairColor=BrownDark&facialHairType=MoustacheMagnum&facialHairColor=Auburn&clotheType=ShirtScoopNeck&clotheColor=Gray01&eyeType=WinkWacky&eyebrowType=UpDownNatural&mouthType=Tongue&skinColor=Light" alt="avatar" className={styles.avatar}/>
+
           </IconButton>
           <p className={styles.username}>{user.firstName ?? ''} {user.lastName ?? ''}</p>
         </div>
