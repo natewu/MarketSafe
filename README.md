@@ -10,7 +10,7 @@ Businesses use MarketSafe to identify fake reviews and improve their products an
 ## What it does 🤔
 
 ## How we built it ⚙️
-First and foremost, it is Crafted with 💙. We have built a ML-enabled full-stack application that solves a real world problem. The whole process can be broken into the following points:
+First and foremost, we've crafted MarketSafe with 💙. We have built a ML-enabled full-stack application that solves a real world problem. The whole process can be broken into the following points:
 
 - React on the front-end with styling done in Tailwind and Sass
 
