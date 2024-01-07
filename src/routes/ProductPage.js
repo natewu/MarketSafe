@@ -2,19 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Papa from "papaparse";
-import { Button } from "@mui/material";
+
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
 
 export default function ProductPage() {
   const [product, setProduct] = useState(null);
   const [reviews, setReviews] = useState(null);
-  const [show, setShow] = useState(false);
-  function handleClose() {
-    setShow(false);
-  }
-
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const { id } = useParams();
   console.log(id);
   useEffect(() => {
@@ -155,13 +154,7 @@ export default function ProductPage() {
                 value={review.harmfulContentExplanation}
               />
             </div>
-            <Button
-              style={{ color: "red" }}
-              onClick={() => {
-                setShow(true);
-                console.log(show);
-              }}
-            >
+            <Button style={{ color: "red" }} type="button" onClick={handleOpen}>
               Report
             </Button>
           </div>
@@ -170,19 +163,35 @@ export default function ProductPage() {
     );
   };
 
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
   return (
     <div className="grid grid-cols-2 overflow-scroll">
       <Modal
-        open={show}
+        open={open}
         onClose={handleClose}
-        sx={{
-          position: "fixed",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-        }}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
       >
-        <h1>Review has been reported to Amazon.</h1>
+        <Box sx={style}>
+          <Typography
+            id="modal-modal-title"
+            className="text-center"
+            variant="h6"
+            component="h2"
+          >
+            Reviewer has been reported to Amazon.
+          </Typography>
+        </Box>
       </Modal>
       <div className="w-5/6 m-10 h-fit p-10 mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4">
         <div>
