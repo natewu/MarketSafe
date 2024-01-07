@@ -129,6 +129,7 @@ def analyze():
 			db_review.isHarmfulContent = review['isHarmfulContent']
 			db_review.misinformationExplanation = review['misinformationExplanation']
 			db_review.harmfulContentExplanation = review['harmfulContentExplanation']
+			db_review.detectedFlag = review['isMisinformation'] or review['isHarmfulContent'] == 'yes'
 
 			# Save the changes
 			db.session.commit()
@@ -169,28 +170,49 @@ def post_reviews():
 	if data is None:
 		return jsonify({"error": "No data provided"}), 400
 	try:
-		for entry in data:
-			analysis_result = analyze_product_reviews(
-				entry.get("Product", ""), entry.get("Description", "")
-			)
+		# for entry in data:
+		# 	misinformation_data = next(
+		# 		(
+		# 			item
+		# 			for item in analysis_result["detection"]
+		# 			if item["name"] == "misinformation"
+		# 		),
+		# 		None,
+		# 	)
+		# 	harmful_content_data = next(
+		# 		(
+		# 			item
+		# 			for item in analysis_result["detection"]
+		# 			if item["name"] == "harmful_content"
+		# 		),
+		# 		None,
+		# 	)
+		
+		# 	new_review = Review(
+		# 		content=entry.get("Description", ""),
+		# 		title=entry.get("Title", ""),
+		# 		rating=float(entry.get("Rating", 0)),
+		# 		reviewer=entry.get("UserName", ""),
+		# 		product_id=entry.get("ProductId", 1),
+		# 		isMisinformation=misinformation_data["verdict"] == "yes",
+		# 		misinformationExplanation=misinformation_data["explanation"]
+		# 		if misinformation_data
+		# 		else "",
+		# 		isHarmfulContent=harmful_content_data["verdict"] == "yes",
+		# 		harmfulContentExplanation=harmful_content_data["explanation"]
+		# 		if harmful_content_data
+		# 		else "",
+		# 		percentProfanity=round(percentProfanity * 100, 2),
+		# 		percentThreat=round(percentThreat * 100, 2),
+		# 		percentInsult=round(percentInsult * 100, 2),
+		# 		percentToxicity=round(percentToxicity * 100, 2),
+		# 		percentSevereToxicity=round(percentSevereToxicity * 100, 2),
+		# 		percentSexuallyExplicit=round(percentSexuallyExplicit * 100, 2),
+		# 		detectedFlag = misinformation_data["verdict"] == 'yes' or harmful_content_data["verdict"] == 'yes'
+		# 	)
+		print(data)
+		for entry in data:	
 			prescreening_result = analyze_review(entry.get("Description", ""))
-			misinformation_data = next(
-				(
-					item
-					for item in analysis_result["detection"]
-					if item["name"] == "misinformation"
-				),
-				None,
-			)
-			harmful_content_data = next(
-				(
-					item
-					for item in analysis_result["detection"]
-					if item["name"] == "harmful_content"
-				),
-				None,
-			)
-
 			# Extracting prescreening scores
 			percentProfanity = prescreening_result["attributeScores"]["PROFANITY"][
 				"summaryScore"
@@ -216,23 +238,14 @@ def post_reviews():
 				title=entry.get("Title", ""),
 				rating=float(entry.get("Rating", 0)),
 				reviewer=entry.get("UserName", ""),
-				product_id=entry.get("ProductId", 1),
-				isMisinformation=misinformation_data["verdict"] == "yes",
-				misinformationExplanation=misinformation_data["explanation"]
-				if misinformation_data
-				else "",
-				isHarmfulContent=harmful_content_data["verdict"] == "yes",
-				harmfulContentExplanation=harmful_content_data["explanation"]
-				if harmful_content_data
-				else "",
+				product_id=entry.get("ProductId", 1
+				),
 				percentProfanity=round(percentProfanity * 100, 2),
 				percentThreat=round(percentThreat * 100, 2),
 				percentInsult=round(percentInsult * 100, 2),
 				percentToxicity=round(percentToxicity * 100, 2),
 				percentSevereToxicity=round(percentSevereToxicity * 100, 2),
-				percentSexuallyExplicit=round(percentSexuallyExplicit * 100, 2),
-				detectedFlag = misinformation_data["verdict"] == 'yes' or harmful_content_data["verdict"] == 'yes'
-			)
+				percentSexuallyExplicit=round(percentSexuallyExplicit * 100, 2))
 
 			print(f"Product ID is: {entry.get('ProductId', 1)}")
 
@@ -245,6 +258,7 @@ def post_reviews():
 		return jsonify({"message": "Reviews uploaded successfully"}), 200
 
 	except Exception as e:
+		print(e)
 		db.session.rollback()
 		return jsonify({"error": str(e)}), 500
 

@@ -21,6 +21,7 @@ class Review(db.Model):
     misinformationExplanation = db.Column(db.String(200))
     harmfulContentExplanation = db.Column(db.String(200))
     detectedFlag = db.Column(db.Boolean(), default=False)
+    analyzed = db.Column(db.Boolean(), default=False)
     product_id = db.Column(db.Integer, db.ForeignKey("product.id"), nullable=False)
 
     def to_dict(self):
