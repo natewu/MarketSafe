@@ -12,6 +12,7 @@ stop_words = set(stopwords.words('english'))
 def extract_keywords(dict_info):
     misinformation_dict = defaultdict(int)
     harmful_dict = defaultdict(int)
+    
     keywords_dict = {}
     for review in dict_info['reviews']:
         if review['misinformationExplanation'] is not None:
@@ -20,14 +21,16 @@ def extract_keywords(dict_info):
             for kw, _ in keywords:
                 misinformation_dict[kw] += 1
 
+        if review['harmfulContentExplanation'] is not None:
+            kw_extractor = yake.KeywordExtractor(stopwords=stop_words)
+            keywords = kw_extractor.extract_keywords(review['harmfulContentExplanation'])
+            for kw, _ in keywords:
+                harmful_dict[kw] += 1
 
-    if review['harmfulContentExplanation'] is not None:
-        kw_extractor = yake.KeywordExtractor(stopwords=stop_words)
-        keywords = kw_extractor.extract_keywords(review['harmfulContentExplanation'])
-        for kw, _ in keywords:
-            harmful_dict[kw] += 1
-    keywords_dict["misinformation_keywords"] = misinformation_dict
-    keywords_dict["harmful_keywords"] = harmful_dict
+
+    keywords_dict["misinformation_keywords"] = {**misinformation_dict}
+    keywords_dict["harmful_keywords"] = {**harmful_dict}
+
     return keywords_dict
 
 def get_stats(dict_info):
