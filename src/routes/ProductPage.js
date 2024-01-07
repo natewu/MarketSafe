@@ -1,7 +1,7 @@
 import { AverageRatingChart, PercentagePieChart, WordCloudHarmfulChart, WordCloudMisInformationChart } from './Analytics'
+import { Button, CircularProgress } from "@mui/material";
 import React, { useEffect, useState } from 'react';
 
-import { Button } from "@mui/material";
 import Modal from 'react-modal';
 import Papa from 'papaparse';
 import axios from 'axios';
@@ -93,7 +93,7 @@ export default function ProductPage() {
 
 
     if (!product || !reviews || !analytics) {
-        return <div className="flex justify-center items-center h-screen">Loading...</div>;
+        return <div className="flex justify-center items-center h-screen"><CircularProgress /></div>;
     }
 
 
