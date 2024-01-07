@@ -115,6 +115,7 @@ export default function ProductPage() {
             reviews: reviews
         })
         .then(response => {
+            fetchData();
             setAnalytics(response.data);
         });
     };
