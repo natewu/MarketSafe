@@ -1,5 +1,6 @@
 # MarketSafe
-<img width="914" alt="image" src="https://github.com/natewu/HackED24/assets/74941296/830d03ac-05ae-4905-8cb1-d9616a53a948">
+![image](https://github.com/natewu/HackED24/assets/36091727/cc886ea9-043b-4716-b69a-be8fd3954fff)
+
 
 ## Inspiration 💡
 In the digital era, we are constantly bombarded with information. It is hard to tell what is real and what is fake. We are inspired to create a platform that can help people to identify fake content and make better decisions.
