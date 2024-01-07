@@ -55,7 +55,7 @@ def analyze_product_reviews(product, reviews):
     """
     
     # concatenate harmful_content with presecreening output later
-    prompt = f"Can you tell me, in these two categories with the the following reviews: {reviews}, based on the product description: {product}?" + "\n Back up each of your claims in these categories, as well as saying 'yes' or 'no': Misinformation, Harmful content. Misinformation includes a bad review expecting something that was clearly not part of the product. Please answer in the following format:" + """\n
+    prompt = f"Can you tell me, in these two categories with the the following reviews: {reviews}, based on the product description: {product}?" + "\n Back up each of your claims in these categories, as well as saying 'yes' or 'no': Misinformation, Harmful content. Misinformation includes a bad review expecting something that was clearly not part of the product. Especially if they're talking about another product. Please answer in the following format:" + """\n
     {
         "detection": [
             {
