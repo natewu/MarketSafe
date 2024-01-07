@@ -179,7 +179,7 @@ export default function ProductPage() {
 
        <div className={`${styles.content} ${styles.shadow} w-full h-fit p-5 mx-auto bg-white rounded-xl  flex items-center space-x-4`}>
            <div>
-               <div className="text-xl font-medium text-black">{product.title}</div>
+               <div className={`${styles.title} text-xl font-medium text-black`}>{product.title}</div>
                <img src={product.image_url} alt={product.title} className="h-48 w-full flex mx-auto p-10 object-cover mt-2" />
                <p className={`${styles.description} text-gray-900 text-ms`}>{product.description}</p>
                <p className="mt-2 text-xs text-gray-600">Posted on {new Date(product.date_posted).toLocaleDateString()}</p>
