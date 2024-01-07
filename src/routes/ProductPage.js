@@ -235,9 +235,9 @@ export default function ProductPage() {
                 <div className='overflow-x-hidden overflow-y-auto h-screen'>
                     <h1 className="text-xl">Reviews</h1>
                     {loadingReviews ? (
-                        <div className="flex justify-center items-center h-full">
+                        <div className={` ${styles.serving} flex justify-center items-center h-full`}>
                             <CircularProgress />
-                            <p className="fadeInOutText">
+                            <p className={` fadeInOutText`}>
                                 {new Date().getSeconds() % 2 === 0 ? "AI is cooking..." : "Almost done serving!"}
                             </p>
                         </div>

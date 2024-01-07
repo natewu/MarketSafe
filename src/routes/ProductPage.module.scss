@@ -120,3 +120,11 @@
     margin: 0 1rem;
     border-radius: 10px;
 }
+
+.serving{
+    display: flex;
+    flex-flow: column;
+    *{
+        margin: 0.2rem;
+    }
+}
