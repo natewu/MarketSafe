@@ -1,9 +1,11 @@
+import {AverageRatingChart, PercentagePieChart, WordCloudHarmfulChart, WordCloudMisInformationChart} from './Analytics'
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import Papa from 'papaparse';
-import {AverageRatingChart, WordCloudHarmfulChart, WordCloudMisInformationChart, PercentagePieChart} from './Analytics'
+
 import Modal from 'react-modal';
+import Papa from 'papaparse';
+import axios from 'axios';
+import styles from './ProductPage.module.scss';
+import { useParams } from 'react-router-dom';
 
 export default function ProductPage() {
     const [product, setProduct] = useState(null);
@@ -144,7 +146,7 @@ export default function ProductPage() {
      };
 
    return (
-    <div className='grid grid-cols-2 gap-3 overflow-scroll my-10'>
+    <div className={`grid grid-cols-2 gap-3 overflow-scroll ${styles.wrapper}`}>
         <Modal
             isOpen={modalIsOpen}
             onRequestClose={closeModal}
@@ -175,18 +177,18 @@ export default function ProductPage() {
 
 
 
-       <div className="w-full h-fit p-5 mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4">
+       <div className={`${styles.content} ${styles.shadow} w-full h-fit p-5 mx-auto bg-white rounded-xl  flex items-center space-x-4`}>
            <div>
                <div className="text-xl font-medium text-black">{product.title}</div>
                <img src={product.image_url} alt={product.title} className="h-48 w-full flex mx-auto p-10 object-cover mt-2" />
-               <p className="text-gray-900 text-ms">{product.description}</p>
+               <p className={`${styles.description} text-gray-900 text-ms`}>{product.description}</p>
                <p className="mt-2 text-xs text-gray-600">Posted on {new Date(product.date_posted).toLocaleDateString()}</p>
                <button onClick={handleDetection} className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Analyze Reviews
                 </button>
            </div>
        </div>
-       <div className="w-full h-fit p-5 mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 col-span-1">
+       <div className={`${styles.shadow} ${styles.content} w-full h-fit p-5 mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 col-span-1`}>
             <div className='overflow-x-hidden overflow-y-scroll h-screen'>
                 <h1 className="text-xl">Reviews</h1>
                 {reviews.map((review) => 
@@ -194,20 +196,23 @@ export default function ProductPage() {
                 )}
             </div>
         </div>
+        
+        <div className={styles.analytics}>
+            <ChartComponent analytics={analytics}></ChartComponent>
 
-        <ChartComponent analytics={analytics}></ChartComponent>
+            <div className="w-full h-fit p-5 mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 col-span-1">
+                <AverageRatingChart analytics={analytics}></AverageRatingChart>
+            </div>
 
-        <div className="w-full h-fit p-5 mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 col-span-1">
-            <AverageRatingChart analytics={analytics}></AverageRatingChart>
+            <div className="w-full h-fit p-5 mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 col-span-1">
+                <WordCloudHarmfulChart analytics={analytics}></WordCloudHarmfulChart>
+            </div>
+
+            <div className="w-full h-fit p-5 mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 col-span-1">
+                <WordCloudMisInformationChart analytics={analytics}></WordCloudMisInformationChart>
+            </div>
         </div>
-
-        <div className="w-full h-fit p-5 mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 col-span-1">
-            <WordCloudHarmfulChart analytics={analytics}></WordCloudHarmfulChart>
-        </div>
-
-        <div className="w-full h-fit p-5 mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 col-span-1">
-            <WordCloudMisInformationChart analytics={analytics}></WordCloudMisInformationChart>
-        </div>
+        
 
         
     </div>
