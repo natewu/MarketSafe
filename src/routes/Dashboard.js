@@ -22,7 +22,10 @@ function GlanceItem({ title, value, icon }) {
       startValue += increment;
       setAnimatedValue(startValue);
 
-      if ((increment > 0 && startValue >= finalValue) || (increment < 0 && startValue <= finalValue)) {
+      if (
+        (increment > 0 && startValue >= finalValue) ||
+        (increment < 0 && startValue <= finalValue)
+      ) {
         clearInterval(interval);
       }
     }, intervalTime);
@@ -53,19 +56,18 @@ export function Dashboard() {
     return detections.filter((detection) => detection.detectedFlag === true);
   }
 
-  
   useEffect(() => {
     axios.get("http://127.0.0.1:5000/api/users/1").then((res) => {
       setUser(res.data);
       console.log(res.data);
     });
 
-    axios.get("http://localhost:5000/api/products").then((res) => {
+    axios.get("http://127.0.0.1:5000/api/products").then((res) => {
       setAmountOfProducts(res.data.length);
       console.log(res.data);
     });
 
-    axios.get("http://localhost:5000/api/reviews").then((res) => {
+    axios.get("http://127.0.0.1:5000/api/reviews").then((res) => {
       setAmountOfReview(res.data.length);
       console.log(res.data);
       setAmountOfDetections(filterDetection(res.data).length);
@@ -79,9 +81,21 @@ export function Dashboard() {
         <h1>Welcome back, {user.firstName}! 👋</h1>
       </div>
       <div className={styles.glance}>
-        <GlanceItem title="Total Reviews" value={amountOfReview} icon={<Comment />} />
-        <GlanceItem title="Total Products" value={amountOfProducts} icon={<Ticket />} />
-        <GlanceItem title="Total Detections" value={amountOfDetections} icon={<People />} />
+        <GlanceItem
+          title="Total Reviews"
+          value={amountOfReview}
+          icon={<Comment />}
+        />
+        <GlanceItem
+          title="Total Products"
+          value={amountOfProducts}
+          icon={<Ticket />}
+        />
+        <GlanceItem
+          title="Total Detections"
+          value={amountOfDetections}
+          icon={<People />}
+        />
       </div>
       <div className={styles.container}>
         <ComponentWrapper
@@ -90,8 +104,8 @@ export function Dashboard() {
             <BarChart
               data={[
                 ["Product", "Flagged", "Total"],
-                ["p1", 1000, 1500],
-                ["p2", 10, 1500],
+                ["1", 1000, 1500],
+                ["2", 500, 1500],
               ]}
             />
           }

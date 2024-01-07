@@ -163,22 +163,22 @@ export default function TransferList(props) {
         <Grid item>{customList("New Collection", right)}</Grid>
       </Grid>
       <Grid container justifyContent="center" alignItems="center">
-        <Button
-          style={{ backgroundColor: "white" }}
-          variant="outlined"
+        <button
           onClick={props.handleClose}
+          type="button"
+          className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-gray-500 text-base font-medium text-white hover:bg-gray-700 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
         >
-          Go Back
-        </Button>
-        <Button
-          style={{ backgroundColor: "white" }}
-          variant="outlined"
+          Close
+        </button>
+        <button
           onClick={() => {
             props.createCollection(right);
           }}
+          type="button"
+          className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
         >
-          Create
-        </Button>
+          Submit
+        </button>
       </Grid>
     </div>
   );
