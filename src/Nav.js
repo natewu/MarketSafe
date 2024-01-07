@@ -1,8 +1,13 @@
 import { IconButton, Skeleton } from "@mui/material";
-import { NavLink, useLocation, useNavigate, useRoutes } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 
-import PermIdentityIcon from "@mui/icons-material/PermIdentity";
+import { ReactComponent as Collections } from "./svg/collections.svg";
+import { ReactComponent as Dash } from "./svg/dashboard.svg";
+import { ReactComponent as Logo } from "./svg/logo.svg";
+import { NavLink } from "react-router-dom";
+import { ReactComponent as Profile } from "./svg/Profile.svg";
+import { ReactComponent as Settings } from "./svg/settings.svg";
+import { ReactComponent as Ticket } from "./svg/ticket.svg";
 import axios from "axios";
 import styles from "./Nav.module.scss";
 
@@ -21,30 +26,31 @@ const NavBar = () => {
       <div className={styles.main}>
         <div className={styles.mainContainer}>
           <IconButton className={styles.logo}>
-            <Skeleton variant="circular" width={40} height={40} />
+            {/* <Skeleton variant="circular" width={40} height={40} /> */}
+            <Logo style={{width:64, height:64, borderRadius:"50%"}}/>
           </IconButton>
         </div>
 
         <div className={styles.navItems}>
           <NavItem
             title="Dashboard"
-            icon={<Skeleton variant="circular" width={40} height={40} />}
+            icon={<Dash width={40} height={40} style={{padding: "3px"}}/>}
           />
           <NavItem
             title="Products"
-            icon={<Skeleton variant="circular" width={40} height={40} />}
+            icon={<Ticket width={40} height={40} style={{padding: "3px"}}/>}
           />
           <NavItem
             title="Account"
-            icon={<Skeleton variant="circular" width={40} height={40} />}
+            icon={<Profile width={40} height={40} style={{padding: "6px"}}/>}
           />
           <NavItem
             title="Collections"
-            icon={<Skeleton variant="circular" width={40} height={40} />}
+            icon={<Collections width={40} height={40} style={{padding: "3px"}}/>}
           />
           <NavItem
             title="Settings"
-            icon={<Skeleton variant="circular" width={40} height={40} />}
+            icon={<Settings width={40} height={40} style={{padding: "3px"}}/>}
           />
         </div>
       </div>
