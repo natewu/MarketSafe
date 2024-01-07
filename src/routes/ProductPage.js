@@ -11,7 +11,7 @@ export default function ProductPage() {
    console.log(id);
    useEffect(() => {
     // Replace 'id' with the actual product id
-        axios.get(`http://localhost:5000/product/${id}`)
+        axios.get(`http://127.0.0.1:5000/product/${id}`)
         .then(response => {
             setProduct(response.data);
         })
@@ -19,15 +19,16 @@ export default function ProductPage() {
             console.error('Error fetching product data: ', error);
         });
     
-        axios.get(`http://localhost:5000/api/reviews/${id}`)
+        axios.get(`http://127.0.0.1:5000/api/reviews/${id}`)
         .then(response => {
             setReviews(response.data);
         })
         .catch(error => {
             console.error('Error fetching product data: ', error);
         });
+        
     }, []);
-
+    
     const handleDetection = () => {
         if (!product) {
             console.error('Product data is not loaded yet');
@@ -41,7 +42,8 @@ export default function ProductPage() {
             complete: function (results) {
                 const updatedResults = results.data.map(review => ({
                     ...review,
-                    Product: product.title
+                    Product: product.title,
+                    ProductId: product.id
                 }));
 
                 axios.post('http://127.0.0.1:5000/api/reviews/upload', updatedResults)

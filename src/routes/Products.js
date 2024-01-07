@@ -13,7 +13,7 @@ export default function Products(props) {
 
   useEffect(() => {
     return () => {
-      axios.get("http://localhost:5000/api/products").then((res) => {
+      axios.get("http://127.0.0.1:5000/api/products").then((res) => {
         console.log(res.data);
         props.changeProducts(res.data);
       });
@@ -36,7 +36,7 @@ export default function Products(props) {
   const handleSubmit = () => {
     setIsLoading(true);
     axios
-      .post("http://localhost:5000/api/products/add", {
+      .post("http://127.0.0.1:5000/api/products/add", {
         url: url,
       })
       .then((res) => {
