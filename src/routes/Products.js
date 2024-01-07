@@ -311,6 +311,7 @@ export function Product({ product }) {
       <div className={styles.product__info}>
         <p className={styles.product__title}>{product.title}</p>
         <p className={styles.product__desc}>{product.description}</p>
+        {/* <p classname={styles.product__reviews}>{}</p> */}
       </div>
     </div>
   );
