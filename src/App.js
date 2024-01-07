@@ -11,130 +11,10 @@ import Products from "./routes/Products";
 import ProductPage from "./routes/ProductPage";
 import React from "react";
 import styles from "./App.module.scss";
+import axios from "axios";
 
 function App() {
-  const [products, changeProducts] = useState([
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-  ]);
+  const [products, changeProducts] = useState([]);
 
   useEffect(() => {
     // disable text select
@@ -145,6 +25,10 @@ function App() {
       element.style.mozUserSelect = "none";
       element.style.msUserSelect = "none";
       element.style.userSelect = "none";
+    });
+    axios.get("http://localhost:5000/api/products").then((res) => {
+      console.log(res.data);
+      changeProducts(res.data);
     });
   }, []);
 

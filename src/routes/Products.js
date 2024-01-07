@@ -1,172 +1,48 @@
 import { React, useEffect, useState } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
-import Papa from 'papaparse';
+import Papa from "papaparse";
 import axios from "axios";
 import styles from "./Products.module.scss";
-import { useNavigate } from 'react-router-dom';
-
-// Mock data
-const products = [
-  {
-    id: 1,
-    img: "https://via.placeholder.com/300",
-    title: "Product 1",
-    desc: "This is product 1",
-  },
-  {
-    id: 1,
-    img: "https://via.placeholder.com/300",
-    title: "Product 1",
-    desc: "This is product 1",
-  },
-  {
-    id: 1,
-    img: "https://via.placeholder.com/300",
-    title: "Product 1",
-    desc: "This is product 1",
-  },
-  {
-    id: 1,
-    img: "https://via.placeholder.com/300",
-    title: "Product 1",
-    desc: "This is product 1",
-  },
-  {
-    id: 1,
-    img: "https://via.placeholder.com/300",
-    title: "Product 1",
-    desc: "This is product 1",
-  },
-  {
-    id: 1,
-    img: "https://via.placeholder.com/300",
-    title: "Product 1",
-    desc: "This is product 1",
-  },
-  {
-    id: 1,
-    img: "https://via.placeholder.com/300",
-    title: "Product 1",
-    desc: "This is product 1",
-  },
-  {
-    id: 1,
-    img: "https://via.placeholder.com/300",
-    title: "Product 1",
-    desc: "This is product 1",
-  },
-  {
-    id: 1,
-    img: "https://via.placeholder.com/300",
-    title: "Product 1",
-    desc: "This is product 1",
-  },
-  {
-    id: 1,
-    img: "https://via.placeholder.com/300",
-    title: "Product 1",
-    desc: "This is product 1",
-  },
-  {
-    id: 1,
-    img: "https://via.placeholder.com/300",
-    title: "Product 1",
-    desc: "This is product 1",
-  },
-  {
-    id: 1,
-    img: "https://via.placeholder.com/300",
-    title: "Product 1",
-    desc: "This is product 1",
-  },
-  {
-    id: 1,
-    img: "https://via.placeholder.com/300",
-    title: "Product 1",
-    desc: "This is product 1",
-  },
-  {
-    id: 1,
-    img: "https://via.placeholder.com/300",
-    title: "Product 1",
-    desc: "This is product 1",
-  },
-  {
-    id: 1,
-    img: "https://via.placeholder.com/300",
-    title: "Product 1",
-    desc: "This is product 1",
-  },
-  {
-    id: 1,
-    img: "https://via.placeholder.com/300",
-    title: "Product 1",
-    desc: "This is product 1",
-  },
-  {
-    id: 1,
-    img: "https://via.placeholder.com/300",
-    title: "Product 1",
-    desc: "This is product 1",
-  },
-  {
-    id: 1,
-    img: "https://via.placeholder.com/300",
-    title: "Product 1",
-    desc: "This is product 1",
-  },
-  {
-    id: 1,
-    img: "https://via.placeholder.com/300",
-    title: "Product 1",
-    desc: "This is product 1",
-  },
-  {
-    id: 1,
-    img: "https://via.placeholder.com/300",
-    title: "Product 1",
-    desc: "This is product 1",
-  },
-  // Add more products as needed
-];
+import { useNavigate } from "react-router-dom";
 
 const handleRefreshClick = () => {
   // Assuming the CSV file is publicly accessible from the public directory
-  const csvReviewPath = 'data/generated_reviews.csv';
+  const csvReviewPath = "data/generated_reviews.csv";
 
   Papa.parse(csvReviewPath, {
     download: true,
     header: true,
-    complete: function(results) {
+    complete: function (results) {
       // Here we have the CSV file data as an array of objects
       console.log(results.data);
 
       // Send this data to the backend
-      axios.post('http://localhost:5000/api/reviews/upload', results.data)
-        .then(response => {
+      axios
+        .post("http://localhost:5000/api/reviews/upload", results.data)
+        .then((response) => {
           // Handle the response from the server here
-          console.log('Reviews added to the database', response);
+          console.log("Reviews added to the database", response);
         })
-        .catch(error => {
+        .catch((error) => {
           // Handle any errors here
-          console.error('Error uploading reviews to the database', error);
+          console.error("Error uploading reviews to the database", error);
         });
-    }
+    },
   });
 };
-
 
 export default function Products(props) {
   const [isOpen, setIsOpen] = useState(false);
   const [url, setUrl] = useState("");
-  const [products, setProducts] = useState([]);
-  
+
   useEffect(() => {
-    axios.get("http://localhost:5000/api/products").then((res) => {
-      console.log(res.data);
-      setProducts(res.data);
-    });
+    return () => {
+      axios.get("http://localhost:5000/api/products").then((res) => {
+        console.log(res.data);
+        props.changeProducts(res.data);
+      });
+    };
   }, []);
 
   const handleSubmit = () => {
@@ -176,7 +52,7 @@ export default function Products(props) {
       })
       .then((res) => {
         console.log(res.data);
-        setProducts([...products, res.data]);
+        props.changeProducts([...props.products, res.data]);
         setIsOpen(false);
         setUrl("");
       });
@@ -258,13 +134,13 @@ export default function Products(props) {
             </button>
           </div>
           <div>
-          <button
-            onClick={handleRefreshClick}
-            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Refresh Reviews
-          </button>
-        </div>
+            <button
+              onClick={handleRefreshClick}
+              className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Refresh Reviews
+            </button>
+          </div>
         </div>
         <div className="mt-4">
           <div className="flex space-x-4 items-center">
@@ -286,7 +162,7 @@ export default function Products(props) {
           </div>
         </div>
         <div className={styles.product__box}>
-          {products.map((product) => (
+          {props.products.map((product) => (
             <Product key={product.id} product={product} />
           ))}
         </div>
@@ -296,14 +172,13 @@ export default function Products(props) {
 }
 
 export function Product({ product }) {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    
-    const goToProductPage = (id) => {
-        navigate(`/product/${id}`);
-      };
+  const goToProductPage = (id) => {
+    navigate(`/product/${id}`);
+  };
 
-    return (
+  return (
     <div className={styles.product} onClick={() => goToProductPage(product.id)}>
       <div className={styles.product__img}>
         <img src={product.image_url} alt={product.title} />
