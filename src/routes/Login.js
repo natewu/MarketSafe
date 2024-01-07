@@ -40,7 +40,7 @@ export default function SignIn() {
         setLoading(true);
         setTimeout(() => {
             setLoading(false);
-        }, 8000);
+        }, 2000);
     }, []);
 
   const handleSubmit = (event) => {
