@@ -39,14 +39,17 @@ class User(db.Model):
     password = db.Column(db.String(60))    
     products = db.relationship("Product", backref="user", lazy=True)
 
-class UsersShema(ma.Schema):
-    class Meta:
-        # Fields to expose
-        fields = ("id","firstName","lastName", "description", "email", "password", "products")
+
 class ProductShema(ma.Schema):
     class Meta:
         # Fields to expose
         fields = ("id","title", "date_posted", "description", "reviews", "user_id", "image_url", "price")
+
+class UsersShema(ma.Schema):
+    class Meta:
+        # Fields to expose
+        fields = ("id","firstName","lastName", "description", "email", "password", "products")
+    products = ma.Nested(ProductShema, many=True)
 
 class ReviewShema(ma.Schema):
     class Meta:
