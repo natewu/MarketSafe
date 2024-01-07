@@ -4,11 +4,11 @@ from flask import current_app,jsonify,request
 from app import create_app,db
 from aiutility.detection import *
 from aiutility.prescreening import *
+from aiutility.statisticsLoader import *
 from models import Review, Product, User, UsersShema,products_schema, product_schema, users_schema,user_schema, reviews_schema
 import re
 from dotenv import load_dotenv
 import os
-
 load_dotenv()
 
 
@@ -100,6 +100,11 @@ def analyze():
 		return jsonify(analysis_result)
 	except Exception as e:
 		return jsonify({"error": str(e)}), 500
+	
+@app.route('/analyze/product/<int:product_id>', methods=['GET'])
+def analyze_product(product_id):
+	product = Product.query.get(product_id)
+	return getStats(product.to_dict())
 
 @app.route('/product/<int:product_id>', methods=['GET'])
 def get_product(product_id):
