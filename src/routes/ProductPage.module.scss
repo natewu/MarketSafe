@@ -1,0 +1,44 @@
+.description{
+    overflow: scroll;
+    max-height: 40vh;
+    // text-overflow: ellipsis;
+    // display: -webkit-box;
+    // -webkit-line-clamp: 4; /* number of lines to show */
+    // -webkit-box-orient: vertical;
+    text-align: left;
+    padding: 0 1rem;
+}
+
+.wrapper{
+    height: 100vh;
+    padding: 1rem 1rem;
+}
+.content{
+    min-height: 80vh;
+    // margin: 1rem 0;
+    max-height: 100vh;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    
+}
+
+.shadow{
+    box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.05);
+}
+
+.analytics{
+    display: flex;
+    position: relative;
+    flex-flow: row nowrap;
+}
+
+.title{
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+    -webkit-box-orient: vertical;
+}
