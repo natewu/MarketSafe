@@ -110,7 +110,7 @@ export default function SignIn() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2, backgroundColor: "#003CFF", color: "#003CFF" }}
+                sx={{ mt: 3, mb: 2, backgroundColor: "#003CFF"}}
                 onClick = {() => {
                     window.location.href = "/dashboard"
                 }}
