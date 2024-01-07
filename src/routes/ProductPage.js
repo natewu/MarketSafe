@@ -43,7 +43,7 @@ export default function ProductPage() {
             console.error('Error fetching reviews data: ', error);
         });
 
-        axios.get(`http://localhost:5000/analyze/product/${id}`)
+        axios.get(`http://127.0.0.1:5000/analyze`)
         .then(response => {
             setAnalytics(response.data);
         })
