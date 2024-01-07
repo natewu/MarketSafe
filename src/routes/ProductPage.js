@@ -59,24 +59,46 @@ export default function ProductPage() {
         axios.get(`http://127.0.0.1:5000/product/${id}`)
             .then(response => {
                 setProduct(response.data);
+                console.log(response.data);
                 productData = response.data; // Store product data for later use
-                return axios.get(`http://127.0.0.1:5000/api/reviews/${id}`); // Chain reviews request
-            })
-            .then(response => {
-                setReviews(response.data);
-                reviewsData = response.data; // Store reviews data
-                // Now make the POST request to analyze, since both product and reviews data are available
-                return axios.post(`http://127.0.0.1:5000/analyze`, {
-                    product: productData,
-                    reviews: reviewsData
-                });
-            })
-            .then(response => {
-                setAnalytics(response.data);
+                axios.get(`http://127.0.0.1:5000/api/reviews/${id}`).then(data => {
+                
+                if(data.data.length == 0) {
+                    var csvReviewPath = '/data/other_reviews.csv';
+                    if (product.id === 1) {
+                        csvReviewPath = '/data/phone_reviews.csv';
+                    } else if (product.id === 2) {
+                        csvReviewPath = '/data/watch_reviews.csv';
+                    }
+                    Papa.parse(csvReviewPath, {
+                        download: true,
+                        header: true,
+                        complete: function (results) {
+                            const updatedResults = results.data.map(review => ({
+                                ...review,
+                                Product: product.title,
+                                ProductId: product.id
+                            }));
+
+                            axios.post('http://127.0.0.1:5000/api/reviews/upload', updatedResults)
+                                .then(response => {
+                                    console.log('Reviews added to the database', response);
+                                    fetchData();
+                                    setLoading(false);
+                                })
+                                .catch(error => {
+                                    console.error('Error uploading reviews to the database', error);
+                                    setLoading(false);
+                                });
+                        }
+                    });
+            }
+
+        })
             })
             .catch(error => {
-                console.error('Error fetching data: ', error);
-            });
+                console.error("Error fetching data", error)
+            })
     }, [id]);
 
     console.log(analytics)
@@ -86,41 +108,19 @@ export default function ProductPage() {
             console.error('Product data is not loaded yet');
             return;
         }
-
-        setLoading(true);
-
-        var csvReviewPath = '/data/other_reviews.csv';
-        if (product.id === 1) {
-            csvReviewPath = '/data/phone_reviews.csv';
-        } else if (product.id === 2) {
-            csvReviewPath = '/data/watch_reviews.csv';
-        }
-        Papa.parse(csvReviewPath, {
-            download: true,
-            header: true,
-            complete: function (results) {
-                const updatedResults = results.data.map(review => ({
-                    ...review,
-                    Product: product.title,
-                    ProductId: product.id
-                }));
-
-                axios.post('http://127.0.0.1:5000/api/reviews/upload', updatedResults)
-                    .then(response => {
-                        console.log('Reviews added to the database', response);
-                        fetchData();
-                        setLoading(false);
-                    })
-                    .catch(error => {
-                        console.error('Error uploading reviews to the database', error);
-                        setLoading(false);
-                    });
-            }
+      
+        // Now make the POST request to analyze, since both product and reviews data are available
+        axios.post(`http://127.0.0.1:5000/analyze`, {
+            product: product,
+            reviews: reviews
+        })
+        .then(response => {
+            setAnalytics(response.data);
         });
     };
 
 
-    if (!product || !reviews || !analytics) {
+    if (!product || !reviews) {
         return <div className="flex justify-center items-center h-screen"><CircularProgress /></div>;
     }
 
@@ -248,13 +248,13 @@ export default function ProductPage() {
                 </div>
             </div>
 
-            <div className={`${styles.content} ${styles.shadow}`} style={{ flex: 0.45 }}>
-                <ChartComponent analytics={analytics}></ChartComponent>
-            </div>
-            <div className={`${styles.content} ${styles.shadow}`} style={{ flex: 0.35 }}>
-                <AverageRatingChart analytics={analytics}></AverageRatingChart>
+            { analytics ?
+            <><div className={`${styles.content} ${styles.shadow}`} style={{ flex: 0.45 }}>
+                        <ChartComponent analytics={analytics}></ChartComponent>
+                    </div><div className={`${styles.content} ${styles.shadow}`} style={{ flex: 0.35 }}>
+                            <AverageRatingChart analytics={analytics}></AverageRatingChart>
 
-            </div>
+                        </div></> : null }
             {/* <div className={styles.analytics}>
 
             <div className="w-full h-fit p-5 mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 col-span-1">

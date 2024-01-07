@@ -178,77 +178,77 @@ def create_products(*args, **kwargs):
     db.session.commit()
 
 
-@event.listens_for(Review.__table__, "after_create")
-def create_reviews(*args, **kwargs):
-    # Create mock reviews for product_id 1, 2, and 3
-    products = [1, 2, 3, 4]  # List of product IDs
-    for product_id in products:
-        # Positive Review
-        db.session.add(
-            Review(
-                content="Excellent product! Highly recommended.",
-                title="Positive Review",
-                reviewer="Alice Johnson",
-                rating=5.0,
-                percentProfanity=0.0,
-                percentThreat=0.0,
-                percentInsult=0.0,
-                percentToxicity=0.0,
-                percentSevereToxicity=0.0,
-                percentSexuallyExplicit=0.0,
-                isMisinformation=False,
-                isHarmfulContent=False,
-                misinformationExplanation="",
-                harmfulContentExplanation="",
-                detectedFlag=False,
-                product_id=product_id,
-            )
-        )
-        # Negative Review
-        db.session.add(
-            Review(
-                content="This product did not meet my expectations at all.",
-                title="Negative Review",
-                reviewer="Charlie Brown",
-                rating=1.0,
-                percentProfanity=5.0,
-                percentThreat=0.0,
-                percentInsult=15.0,
-                percentToxicity=5.0,
-                percentSevereToxicity=0.0,
-                percentSexuallyExplicit=0.0,
-                isMisinformation=True,
-                isHarmfulContent=True,
-                misinformationExplanation="Contains misinformation.",
-                harmfulContentExplanation="Includes harmful content.",
-                detectedFlag=True,
-                product_id=product_id,
-            )
-        )
-        # Neutral Review
-        db.session.add(
-            Review(
-                content="The product is okay, but I had some issues with it.",
-                title="Neutral Review",
-                reviewer="Dave Wilson",
-                rating=3.0,
-                percentProfanity=0.0,
-                percentThreat=0.0,
-                percentInsult=0.0,
-                percentToxicity=0.0,
-                percentSevereToxicity=0.0,
-                percentSexuallyExplicit=0.0,
-                isMisinformation=False,
-                isHarmfulContent=False,
-                misinformationExplanation="",
-                harmfulContentExplanation="",
-                detectedFlag=False,
-                product_id=product_id,
-            )
-        )
+# @event.listens_for(Review.__table__, "after_create")
+# def create_reviews(*args, **kwargs):
+#     # Create mock reviews for product_id 1, 2, and 3
+#     products = [1, 2, 3, 4]  # List of product IDs
+#     for product_id in products:
+#         # Positive Review
+#         db.session.add(
+#             Review(
+#                 content="Excellent product! Highly recommended.",
+#                 title="Positive Review",
+#                 reviewer="Alice Johnson",
+#                 rating=5.0,
+#                 percentProfanity=0.0,
+#                 percentThreat=0.0,
+#                 percentInsult=0.0,
+#                 percentToxicity=0.0,
+#                 percentSevereToxicity=0.0,
+#                 percentSexuallyExplicit=0.0,
+#                 isMisinformation=False,
+#                 isHarmfulContent=False,
+#                 misinformationExplanation="",
+#                 harmfulContentExplanation="",
+#                 detectedFlag=False,
+#                 product_id=product_id,
+#             )
+#         )
+#         # Negative Review
+#         db.session.add(
+#             Review(
+#                 content="This product did not meet my expectations at all.",
+#                 title="Negative Review",
+#                 reviewer="Charlie Brown",
+#                 rating=1.0,
+#                 percentProfanity=5.0,
+#                 percentThreat=0.0,
+#                 percentInsult=15.0,
+#                 percentToxicity=5.0,
+#                 percentSevereToxicity=0.0,
+#                 percentSexuallyExplicit=0.0,
+#                 isMisinformation=True,
+#                 isHarmfulContent=True,
+#                 misinformationExplanation="Contains misinformation.",
+#                 harmfulContentExplanation="Includes harmful content.",
+#                 detectedFlag=True,
+#                 product_id=product_id,
+#             )
+#         )
+#         # Neutral Review
+#         db.session.add(
+#             Review(
+#                 content="The product is okay, but I had some issues with it.",
+#                 title="Neutral Review",
+#                 reviewer="Dave Wilson",
+#                 rating=3.0,
+#                 percentProfanity=0.0,
+#                 percentThreat=0.0,
+#                 percentInsult=0.0,
+#                 percentToxicity=0.0,
+#                 percentSevereToxicity=0.0,
+#                 percentSexuallyExplicit=0.0,
+#                 isMisinformation=False,
+#                 isHarmfulContent=False,
+#                 misinformationExplanation="",
+#                 harmfulContentExplanation="",
+#                 detectedFlag=False,
+#                 product_id=product_id,
+#             )
+#         )
 
-    # Commit the changes
-    db.session.commit()
+#     # Commit the changes
+#     db.session.commit()
 
 
 user_schema = UsersShema()
