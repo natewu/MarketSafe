@@ -26,11 +26,18 @@ First and foremost, we've crafted MarketSafe with 💙. We have built a ML-enabl
 **The application's architecture ensures robustness, scalability, and a seamless user experience.**
 
 ## Design 🎨
+Our inspiration drew heavily from the reimagined Double Diamond design process, emphasizing a comprehensive research cycle that mandates problem discovery and definition before delving into the solution phase and eventual deployment. This approach ensured a holistic and effective design strategy for the development of MarketSafe.
 ![image](https://github.com/natewu/HackED24/assets/36091727/53f455c3-6fd2-4115-add3-c5f06508573d)
 
+> 1. **Discover**: a deep dive into the problem we are trying to solve.
+> 2. **Define**: synthesizing the information from the discovery phase into a problem definition.
+> 3. **Develop**: think up solutions to the problem.
+> 4. **Deliver**: pick the best solution and build that.
+
+In addition, we leveraged design tools such as Figma to craft prototypes before diving into the coding process. This approach allowed us to gather iterative feedback early in the development cycle, reducing the need for extensive code revisions. By adopting this strategy, we streamlined our workflow and optimized the efficiency of the development process, ensuring that our final product, MarketSafe, met the highest standards in both functionality and user experience.
 
 ## Challenges we ran into   😤
-
+Developing the MarketSafe review analyzer using machine learning posed unique challenges for our diverse team spread across different time zones, including British Columbia, Alberta, and Georgia, USA. 
 ## Accomplishments that we're proud of 💚
 
 ## What we learned 🙌
