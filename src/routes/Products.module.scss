@@ -64,11 +64,12 @@
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
-        -webkit-line-clamp: 3; /* number of lines to show */
+        -webkit-line-clamp: 2; /* number of lines to show */
         -webkit-box-orient: vertical;
         margin: 1rem 0;
-        font-size: 0.825rem;
+        font-size: 1rem;
         font-weight: 500;
+        color: rgba(0, 0, 0, 0.603);
         text-align: left;
     }
     

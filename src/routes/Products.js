@@ -199,7 +199,7 @@ export function Product({ product }) {
       <div className={styles.product__info}>
         <p className={styles.product__title}>{product.title}</p>
         <p className={styles.product__desc}>{product.description}</p>
-        <p className={styles.product__reviews}>Reviews: {product.reviews.length}</p>
+        <p className={styles.product__reviews}> 🔵 Reviews: {product.reviews.length}</p>
       </div>
     </div>
   );
