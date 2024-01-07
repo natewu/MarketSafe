@@ -7,15 +7,15 @@ import axios from "axios";
 import styles from "./Nav.module.scss";
 
 const NavBar = () => {
-   const [user, setUser] = useState('');
+  const [user, setUser] = useState("");
 
-   useEffect(()=>{
-      axios.get('http://localhost:5000/api/users/1').then((res)=>{
-        setUser(res.data)
-        console.log(res.data)
-      })
-   }, [])
-  
+  useEffect(() => {
+    axios.get("http://127.0.0.1:5000/api/users/1").then((res) => {
+      setUser(res.data);
+      console.log(res.data);
+    });
+  }, []);
+
   return (
     <nav className={styles.wrapper}>
       <div className={styles.main}>
@@ -51,10 +51,15 @@ const NavBar = () => {
       <div className={styles.account}>
         <div className={styles.accountContainer}>
           <IconButton className={styles.profilePic}>
-            <img className={styles.avatar} src="https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortFlat&accessoriesType=Prescription01&hairColor=BrownDark&facialHairType=MoustacheMagnum&facialHairColor=Auburn&clotheType=ShirtScoopNeck&clotheColor=Gray01&eyeType=WinkWacky&eyebrowType=UpDownNatural&mouthType=Tongue&skinColor=Light" alt="avatar"/>
-
+            <img
+              className={styles.avatar}
+              src="https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortFlat&accessoriesType=Prescription01&hairColor=BrownDark&facialHairType=MoustacheMagnum&facialHairColor=Auburn&clotheType=ShirtScoopNeck&clotheColor=Gray01&eyeType=WinkWacky&eyebrowType=UpDownNatural&mouthType=Tongue&skinColor=Light"
+              alt="avatar"
+            />
           </IconButton>
-          <p className={styles.username}>{user.firstName ?? ''} {user.lastName ?? ''}</p>
+          <p className={styles.username}>
+            {user.firstName ?? ""} {user.lastName ?? ""}
+          </p>
         </div>
       </div>
     </nav>

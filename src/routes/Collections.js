@@ -18,7 +18,7 @@ export function Collections(props) {
   const [allProducts, setAllProducts] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/products").then((res) => {
+    axios.get("http://127.0.0.1:5000/api/products").then((res) => {
       console.log(res.data);
       setAllProducts(res.data);
     });

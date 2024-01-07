@@ -10,15 +10,15 @@ import axios from "axios";
 import styles from "./Dashboard.module.scss";
 
 export function Dashboard() {
-   const [user, setUser] = useState('');
+  const [user, setUser] = useState("");
 
-   useEffect(()=>{
-      axios.get('http://localhost:5000/api/users/1').then((res)=>{
-        setUser(res.data)
-        console.log(res.data)
-      })
-   }, [])
-//   const user = "Mr. Kong";
+  useEffect(() => {
+    axios.get("http://127.0.0.1:5000/api/users/1").then((res) => {
+      setUser(res.data);
+      console.log(res.data);
+    });
+  }, []);
+  //   const user = "Mr. Kong";
   return (
     <div className={styles.wrapper}>
       <div className={styles.header}>

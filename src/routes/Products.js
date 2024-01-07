@@ -6,14 +6,13 @@ import styles from "./Products.module.scss";
 import { useNavigate } from "react-router-dom";
 import Papa from "papaparse";
 
-
 export default function Products(props) {
   const [isOpen, setIsOpen] = useState(false);
   const [url, setUrl] = useState("");
 
   useEffect(() => {
     return () => {
-      axios.get("http://localhost:5000/api/products").then((res) => {
+      axios.get("http://127.0.0.1:5000/api/products").then((res) => {
         console.log(res.data);
         props.changeProducts(res.data);
       });
@@ -22,28 +21,29 @@ export default function Products(props) {
 
   const handleRefreshClick = () => {
     // Assuming the CSV file is publicly accessible from the public directory
-    const csvReviewPath = '/data/phone_reviews.csv'; // Make sure this path is correct
+    const csvReviewPath = "/data/phone_reviews.csv"; // Make sure this path is correct
 
     Papa.parse(csvReviewPath, {
-        download: true,
-        header: true,
-        complete: function (results) {
-            console.log(results.data);
-            axios.post('http://localhost:5000/api/reviews/upload', results.data)
-                .then(response => {
-                    console.log('Reviews added to the database', response);
-                    // You might want to refresh the reviews in the state here
-                })
-                .catch(error => {
-                    console.error('Error uploading reviews to the database', error);
-                });
-        }
+      download: true,
+      header: true,
+      complete: function (results) {
+        console.log(results.data);
+        axios
+          .post("http://127.0.0.1:5000/api/reviews/upload", results.data)
+          .then((response) => {
+            console.log("Reviews added to the database", response);
+            // You might want to refresh the reviews in the state here
+          })
+          .catch((error) => {
+            console.error("Error uploading reviews to the database", error);
+          });
+      },
     });
-};
+  };
 
   // const handleSubmit = () => {
   //   axios
-  //     .post("http://localhost:5000/api/products", {
+  //     .post("http://127.0.0.1:5000/api/products", {
   //       url: url,
   //     })
   //     .then((res) => {
@@ -132,13 +132,13 @@ export default function Products(props) {
             </h1>
           </div>
           <div>
-                <button
-                onClick={handleRefreshClick}
-                className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-                >
-                Refresh Reviews
-                </button>
-            </div>
+            <button
+              onClick={handleRefreshClick}
+              className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Refresh Reviews
+            </button>
+          </div>
           <div>
             <button
               onClick={() => setIsOpen(true)}
@@ -195,7 +195,10 @@ export function Product({ product }) {
       <div className={styles.product__info}>
         <p className={styles.product__title}>{product.title}</p>
         <p className={styles.product__desc}>{product.description}</p>
-        <p className={styles.product__reviews}> 🔵 Reviews: {product.reviews.length}</p>
+        <p className={styles.product__reviews}>
+          {" "}
+          🔵 Reviews: {product.reviews.length}
+        </p>
       </div>
     </div>
   );
