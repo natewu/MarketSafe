@@ -119,18 +119,33 @@ def analyze():
 	if not product or not reviews:
 		return jsonify({"error": "Product or reviews not provided"}), 400
 	try:
-		analysis_result = analyze_product_reviews(product, reviews)
-		print(analysis_result)
 		# Update each review in the database
 		for review in reviews:
+			analysis_result = analyze_product_reviews(product, review)
 			db_review = Review.query.get(review['id'])
 
+			misinformation_data = next(
+				(
+					item
+					for item in analysis_result["detection"]
+					if item["name"] == "misinformation"
+				),
+				None,
+			)
+			harmful_content_data = next(
+				(
+					item
+					for item in analysis_result["detection"]
+					if item["name"] == "harmful_content"
+				),
+				None,
+			)
 			# Update the fields
-			db_review.isMisinformation = review['isMisinformation']
-			db_review.isHarmfulContent = review['isHarmfulContent']
-			db_review.misinformationExplanation = review['misinformationExplanation']
-			db_review.harmfulContentExplanation = review['harmfulContentExplanation']
-			db_review.detectedFlag = review['isMisinformation'] or review['isHarmfulContent'] == 'yes'
+			db_review.isMisinformation = misinformation_data["verdict"] == "yes"
+			db_review.isHarmfulContent = harmful_content_data["verdict"] == "yes"
+			db_review.misinformationExplanation = misinformation_data["explanation"] if harmful_content_data else ""
+			db_review.harmfulContentExplanation = harmful_content_data["explanation"] if harmful_content_data else ""
+			db_review.detectedFlag = misinformation_data["verdict"] == 'yes' or harmful_content_data["verdict"] == 'yes'
 
 			# Save the changes
 			db.session.commit()

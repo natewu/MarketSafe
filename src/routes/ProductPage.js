@@ -101,20 +101,17 @@ export default function ProductPage() {
         if (!product || loadingReviews) {
             console.error('Product data is not loaded yet or already processing');
             return;
-          }
-        setLoading(true);
-        try {
-            const analysisResponse = await axios.post(`http://127.0.0.1:5000/analyze`, {
-              product: product,
-              reviews: reviews
-            });
-            setAnalytics(analysisResponse.data);
-            setLoading(false);
-            fetchData(); // Refetch data after analysis
-          } catch (error) {
-            console.error('Error during analysis: ', error);
-            setLoading(false);
-          }
+        }
+      
+        // Now make the POST request to analyze, since both product and reviews data are available
+        axios.post(`http://127.0.0.1:5000/analyze`, {
+            product: product,
+            reviews: reviews
+        })
+        .then(response => {
+            fetchData();
+            setAnalytics(response.data);
+        });
     };
 
 
