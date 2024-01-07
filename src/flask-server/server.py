@@ -123,6 +123,19 @@ def upload_reviews():
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
+    
+    
+@app.route('/api/reviews/<int:product_id>', methods=['GET'])
+def get_reviews(product_id):
+   # Get all reviews of a product
+   reviews = Review.query.filter_by(product_id=product_id).all()
+
+   # Convert the SQLAlchemy result into a list of dictionaries
+   reviews_list = [review.to_dict() for review in reviews]
+
+   # Return the list of reviews as JSON
+   return jsonify(reviews_list)
+
 
 @app.route('/api/products', methods=['GET'])
 def get_products():
