@@ -19,7 +19,26 @@ class Review(db.Model):
     misinformationExplanation = db.Column(db.String(100))
     harmfulContentExplanation = db.Column(db.String(100))
     product_id = db.Column(db.Integer, db.ForeignKey("product.id"), nullable=False)
-
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'content': self.content,
+            'title': self.title,
+            'reviewer': self.reviewer,
+            'rating': self.rating,
+            'percentProfanity': self.percentProfanity,
+            'percentThreat': self.percentThreat,
+            'percentInsult': self.percentInsult,
+            'percentToxicity': self.percentToxicity,
+            'percentSevereToxicity': self.percentSevereToxicity,
+            'percentSexuallyExplicit': self.percentSexuallyExplicit,
+            'isMisinformation': self.isMisinformation,
+            'isHarmfulContent': self.isHarmfulContent,
+            'misinformationExplanation': self.misinformationExplanation,
+            'harmfulContentExplanation': self.harmfulContentExplanation,
+            'product_id': self.product_id
+        }
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100))
