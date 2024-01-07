@@ -134,6 +134,7 @@ def upload_reviews():
 	if data is None:
 		return jsonify({"error": "No data provided"}), 400
 
+<<<<<<< Updated upstream
 	try:
 		for entry in data:
 			new_review = Review(
@@ -144,6 +145,28 @@ def upload_reviews():
 				product_id=1  # Default ID for NOW
 			)
 			db.session.add(new_review)
+=======
+    try:
+        for entry in data:
+            analysis_result = analyze_product_reviews('Xbox 360', entry.get('Description', ''))
+            
+            misinformation_data = next((item for item in analysis_result['detection'] if item['name'] == 'misinformation'), None)
+            harmful_data = next((item for item in analysis_result['detection'] if item['name'] == 'misinformation'), None)
+            # use this to produce model output
+            new_review = Review(
+                content=entry.get('Description', ''),
+                title=entry.get('Title', ''),
+                rating=float(entry.get('Rating', 0)),  
+                reviewer=entry.get('UserName', ''),
+                product_id=1,  # Default ID for 
+                isMisinformation = misinformation_data['verdict'] == 'yes',
+                isHarmfulContent = harmful_data['verdict'] == 'yes',
+                misinformationExplanation = misinformation_data['explanation'] if misinformation_data else '',
+                harmfulContentExplanation = harmful_data['explanation'] if misinformation_data else '',
+                
+            )
+            db.session.add(new_review)
+>>>>>>> Stashed changes
 
 		db.session.commit()
 

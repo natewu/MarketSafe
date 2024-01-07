@@ -75,6 +75,7 @@ def analyze_product_reviews(product, reviews):
     
     return model_detect(prompt)
 
+
 if __name__ == "__main__":
     # this is to test the model
     product = "Item detailsKidsRobot Nano R3 Dev Board with I/O Expansion Shield, Compatible with Arduino Nano 3.0, Pre-Soldered Headers, USB Type-C Interface (DO NOT Support Apple M1 CPU)"
