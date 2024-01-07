@@ -19,6 +19,7 @@ export default function ProductPage() {
   const [analytics, setAnalytics] = useState(null);
   const [currentReview, setCurrentReview] = useState(null);
   const [loadingReviews, setLoading] = useState(false);
+  const [loadingText, setLoadingText] = useState("AI is cooking...");
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -37,6 +38,15 @@ export default function ProductPage() {
   useEffect(() => {
     fetchData(); // Fetch data on component mount
   }, [id]);
+
+  // For text
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+        setLoadingText(prevText => prevText === "AI is cooking..." ? "Almost done serving!" : "AI is cooking...");
+    }, 2000); // Change text every 3 seconds
+
+    return () => clearInterval(intervalId); // Clean up the interval
+    }, []);
 
   const fetchData = async () => {
     try {
@@ -360,11 +370,9 @@ export default function ProductPage() {
               className={` ${styles.serving} flex justify-center items-center h-full`}
             >
               <CircularProgress />
-              <p className={` fadeInOutText`}>
-                {new Date().getSeconds() % 2 === 0
-                  ? "AI is cooking..."
-                  : "Almost done serving!"}
-              </p>
+              <p className="mt-2 text-lg text-blue-500 animate-fadeInOut">
+                    {loadingText}
+                </p>
             </div>
           ) : (
             reviews.map((review) => (

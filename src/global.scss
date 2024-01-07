@@ -2,3 +2,13 @@
     background-color: rgba(0, 0, 0, 0.05) !important;
     color: rgb(112, 188, 250);
 }
+
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+  }
+  
+  .animate-fadeInOut {
+    animation: fadeInOut 3s linear infinite;
+  }
+  
