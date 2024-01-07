@@ -32,8 +32,10 @@ def analyze_review(review):
     response = client.comments().analyze(body=analyze_request).execute()
     return response
 
-result = analyze_review("This product is bad, it easily broke and I had to return it twice.")
 #print(json.dumps(result, indent=2))
+if __name__ == "__main__":
+    result = analyze_review("""I have been a student for over thirty years. This is one of the worst books I’ve read on the Black Madonna. As a white, retired United Methodist pastor, Cleveland’s book was bad. After reading this book, I believe you will be inspired to never read a similar book. I will be watching for what kind of spiritual community Cleveland is able to find/create.  I still think in general women are stupid and bad. I dont want to read more books by women""")
+    print(json.dumps(result, indent=2))
 
 """
 Output format:

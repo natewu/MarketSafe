@@ -10,6 +10,7 @@ import Papa from "papaparse";
 export default function Products(props) {
   const [isOpen, setIsOpen] = useState(false);
   const [url, setUrl] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -55,6 +56,7 @@ export default function Products(props) {
   // };
 
   const handleSubmit = () => {
+    setIsLoading(true);
     axios
       .post("http://127.0.0.1:5000/api/products/add", {
         url: url,
@@ -64,7 +66,8 @@ export default function Products(props) {
         props.changeProducts([...props.products, res.data]);
         setIsOpen(false);
         setUrl("");
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   return (
@@ -89,7 +92,7 @@ export default function Products(props) {
                       className=" text-2xl font-medium text-gray-900 mb-6"
                       id="modal-title"
                     >
-                      Add Product
+                      {isLoading ? 'Loading...' : 'Add Product'}
                     </h3>
                     <div className="mt-2">
                       <input

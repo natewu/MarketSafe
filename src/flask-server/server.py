@@ -69,7 +69,7 @@ def add_product():
 	data = response.json()
 	print(data)
 	if(data['data']):
-		if(data['data']['product_price'] == ""):
+		if(not data['data']['product_price'] or data['data']['product_price'] == ""):
 			price = 80.99
 		else:
 			price = float(data['data']['product_price'][1:])
