@@ -103,6 +103,7 @@ export default function ProductPage() {
             return;
         }
       
+        setLoading(true);
         // Now make the POST request to analyze, since both product and reviews data are available
         axios.post(`http://127.0.0.1:5000/analyze`, {
             product: product,
