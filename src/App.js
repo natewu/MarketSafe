@@ -8,6 +8,7 @@ import { Dashboard } from "./routes/Dashboard";
 import Home from "./routes/Home";
 import NavBar from "./Nav";
 import Products from "./routes/Products";
+import ProductPage from "./routes/ProductPage";
 import React from "react";
 import styles from "./App.module.scss";
 
