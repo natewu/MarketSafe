@@ -112,6 +112,7 @@ export default function ProductPage() {
         .then(response => {
             fetchData();
             setAnalytics(response.data);
+            setLoading(false);
         });
     };
 
