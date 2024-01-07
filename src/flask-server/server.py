@@ -9,6 +9,7 @@ from models import Review, Product, User, UsersShema,products_schema, product_sc
 import re
 from dotenv import load_dotenv
 import os
+
 load_dotenv()
 
 
@@ -69,7 +70,7 @@ def add_product():
 	data = response.json()
 	print(data)
 	if(data['data']):
-		if(data['data']['product_price'] == ""):
+		if(not data['data']['product_price'] or data['data']['product_price'] == ""):
 			price = 80.99
 		else:
 			price = float(data['data']['product_price'][1:])
@@ -128,30 +129,57 @@ def get_product(product_id):
 		})
 	
 @app.route('/api/reviews/upload', methods=['POST'])
-def upload_reviews():
-	data = request.get_json()
-	
-	if data is None:
-		return jsonify({"error": "No data provided"}), 400
+def post_reviews():
+    data = request.get_json()
+    
+    if data is None:
+        return jsonify({"error": "No data provided"}), 400
+    try:
+        for entry in data:
+            analysis_result = analyze_product_reviews(entry.get('Product', ''), entry.get('Description', ''))
+            prescreening_result = analyze_review(entry.get('Description', ''))
+            misinformation_data = next((item for item in analysis_result['detection'] if item['name'] == 'misinformation'), None)
+            harmful_content_data = next((item for item in analysis_result['detection'] if item['name'] == 'harmful_content'), None)
 
-	try:
-		for entry in data:
-			new_review = Review(
-				content=entry.get('Description', ''),
-				title=entry.get('Title', ''),
-				rating=float(entry.get('Rating', 0)),  
-				reviewer=entry.get('UserName', ''),
-				product_id=1  # Default ID for NOW
-			)
-			db.session.add(new_review)
+            # Extracting prescreening scores
+            percentProfanity = prescreening_result['attributeScores']['PROFANITY']['summaryScore']['value']
+            percentThreat = prescreening_result['attributeScores']['THREAT']['summaryScore']['value']
+            percentInsult = prescreening_result['attributeScores']['INSULT']['summaryScore']['value']
+            percentToxicity = prescreening_result['attributeScores']['TOXICITY']['summaryScore']['value']
+            percentSevereToxicity = prescreening_result['attributeScores']['SEVERE_TOXICITY']['summaryScore']['value']
+            percentSexuallyExplicit = prescreening_result['attributeScores']['SEXUALLY_EXPLICIT']['summaryScore']['value']
+					
+            new_review = Review(
+                content = entry.get('Description', ''),
+                title = entry.get('Title', ''),
+                rating = float(entry.get('Rating', 0)),
+                reviewer = entry.get('UserName', ''),
+                product_id = entry.get('ProductId', 1),
+                isMisinformation=misinformation_data['verdict'] == 'yes',
+                misinformationExplanation = misinformation_data['explanation'] if misinformation_data else '',
+                isHarmfulContent = harmful_content_data['verdict'] == 'yes',
+                harmfulContentExplanation=harmful_content_data['explanation'] if harmful_content_data else '',
+                percentProfanity = round(percentProfanity*100,2),
+                percentThreat = round(percentThreat*100,2),
+                percentInsult = round(percentInsult*100,2),
+                percentToxicity = round(percentToxicity*100,2),
+                percentSevereToxicity = round(percentSevereToxicity*100,2),
+                percentSexuallyExplicit = round(percentSexuallyExplicit*100,2)
+            )
+            
+            print(f"Product ID is: {entry.get('ProductId', 1)}")
 
-		db.session.commit()
+            # Add the new Review to the session
+            db.session.add(new_review)
 
-		return jsonify({'message': 'Reviews uploaded successfully'}), 200
+        # Commit all the new reviews to the database
+        db.session.commit()
 
-	except Exception as e:
-		db.session.rollback()
-		return jsonify({'error': str(e)}), 500
+        return jsonify({"message": "Reviews uploaded successfully"}), 200
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
 	
 	
 @app.route('/api/reviews/<int:product_id>', methods=['GET'])

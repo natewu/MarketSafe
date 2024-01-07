@@ -29,7 +29,7 @@ function App() {
       element.style.msUserSelect = "none";
       element.style.userSelect = "none";
     });
-    axios.get("http://localhost:5000/api/products").then((res) => {
+    axios.get("http://127.0.0.1:5000/api/products").then((res) => {
       console.log(res.data);
       changeProducts(res.data);
     });

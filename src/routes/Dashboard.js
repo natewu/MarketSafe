@@ -13,7 +13,7 @@ export function Dashboard() {
    const [user, setUser] = useState('');
 
    useEffect(()=>{
-      axios.get('http://localhost:5000/api/users/1').then((res)=>{
+      axios.get('http://127.0.0.1:5000/api/users/1').then((res)=>{
         setUser(res.data)
         console.log(res.data)
       })

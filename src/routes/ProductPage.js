@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import Papa from 'papaparse';
 import {AverageRatingChart, WordCloudHarmfulChart, WordCloudMisInformationChart, PercentagePieChart} from './Analytics'
 import Modal from 'react-modal';
 
@@ -26,7 +27,7 @@ export default function ProductPage() {
    console.log(id);
    useEffect(() => {
     // Replace 'id' with the actual product id
-        axios.get(`http://localhost:5000/product/${id}`)
+        axios.get(`http://127.0.0.1:5000/product/${id}`)
         .then(response => {
             setProduct(response.data);
         })
@@ -34,7 +35,7 @@ export default function ProductPage() {
             console.error('Error fetching product data: ', error);
         });
     
-        axios.get(`http://localhost:5000/api/reviews/${id}`)
+        axios.get(`http://127.0.0.1:5000/api/reviews/${id}`)
         .then(response => {
             setReviews(response.data);
         })
@@ -49,7 +50,36 @@ export default function ProductPage() {
         .catch(error => {
             console.error('Error fetching analyze product data: ', error);
         });
+        
     }, []);
+
+    const handleDetection = () => {
+        if (!product) {
+            console.error('Product data is not loaded yet');
+            return;
+        }
+
+        const csvReviewPath = '/data/phone_reviews.csv'; 
+        Papa.parse(csvReviewPath, {
+            download: true,
+            header: true,
+            complete: function (results) {
+                const updatedResults = results.data.map(review => ({
+                    ...review,
+                    Product: product.title,
+                    ProductId: product.id
+                }));
+
+                axios.post('http://127.0.0.1:5000/api/reviews/upload', updatedResults)
+                    .then(response => {
+                        console.log('Reviews added to the database', response);
+                    })
+                    .catch(error => {
+                        console.error('Error uploading reviews to the database', error);
+                    });
+            }
+        });
+    };
 
 
    if (!product || !reviews || !analytics) {

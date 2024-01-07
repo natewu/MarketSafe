@@ -12,7 +12,7 @@ export default function Account(){
     const [user, setUser] = useState('');
 
     useEffect(()=>{
-        axios.get('http://localhost:5000/api/users/1').then((res)=>{
+        axios.get('http://127.0.0.1:5000/api/users/1').then((res)=>{
             setUser(res.data)
             console.log(res.data)
         })
@@ -58,10 +58,10 @@ export default function Account(){
                         <div className={styles.paymentHistory}>
                             <div className={styles.paymentBox}>
                                 <h2 className={styles.editPayment}>Payment History</h2>
-                                <PaymentItem date="10/10/2021" amount="100" paymentMethod="1121"/>
-                                <PaymentItem date="9/10/2021" amount="100" paymentMethod="1121"/>
-                                <PaymentItem date="8/10/2021" amount="100" paymentMethod="1121"/>
-                                <PaymentItem date="7/10/2021" amount="100" paymentMethod="1121"/>
+                                <PaymentItem date="10/10/2021" amount="100.00" paymentMethod="1121"/>
+                                <PaymentItem date="9/10/2021" amount="100.00" paymentMethod="1121"/>
+                                <PaymentItem date="8/10/2021" amount="100.00" paymentMethod="1121"/>
+                                <PaymentItem date="7/10/2021" amount="100.00" paymentMethod="1121"/>
 
                             </div>
                         </div>

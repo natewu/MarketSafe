@@ -6,39 +6,14 @@ import axios from "axios";
 import styles from "./Products.module.scss";
 import { useNavigate } from "react-router-dom";
 
-const handleRefreshClick = () => {
-  // Assuming the CSV file is publicly accessible from the public directory
-  const csvReviewPath = "data/generated_reviews.csv";
-
-  Papa.parse(csvReviewPath, {
-    download: true,
-    header: true,
-    complete: function (results) {
-      // Here we have the CSV file data as an array of objects
-      console.log(results.data);
-
-      // Send this data to the backend
-      axios
-        .post("http://localhost:5000/api/reviews/upload", results.data)
-        .then((response) => {
-          // Handle the response from the server here
-          console.log("Reviews added to the database", response);
-        })
-        .catch((error) => {
-          // Handle any errors here
-          console.error("Error uploading reviews to the database", error);
-        });
-    },
-  });
-};
-
 export default function Products(props) {
   const [isOpen, setIsOpen] = useState(false);
   const [url, setUrl] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     return () => {
-      axios.get("http://localhost:5000/api/products").then((res) => {
+      axios.get("http://127.0.0.1:5000/api/products").then((res) => {
         console.log(res.data);
         props.changeProducts(res.data);
       });
@@ -59,8 +34,9 @@ export default function Products(props) {
   // };
 
   const handleSubmit = () => {
+    setIsLoading(true);
     axios
-      .post("http://localhost:5000/api/products/add", {
+      .post("http://127.0.0.1:5000/api/products/add", {
         url: url,
       })
       .then((res) => {
@@ -68,7 +44,8 @@ export default function Products(props) {
         props.changeProducts([...props.products, res.data]);
         setIsOpen(false);
         setUrl("");
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   return (
@@ -93,7 +70,7 @@ export default function Products(props) {
                       className=" text-2xl font-medium text-gray-900 mb-6"
                       id="modal-title"
                     >
-                      Add Product
+                      {isLoading ? 'Loading...' : 'Add Product'}
                     </h3>
                     <div className="mt-2">
                       <input
@@ -144,14 +121,6 @@ export default function Products(props) {
                 <AddIcon></AddIcon>
               </span>
               Add Product
-            </button>
-          </div>
-          <div>
-            <button
-              onClick={handleRefreshClick}
-              className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-            >
-              Refresh Reviews
             </button>
           </div>
         </div>
