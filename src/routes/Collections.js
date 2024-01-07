@@ -55,12 +55,7 @@ export function Collections(props) {
   };
   return (
     <div className={`${styles.Products} p6`} style={{ overflow: "scroll" }}>
-      <Modal
-        open={show}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+      <Modal open={show} onClose={handleClose}>
         <Card
           sx={{
             width: "30vw",

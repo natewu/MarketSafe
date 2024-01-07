@@ -86,7 +86,7 @@ def add_product():
     data = response.json()
     print(data)
     if data["data"]:
-        if data["data"]["product_price"] == "":
+        if not data["data"]["product_price"] or data["data"]["product_price"] == "":
             price = 80.99
         else:
             price = float(data["data"]["product_price"][1:])
@@ -151,9 +151,9 @@ def post_reviews():
     try:
         for entry in data:
             analysis_result = analyze_product_reviews(
-                "Xbox 360", entry.get("Description", "")
+                entry.get("Product", ""), entry.get("Description", "")
             )
-
+            prescreening_result = analyze_review(entry.get("Description", ""))
             misinformation_data = next(
                 (
                     item
@@ -171,6 +171,26 @@ def post_reviews():
                 None,
             )
 
+            # Extracting prescreening scores
+            percentProfanity = prescreening_result["attributeScores"]["PROFANITY"][
+                "summaryScore"
+            ]["value"]
+            percentThreat = prescreening_result["attributeScores"]["THREAT"][
+                "summaryScore"
+            ]["value"]
+            percentInsult = prescreening_result["attributeScores"]["INSULT"][
+                "summaryScore"
+            ]["value"]
+            percentToxicity = prescreening_result["attributeScores"]["TOXICITY"][
+                "summaryScore"
+            ]["value"]
+            percentSevereToxicity = prescreening_result["attributeScores"][
+                "SEVERE_TOXICITY"
+            ]["summaryScore"]["value"]
+            percentSexuallyExplicit = prescreening_result["attributeScores"][
+                "SEXUALLY_EXPLICIT"
+            ]["summaryScore"]["value"]
+
             new_review = Review(
                 content=entry.get("Description", ""),
                 title=entry.get("Title", ""),
@@ -185,6 +205,12 @@ def post_reviews():
                 harmfulContentExplanation=harmful_content_data["explanation"]
                 if harmful_content_data
                 else "",
+                percentProfanity=round(percentProfanity * 100, 2),
+                percentThreat=round(percentThreat * 100, 2),
+                percentInsult=round(percentInsult * 100, 2),
+                percentToxicity=round(percentToxicity * 100, 2),
+                percentSevereToxicity=round(percentSevereToxicity * 100, 2),
+                percentSexuallyExplicit=round(percentSexuallyExplicit * 100, 2),
             )
 
             # Add the new Review to the session
