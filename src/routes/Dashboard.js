@@ -9,6 +9,40 @@ import { ReactComponent as Ticket } from "../svg/ticket.svg";
 import axios from "axios";
 import styles from "./Dashboard.module.scss";
 
+function GlanceItem({ title, value, icon }) {
+  const [animatedValue, setAnimatedValue] = useState(0);
+
+  useEffect(() => {
+    let startValue = animatedValue;
+    const finalValue = value;
+    const increment = finalValue > startValue ? 1 : 0;
+    const intervalTime = Math.abs(finalValue - startValue) > 30 ? 10 : 50;
+
+    const interval = setInterval(() => {
+      startValue += increment;
+      setAnimatedValue(startValue);
+
+      if ((increment > 0 && startValue >= finalValue) || (increment < 0 && startValue <= finalValue)) {
+        clearInterval(interval);
+      }
+    }, intervalTime);
+
+    return () => clearInterval(interval);
+  }, [value]);
+
+  return (
+    <div className={styles.glanceItem}>
+      <div className={styles.icon}>
+        {icon ? icon : <Skeleton variant="circular" width={40} height={40} />}
+      </div>
+      <div className={styles.info}>
+        <p className={styles.value}>{animatedValue}</p>
+        <p className={styles.title}>{title}</p>
+      </div>
+    </div>
+  );
+}
+
 export function Dashboard() {
   const [user, setUser] = useState("");
   const [amountOfProducts, setAmountOfProducts] = useState(0);
@@ -19,9 +53,8 @@ export function Dashboard() {
     return detections.filter((detection) => detection.detectedFlag === true);
   }
 
+  
   useEffect(() => {
-   
-
     axios.get("http://127.0.0.1:5000/api/users/1").then((res) => {
       setUser(res.data);
       console.log(res.data);
@@ -75,20 +108,6 @@ export function Dashboard() {
             />
           }
         />
-      </div>
-    </div>
-  );
-}
-
-function GlanceItem({ title, value, icon }) {
-  return (
-    <div className={styles.glanceItem}>
-      <div className={styles.icon}>
-        {icon ? icon : <Skeleton variant="circular" width={40} height={40} />}
-      </div>
-      <div className={styles.info}>
-        <p className={styles.value}>{value}</p>
-        <p className={styles.title}>{title}</p>
       </div>
     </div>
   );

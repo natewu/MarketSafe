@@ -255,6 +255,17 @@ def get_all_reviews():
     
     return jsonify(review_list)
 
+# def get_all_reviews():
+#     reviews = Review.query.all()
+#     # use lambda to return list of dictionaries
+#     review_list = list(map(lambda review: {
+#         "id": review.id,
+#         "title": review.title,
+#         "detectedFlag": review.detectedFlag
+#         }, reviews))
+    
+#     return jsonify(review_list)
+
 
 @app.route("/api/products", methods=["GET"])
 def get_products():
