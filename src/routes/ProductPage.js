@@ -233,9 +233,9 @@ export default function ProductPage() {
                     </div>
                     <p className={`${styles.description} text-gray-900 text-ms`}>{product.description}</p>
                     <p className="mt-2 text-xs text-gray-600">Posted on {new Date(product.date_posted).toLocaleDateString()}</p>
-                    <button onClick={handleDetection} className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    <Button disabled={loadingReviews} onClick={handleDetection} className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Analyze Reviews
-                    </button>
+                    </Button>
                 </div>
             </div>
             <div className={`${styles.shadow} ${styles.content}`} style={{ flex: 0.55 }}>

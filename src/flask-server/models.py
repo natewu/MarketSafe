@@ -178,7 +178,7 @@ def create_products(*args, **kwargs):
 @event.listens_for(Review.__table__, "after_create")
 def create_reviews(*args, **kwargs):
     # Create mock reviews for product_id 1, 2, and 3
-    products = [1, 2, 3]  # List of product IDs
+    products = [1, 2, 3, 4]  # List of product IDs
     for product_id in products:
         # Positive Review
         db.session.add(
