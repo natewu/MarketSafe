@@ -42,16 +42,13 @@ def create_user():
 	
 	return jsonify({"message": "User created successfully", "user": UsersShema.dump(new_user)}), 201
 
-<<<<<<< HEAD
 @app.route("/api/users/<int:user_id>", methods=["GET"])
 def get_user(user_id):
 	user = User.query.get_or_404(user_id)
 	return jsonify(user_schema.dump(user))
 
-@app.route("/add_product", methods=["POST"])
-=======
+# @app.route("/add_product", methods=["POST"])
 @app.route("/api/products/add", methods=["POST"])
->>>>>>> 43eb7c81f12690293b437e433ce8fb44ec02b08e
 def add_product():
 	print(request.get_json())
 	url = request.json['url']
