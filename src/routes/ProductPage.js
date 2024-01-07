@@ -43,7 +43,7 @@ export default function ProductPage() {
   useEffect(() => {
     const intervalId = setInterval(() => {
         setLoadingText(prevText => prevText === "AI is cooking..." ? "Almost done serving!" : "AI is cooking...");
-    }, 2000); // Change text every 3 seconds
+    }, 3000); // Change text every 3 seconds
 
     return () => clearInterval(intervalId); // Clean up the interval
     }, []);
