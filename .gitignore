@@ -5,3 +5,7 @@ package-lock.json
 src/flask-server/instance/database.db
 hacked24/
 src/flask-server/aiutility/amazonhatespeech-1857bd410110.json
+pyvenv.cfg
+bin
+include
+lib
