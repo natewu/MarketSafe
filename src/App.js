@@ -7,6 +7,7 @@ import Account from "./routes/Account";
 import { Collections } from "./routes/Collections";
 import { Dashboard } from "./routes/Dashboard";
 import Home from "./routes/Home";
+import Login from "./routes/Login";
 import NavBar from "./Nav";
 import ProductPage from "./routes/ProductPage";
 import Products from "./routes/Products";
@@ -40,6 +41,7 @@ function App() {
       <NavBar />
       <div className={`${styles.content}`}>
         <Routes>
+          <Route path="/login" element={<Login />}></Route>
           <Route path="/" element={<Home />}></Route>
           <Route path="/dashboard" element={<Dashboard />}></Route>
           <Route
