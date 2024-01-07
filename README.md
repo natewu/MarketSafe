@@ -1,5 +1,33 @@
 # MarketSafe
 
+## Inspiration 💡
+
+## What it does 🤔
+
+## How we built it ⚙️
+First and foremost, it is Crafted with 💙. We have built a ML-enabled full-stack application that solves a real world problem. The whole process can be broken into the following points:
+
+- React on the front-end with styling done in Tailwind and Sass
+
+- Flask, Python, SQLite3, and Google Cloud, Pytorch on the back-end
+
+-  External services such as GPT4, Google Cloud Natural Language API, Google Cloud BigQuery.
+
+Our application is technically complex, polished, original, useful, and built with excellent execution. 
+
+## Design 🎨
+![image](https://github.com/natewu/HackED24/assets/36091727/53f455c3-6fd2-4115-add3-c5f06508573d)
+
+
+## Challenges we ran into   😤
+
+## Accomplishments that we're proud of 💚
+
+## What we learned 🙌
+
+## What's next?  🚀
+
+
 # Backend (src/flask-server)
 ```
 python -m pip install flask_migrate
