@@ -1,15 +1,17 @@
+import { useEffect, useRef, useState } from "react";
+
 import AddIcon from "@mui/icons-material/Add";
-import { useState, useRef, useEffect } from "react";
-import styles from "./Products.module.scss";
-import TransferList from "../components/TransferList";
-import Modal from "@mui/material/Modal";
-import Grid from "@mui/material/Grid";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
+import Grid from "@mui/material/Grid";
 import { MdCollectionsBookmark } from "react-icons/md";
+import Modal from "@mui/material/Modal";
+import TransferList from "../components/TransferList";
+import axios from "axios";
+import styles from "./Products.module.scss";
+import { useNavigate } from "react-router-dom";
+
 export function Collections(props) {
   const navigate = useNavigate();
   const collectionName = useRef();
@@ -54,7 +56,7 @@ export function Collections(props) {
     navigate("/products");
   };
   return (
-    <div className={`${styles.Products} p6`} style={{ overflow: "scroll" }}>
+    <div className={`${styles.Products} p6`} style={{ overflow: "auto" }}>
       <Modal open={show} onClose={handleClose}>
         <Card
           sx={{
