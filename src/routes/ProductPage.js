@@ -26,32 +26,31 @@ export default function ProductPage() {
     const { id } = useParams();
    console.log(id);
    useEffect(() => {
-    // Replace 'id' with the actual product id
-        axios.get(`http://127.0.0.1:5000/product/${id}`)
+    let productData = null;
+    let reviewsData = null;
+
+    axios.get(`http://127.0.0.1:5000/product/${id}`)
         .then(response => {
             setProduct(response.data);
+            productData = response.data; // Store product data for later use
+            return axios.get(`http://127.0.0.1:5000/api/reviews/${id}`); // Chain reviews request
         })
-        .catch(error => {
-            console.error('Error fetching product data: ', error);
-        });
-    
-        axios.get(`http://127.0.0.1:5000/api/reviews/${id}`)
         .then(response => {
             setReviews(response.data);
+            reviewsData = response.data; // Store reviews data
+            // Now make the POST request to analyze, since both product and reviews data are available
+            return axios.post(`http://127.0.0.1:5000/analyze`, {
+                product: productData,
+                reviews: reviewsData
+            });
         })
-        .catch(error => {
-            console.error('Error fetching reviews data: ', error);
-        });
-
-        axios.get(`http://127.0.0.1:5000/analyze`)
         .then(response => {
             setAnalytics(response.data);
         })
         .catch(error => {
-            console.error('Error fetching analyze product data: ', error);
+            console.error('Error fetching data: ', error);
         });
-        
-    }, []);
+    }, [id]);
 
     const handleDetection = () => {
         if (!product) {
