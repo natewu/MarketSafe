@@ -52,6 +52,7 @@ export default function ProductPage() {
         const updatedResults = results.data.map((review) => ({
           ...review,
           Product: product.title,
+          ProductId: product.id,
         }));
 
         axios

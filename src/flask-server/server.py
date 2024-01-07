@@ -196,7 +196,7 @@ def post_reviews():
                 title=entry.get("Title", ""),
                 rating=float(entry.get("Rating", 0)),
                 reviewer=entry.get("UserName", ""),
-                product_id=1,  # Replace with actual product_id as needed
+                product_id=entry.get("ProductId", 1),
                 isMisinformation=misinformation_data["verdict"] == "yes",
                 misinformationExplanation=misinformation_data["explanation"]
                 if misinformation_data
@@ -212,6 +212,8 @@ def post_reviews():
                 percentSevereToxicity=round(percentSevereToxicity * 100, 2),
                 percentSexuallyExplicit=round(percentSexuallyExplicit * 100, 2),
             )
+
+            print(f"Product ID is: {entry.get('ProductId', 1)}")
 
             # Add the new Review to the session
             db.session.add(new_review)
