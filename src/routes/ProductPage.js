@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import Papa from 'papaparse';
 
 export default function ProductPage() {
     const [product, setProduct] = useState(null);
@@ -26,6 +27,34 @@ export default function ProductPage() {
             console.error('Error fetching product data: ', error);
         });
     }, []);
+
+    const handleDetection = () => {
+        if (!product) {
+            console.error('Product data is not loaded yet');
+            return;
+        }
+
+        const csvReviewPath = '/data/phone_reviews.csv'; 
+        Papa.parse(csvReviewPath, {
+            download: true,
+            header: true,
+            complete: function (results) {
+                const updatedResults = results.data.map(review => ({
+                    ...review,
+                    Product: product.title
+                }));
+
+                axios.post('http://127.0.0.1:5000/api/reviews/upload', updatedResults)
+                    .then(response => {
+                        console.log('Reviews added to the database', response);
+                    })
+                    .catch(error => {
+                        console.error('Error uploading reviews to the database', error);
+                    });
+            }
+        });
+    };
+
 
 
    if (!product || !reviews) {
@@ -73,26 +102,27 @@ export default function ProductPage() {
         );
        };
        
-    
-
-   return (
-    <div className='grid grid-cols-2 overflow-scroll'>
-       <div className="w-5/6 m-10 h-fit p-10 mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4">
-           <div>
-               <div className="text-xl font-medium text-black">{product.title}</div>
-               <img src={product.image_url} alt={product.title} className="h-48 w-full flex mx-auto p-10 object-cover mt-2" />
-               <p className="text-gray-900 text-ms">{product.description}</p>
-               <p className="mt-2 text-xs text-gray-600">Posted on {new Date(product.date_posted).toLocaleDateString()}</p>
-           </div>
-       </div>
-       <div className="w-full h-fit m-10 p-10 mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 col-span-1">
-            <div className='overflow-x-hidden overflow-y-scroll h-96'>
-                <h1 className="text-xl">Reviews</h1>
-                {reviews.map((review) => 
-                    <ReviewCard key={review.id} review={review} />
-                )}
+       return (
+        <div className='grid grid-cols-2 overflow-scroll'>
+            <div className="w-5/6 m-10 h-fit p-10 mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4">
+                <div>
+                    <div className="text-xl font-medium text-black">{product.title}</div>
+                    <img src={product.image_url} alt={product.title} className="h-48 w-full flex mx-auto p-10 object-cover mt-2" />
+                    <p className="text-gray-900 text-ms">{product.description}</p>
+                    <p className="mt-2 text-xs text-gray-600">Posted on {new Date(product.date_posted).toLocaleDateString()}</p>
+                    <button onClick={handleDetection} className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Analyze Reviews
+                    </button>
+                </div>
+            </div>
+            <div className="w-full h-fit m-10 p-10 mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 col-span-1">
+                <div className='overflow-x-hidden overflow-y-scroll h-96'>
+                    <h1 className="text-xl">Reviews</h1>
+                    {reviews.map((review) => 
+                        <ReviewCard key={review.id} review={review} />
+                    )}
+                </div>
             </div>
         </div>
-    </div>
-   );
+    );
 }
