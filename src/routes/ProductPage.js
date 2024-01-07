@@ -143,7 +143,7 @@ export default function ProductPage() {
 
         return (
             <div>
-                <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+                <select className={styles.select} value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
                     {categories.map((category) => (
                         <option key={category} value={category}>{titles[category]}</option>
                     ))}
