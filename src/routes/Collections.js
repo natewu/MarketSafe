@@ -9,7 +9,7 @@ import axios from "axios";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-
+import { MdCollectionsBookmark } from "react-icons/md";
 export function Collections(props) {
   const navigate = useNavigate();
   const collectionName = useRef();
@@ -135,6 +135,10 @@ export function Collections(props) {
               }}
             >
               <div className={styles.product}>
+                <MdCollectionsBookmark
+                  style={{ width: "40%", height: "auto" }}
+                />
+
                 <div className={styles.product__info}>
                   <p className={styles.product__title}>{collection.title}</p>
                   <p className={styles.product__desc}>
