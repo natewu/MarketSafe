@@ -51,6 +51,7 @@ export function Dashboard() {
   const [amountOfProducts, setAmountOfProducts] = useState(0);
   const [amountOfReview, setAmountOfReview] = useState(0);
   const [amountOfDetections, setAmountOfDetections] = useState(0);
+  const [bots, setBots] = useState(0);
 
   function filterDetection(detections) {
     return detections.filter((detection) => detection.detectedFlag === true);
@@ -104,8 +105,8 @@ export function Dashboard() {
             <BarChart
               data={[
                 ["Product", "Flagged", "Total"],
-                ["1", 1000, 1500],
-                ["2", 500, 1500],
+                ["1", 10, 15],
+                ["2", 5, 15],
               ]}
             />
           }
@@ -116,8 +117,13 @@ export function Dashboard() {
             <PieChart
               data={[
                 ["Category", "Number"],
-                ["Bots", 11],
-                ["Humans", 2],
+                ["Bots", amountOfDetections],
+                [
+                  "Humans",
+                  amountOfReview - amountOfDetections > 0
+                    ? amountOfReview - amountOfDetections
+                    : 1,
+                ],
               ]}
             />
           }

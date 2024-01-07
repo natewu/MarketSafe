@@ -38,23 +38,20 @@ export default function ProductPage() {
     fetchData(); // Fetch data on component mount
   }, [id]);
 
-  const fetchData = () => {
-    let productData = null;
+  const fetchData = async () => {
+    try {
+      const productResponse = await axios.get(
+        `http://127.0.0.1:5000/product/${id}`
+      );
+      setProduct(productResponse.data);
 
-    axios
-      .get(`http://127.0.0.1:5000/product/${id}`)
-      .then((response) => {
-        setProduct(response.data);
-        productData = response.data;
-        return axios.get(`http://127.0.0.1:5000/api/reviews/${id}`);
-      })
-      .then((response) => {
-        setReviews(response.data);
-        // Perform analysis here if needed
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-      });
+      const reviewsResponse = await axios.get(
+        `http://127.0.0.1:5000/api/reviews/${id}`
+      );
+      setReviews(reviewsResponse.data);
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
   };
 
   useEffect(() => {
@@ -114,12 +111,13 @@ export default function ProductPage() {
 
   console.log(analytics);
 
-  const handleDetection = () => {
-    if (!product) {
-      console.error("Product data is not loaded yet");
+  const handleDetection = async () => {
+    if (!product || loadingReviews) {
+      console.error("Product data is not loaded yet or already processing");
       return;
     }
 
+    setLoading(true);
     // Now make the POST request to analyze, since both product and reviews data are available
     axios
       .post(`http://127.0.0.1:5000/analyze`, {
@@ -127,7 +125,9 @@ export default function ProductPage() {
         reviews: reviews,
       })
       .then((response) => {
+        fetchData();
         setAnalytics(response.data);
+        setLoading(false);
       });
   };
 
@@ -356,8 +356,15 @@ export default function ProductPage() {
         <div className="overflow-x-hidden overflow-y-auto h-screen">
           <h1 className="text-xl">Reviews</h1>
           {loadingReviews ? (
-            <div className="flex justify-center items-center h-full">
+            <div
+              className={` ${styles.serving} flex justify-center items-center h-full`}
+            >
               <CircularProgress />
+              <p className={` fadeInOutText`}>
+                {new Date().getSeconds() % 2 === 0
+                  ? "AI is cooking..."
+                  : "Almost done serving!"}
+              </p>
             </div>
           ) : (
             reviews.map((review) => (
