@@ -124,6 +124,13 @@ def upload_reviews():
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
 
-    
+@app.route('/api/products', methods=['GET'])
+def get_products():
+	products = Product.query.all()
+	return jsonify(products_schema.dump(products))
+
+
+
 if __name__ == "__main__":
 	app.run(debug=True)
+     

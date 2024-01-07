@@ -160,11 +160,12 @@ const handleRefreshClick = () => {
 export default function Products(props) {
   const [isOpen, setIsOpen] = useState(false);
   const [url, setUrl] = useState("");
+  const [products, setProducts] = useState([]);
   
   useEffect(() => {
     axios.get("http://localhost:5000/api/products").then((res) => {
       console.log(res.data);
-      props.setProducts(res.data);
+      setProducts(res.data);
     });
   }, []);
 
@@ -175,7 +176,7 @@ export default function Products(props) {
       })
       .then((res) => {
         console.log(res.data);
-        props.setProducts([...props.products, res.data]);
+        setProducts([...products, res.data]);
         setIsOpen(false);
         setUrl("");
       });
@@ -285,7 +286,7 @@ export default function Products(props) {
           </div>
         </div>
         <div className={styles.product__box}>
-          {props.products.map((product) => (
+          {products.map((product) => (
             <Product key={product.id} product={product} />
           ))}
         </div>
@@ -305,11 +306,11 @@ export function Product({ product }) {
     return (
     <div className={styles.product} onClick={() => goToProductPage(product.id)}>
       <div className={styles.product__img}>
-        <img src={product.img} alt={product.title} />
+        <img src={product.image_url} alt={product.title} />
       </div>
       <div className={styles.product__info}>
         <p className={styles.product__title}>{product.title}</p>
-        <p className={styles.product__desc}>{product.desc}</p>
+        <p className={styles.product__desc}>{product.description}</p>
       </div>
     </div>
   );
