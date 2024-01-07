@@ -24,38 +24,6 @@ export function Collections(props) {
     });
   }, []);
 
-  // current collections
-  const [collections, changeCollections] = useState([
-    {
-      img: "https://via.placeholder.com/300",
-      title: "Collection 1",
-      desc: "This is collection 1",
-      num: 10,
-      collection: [
-        {
-          id: 1,
-          img: "https://via.placeholder.com/300",
-          title: "Product 1",
-          desc: "This is product 1",
-        },
-      ],
-    },
-    {
-      img: "https://via.placeholder.com/300",
-      title: "Product 2",
-      desc: "This is product 2",
-      num: 10,
-      collection: [
-        {
-          id: 1,
-          img: "https://via.placeholder.com/300",
-          title: "Product 1",
-          desc: "This is product 1",
-        },
-      ],
-    },
-  ]);
-
   const [current, setCurrent] = useState([]);
 
   // #region TransferList
@@ -77,7 +45,7 @@ export function Collections(props) {
       collection: products,
     };
 
-    changeCollections([...collections, collection]);
+    props.changeCollections([...props.collections, collection]);
   }
 
   const displayProducts = (products) => {
@@ -162,7 +130,7 @@ export function Collections(props) {
       </div>
       <div className="mt-4">
         <div className="grid grid-cols-3 gap-4">
-          {collections.map((collection, index) => (
+          {props.collections.map((collection, index) => (
             <div
               key={index}
               className="rounded-lg overflow-hidden"

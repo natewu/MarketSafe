@@ -15,6 +15,8 @@ import axios from "axios";
 
 function App() {
   const [products, changeProducts] = useState([]);
+  // current collections
+  const [collections, changeCollections] = useState([]);
 
   useEffect(() => {
     // disable text select
@@ -48,7 +50,13 @@ function App() {
           <Route path="/product/:id" element={<ProductPage />} />
           <Route
             path="/collections"
-            element={<Collections changeProducts={changeProducts} />}
+            element={
+              <Collections
+                changeProducts={changeProducts}
+                changeCollections={changeCollections}
+                collections={collections}
+              />
+            }
           ></Route>
         </Routes>
       </div>
