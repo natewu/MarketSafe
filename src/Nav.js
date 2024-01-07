@@ -1,11 +1,21 @@
 import { IconButton, Skeleton } from "@mui/material";
 import { NavLink, useLocation, useNavigate, useRoutes } from "react-router-dom";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
+import axios from "axios";
 import styles from "./Nav.module.scss";
 
 const NavBar = () => {
+   const [user, setUser] = useState('');
+
+   useEffect(()=>{
+      axios.get('http://localhost:5000/api/users/1').then((res)=>{
+        setUser(res.data)
+        console.log(res.data)
+      })
+   }, [])
+  
   return (
     <nav className={styles.wrapper}>
       <div className={styles.main}>
@@ -43,7 +53,7 @@ const NavBar = () => {
           <IconButton className={styles.profilePic}>
             <PermIdentityIcon />
           </IconButton>
-          <p className={styles.username}>Mr. Kong</p>
+          <p className={styles.username}>{user.firstName ?? ''} {user.lastName ?? ''}</p>
         </div>
       </div>
     </nav>
