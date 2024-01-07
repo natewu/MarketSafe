@@ -68,7 +68,6 @@ export default function ProductPage() {
         console.log(response.data);
         productData = response.data; // Store product data for later use
         axios.get(`http://127.0.0.1:5000/api/reviews/${id}`).then((data) => {
-          console.log(product);
           if (data.data.length == 0) {
             var csvReviewPath = "/data/other_reviews.csv";
             if (product.id === 1) {
