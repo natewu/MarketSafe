@@ -239,7 +239,6 @@ def get_reviews(product_id):
     # Return the list of reviews as JSON
     return jsonify(reviews_list)
 
-
 @app.route("/api/products", methods=["GET"])
 def get_products():
     products = Product.query.all()
