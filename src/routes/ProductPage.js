@@ -47,7 +47,7 @@ export default function ProductPage() {
 
     const ReviewCard = ({ review }) => {
         return (
-          <div className="max-w-md mx-auto bg-gray-50 hover:bg-gray-100 rounded-xl shadow-md overflow-hidden md:max-w-2xl m-4">
+          <div className="max-w-md mx-auto bg-gray-50 hover:bg-gray-100 rounded-xl shadow-md md:max-w-2xl m-4">
             <div className="">
               <div className="p-8">
                 <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">{review.title}</div>
@@ -76,7 +76,7 @@ export default function ProductPage() {
     
 
    return (
-    <div className=' grid grid-cols-2'>
+    <div className='grid grid-cols-2 overflow-scroll'>
        <div className="w-5/6 m-10 h-fit p-10 mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4">
            <div>
                <div className="text-xl font-medium text-black">{product.title}</div>
@@ -86,7 +86,7 @@ export default function ProductPage() {
            </div>
        </div>
        <div className="w-full h-fit m-10 p-10 mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 col-span-1">
-            <div className=' overflow-x-hidden overflow-y-scroll h-96'>
+            <div className='overflow-x-hidden overflow-y-scroll h-96'>
                 <h1 className="text-xl">Reviews</h1>
                 {reviews.map((review) => 
                     <ReviewCard key={review.id} review={review} />

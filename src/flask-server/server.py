@@ -110,7 +110,7 @@ def analyze():
 @app.route('/analyze/product/<int:product_id>', methods=['GET'])
 def analyze_product(product_id):
 	product = Product.query.get(product_id)
-	return getStats(product.to_dict())
+	return get_stats(product.to_dict())
 
 @app.route('/product/<int:product_id>', methods=['GET'])
 def get_product(product_id):
