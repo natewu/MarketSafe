@@ -40,16 +40,6 @@ class User(db.Model):
     products = db.relationship("Product", backref="user", lazy=True)
 
 
-class ProductShema(ma.Schema):
-    class Meta:
-        # Fields to expose
-        fields = ("id","title", "date_posted", "description", "reviews", "user_id", "image_url", "price")
-
-class UsersShema(ma.Schema):
-    class Meta:
-        # Fields to expose
-        fields = ("id","firstName","lastName", "description", "email", "password", "products")
-    products = ma.Nested(ProductShema, many=True)
 
 class ReviewShema(ma.Schema):
     class Meta:
@@ -58,6 +48,17 @@ class ReviewShema(ma.Schema):
             "percentProfanity", "percentThreat", "percentInsult", "percentToxicity", "percentSevereToxicity",
             "percentSexuallyExplicit", "isMisinformation", "isHarmfulContent", "misinformationExplanation",
             "harmfulContentExplanation")
+class ProductShema(ma.Schema):
+    class Meta:
+        # Fields to expose
+        fields = ("id","title", "date_posted", "description", "reviews", "user_id", "image_url", "price")
+    reviews = ma.Nested(ReviewShema, many=True)
+
+class UsersShema(ma.Schema):
+    class Meta:
+        # Fields to expose
+        fields = ("id","firstName","lastName", "description", "email", "password", "products")
+    products = ma.Nested(ProductShema, many=True)
 
 # IMPORTANT: These events are for instantiating DEFAULT values in a database. Especially helpful in a hackathon to sync SQLite
 @event.listens_for(User.__table__, 'after_create')

@@ -46,7 +46,7 @@ def create_user():
 def add_product():
 	print(request.get_json())
 	url = request.json['url']
-	#url = "http://www.amazon.com/Kindle-Wireless-Reading-Display-Generation/dp/B0015T963C";
+	#url = "https://www.amazon.ca/Fountain-Automatic-Circulating-Drinking-Dispenser/dp/B0CL9QHNV4/";
 	regex = re.search("amazon.ca/([\\w-]+/)?(dp|gp/product)/(\\w+/)?(\\w{10})", url);
 	ASIN = regex.group(4)
 
