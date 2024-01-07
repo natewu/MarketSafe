@@ -1,4 +1,5 @@
 # MarketSafe
+<img width="914" alt="image" src="https://github.com/natewu/HackED24/assets/74941296/830d03ac-05ae-4905-8cb1-d9616a53a948">
 
 ## Inspiration 💡
 In the digital era, we are constantly bombarded with information. It is hard to tell what is real and what is fake. We are inspired to create a platform that can help people to identify fake content and make better decisions.
@@ -58,6 +59,9 @@ We plan to collaborate with industry experts, regulatory bodies, and consumer ri
 We will develop an API that can be integrated into various platforms and systems, allowing businesses to seamlessly incorporate MarketSafe's technology into their existing digital infrastructure.
 
 By realizing these goals, MarketSafe aspires to become a cornerstone of digital integrity, fostering a safer, more transparent, and trustworthy online environment for businesses and consumers worldwide.
+
+<img width="913" alt="image" src="https://github.com/natewu/HackED24/assets/74941296/cfb538a1-250b-4224-9a4b-53752dafc66a">
+
 
 # Installation instructions
 
