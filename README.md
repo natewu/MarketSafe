@@ -65,6 +65,9 @@ By realizing these goals, MarketSafe aspires to become a cornerstone of digital 
 
 ![image](https://github.com/natewu/HackED24/assets/36091727/09841837-c475-47b9-90ff-475b5dc7bf0a)
 
+![image](https://github.com/natewu/HackED24/assets/36091727/3372e998-d120-47e6-96f7-8b9fea966a9e)
+
+
 
 
 # Installation instructions
