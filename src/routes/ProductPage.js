@@ -1,4 +1,4 @@
-import {AverageRatingChart, PercentagePieChart, WordCloudHarmfulChart, WordCloudMisInformationChart} from './Analytics'
+import { AverageRatingChart, PercentagePieChart, WordCloudHarmfulChart, WordCloudMisInformationChart } from './Analytics'
 import React, { useEffect, useState } from 'react';
 
 import { Button } from "@mui/material";
@@ -13,7 +13,7 @@ export default function ProductPage() {
     const [reviews, setReviews] = useState(null);
     const [analytics, setAnalytics] = useState(null);
     const [currentReview, setCurrentReview] = useState(null);
-    
+
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -25,35 +25,35 @@ export default function ProductPage() {
     const closeModal = () => {
         setModalIsOpen(false);
     };
-              
+
     const { id } = useParams();
-   console.log(id);
+    console.log(id);
 
-   useEffect(() => {
-    let productData = null;
-    let reviewsData = ' ';
+    useEffect(() => {
+        let productData = null;
+        let reviewsData = ' ';
 
-    axios.get(`http://127.0.0.1:5000/product/${id}`)
-        .then(response => {
-            setProduct(response.data);
-            productData = response.data; // Store product data for later use
-            return axios.get(`http://127.0.0.1:5000/api/reviews/${id}`); // Chain reviews request
-        })
-        .then(response => {
-            setReviews(response.data);
-            reviewsData = response.data; // Store reviews data
-            // Now make the POST request to analyze, since both product and reviews data are available
-            return axios.post(`http://127.0.0.1:5000/analyze`, {
-                product: productData,
-                reviews: reviewsData
+        axios.get(`http://127.0.0.1:5000/product/${id}`)
+            .then(response => {
+                setProduct(response.data);
+                productData = response.data; // Store product data for later use
+                return axios.get(`http://127.0.0.1:5000/api/reviews/${id}`); // Chain reviews request
+            })
+            .then(response => {
+                setReviews(response.data);
+                reviewsData = response.data; // Store reviews data
+                // Now make the POST request to analyze, since both product and reviews data are available
+                return axios.post(`http://127.0.0.1:5000/analyze`, {
+                    product: productData,
+                    reviews: reviewsData
+                });
+            })
+            .then(response => {
+                setAnalytics(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching data: ', error);
             });
-        })
-        .then(response => {
-            setAnalytics(response.data);
-        })
-        .catch(error => {
-            console.error('Error fetching data: ', error);
-        });
     }, [id]);
 
     console.log(analytics)
@@ -65,9 +65,9 @@ export default function ProductPage() {
         }
 
         var csvReviewPath = '/data/other_reviews.csv';
-        if(product.id === 1) {
-            csvReviewPath = '/data/phone_reviews.csv'; 
-        } else if(product.id === 2) {
+        if (product.id === 1) {
+            csvReviewPath = '/data/phone_reviews.csv';
+        } else if (product.id === 2) {
             csvReviewPath = '/data/watch_reviews.csv';
         }
         Papa.parse(csvReviewPath, {
@@ -92,41 +92,41 @@ export default function ProductPage() {
     };
 
 
-   if (!product || !reviews || !analytics) {
+    if (!product || !reviews || !analytics) {
         return <div className="flex justify-center items-center h-screen">Loading...</div>;
     }
 
 
-    const ReviewIndividualProperty = ({title, value}) => {
-       return ( 
-        <div>
-            {value != null &&
-            <div className="flex items-center text-left">
-                <span className="text-gray-900 font-bold">{title}: <span className="ml-2 text-gray-700 font-thin">{value}</span></span>
-            </div>}
-        </div>
+    const ReviewIndividualProperty = ({ title, value }) => {
+        return (
+            <div>
+                {value != null &&
+                    <div className="flex items-center text-left">
+                        <span className="text-gray-900 font-bold">{title}: <span className="ml-2 text-gray-700 font-thin">{value}</span></span>
+                    </div>}
+            </div>
         );
     }
 
 
     const ReviewCard = ({ review }) => {
-        var bgColor = review.isMisinformation || review.isHarmfulContent ? "bg-red-50 hover:bg-red-100"  : "bg-gray-50 hover:bg-gray-100" 
-        var fontColor = review.isMisinformation || review.isHarmfulContent ? "text-red-500"  : "text-indigo-500" 
+        var bgColor = review.isMisinformation || review.isHarmfulContent ? "bg-red-50 hover:bg-red-100" : "bg-gray-50 hover:bg-gray-100"
+        var fontColor = review.isMisinformation || review.isHarmfulContent ? "text-red-500" : "text-indigo-500"
         return (
             <div onClick={() => openModal(review)} className={`max-w-md mx-auto rounded-xl shadow-md md:max-w-2xl m-4 ${bgColor}`}>
-            <div className="">
-              <div className="p-8">
-                <div className={`uppercase tracking-wide text-lg font-semibold ${fontColor}`}>{review.title}</div>
-                <a className="block mt-1 text-lg leading-tight font-medium text-black">{review.reviewer}</a>
-                <p className="text-gray-500 text-left">{review.content}</p>
-              </div>
+                <div className="">
+                    <div className="p-8">
+                        <div className={`uppercase tracking-wide text-lg font-semibold ${fontColor}`}>{review.title}</div>
+                        <a className="block mt-1 text-lg leading-tight font-medium text-black">{review.reviewer}</a>
+                        <p className="text-gray-500 text-left">{review.content}</p>
+                    </div>
+                </div>
             </div>
-          </div>
         );
-       };
-       
+    };
 
-       const ChartComponent = ({ analytics }) => {
+
+    const ChartComponent = ({ analytics }) => {
         const categories = ["isMisinformation", "isHarmfulContent", "percentProfanity", "percentThreat", "percentInsult", "percentToxicity", "percentSevereToxicity", "percentSexuallyExplicit"];
         const titles = {
             "isMisinformation": "Misinformation",
@@ -138,86 +138,95 @@ export default function ProductPage() {
             "percentSevereToxicity": "Severe Toxicity",
             "percentSexuallyExplicit": "Sexually Explicit"
         };
-     
+
         const [selectedCategory, setSelectedCategory] = useState(categories[0]);
-     
+
         return (
             <div>
                 <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
                     {categories.map((category) => (
-                       <option key={category} value={category}>{titles[category]}</option>
+                        <option key={category} value={category}>{titles[category]}</option>
                     ))}
                 </select>
-     
+
                 <PercentagePieChart analytics={analytics} category={selectedCategory} title={titles[selectedCategory]} />
             </div>
         );
-     };
+    };
 
-   return (
-    <div className={`${styles.wrapper}`}>
-        <Modal
-            isOpen={modalIsOpen}
-            onRequestClose={closeModal}
-            contentLabel="Example Modal"
-            className={`${styles.modal} ${styles.shadow}`}
+    return (
+        <div className={`${styles.wrapper}`}>
+            <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                contentLabel="Example Modal"
+                className={`${styles.modal} ${styles.shadow}`}
             >
                 <div className={styles.action}>
                     <h2 className={styles.header}>Review Analytics</h2>
                     <Button variant="outlined" onClick={closeModal}>Close</Button>
                 </div>
-            
-            <div className={`${styles.content} ${styles.modal__content}`}>
-            {currentReview && 
-            <div>
-                <ReviewIndividualProperty title="Reviewer" value={currentReview.reviewer} />
-                <ReviewIndividualProperty title="Rating" value={currentReview.rating} />
-                <ReviewIndividualProperty title="Percent Profanity" value={currentReview.percentProfanity} />
-                <ReviewIndividualProperty title="Percent Threat" value={currentReview.percentThreat} />
-                <ReviewIndividualProperty title="Percent Insult" value={currentReview.percentInsult} />
-                <ReviewIndividualProperty title="Percent Toxicity" value={currentReview.percentToxicity} />
-                <ReviewIndividualProperty title="Percent Severe Toxicity" value={currentReview.percentSevereToxicity} />
-                <ReviewIndividualProperty title="Percent Sexually Explicit" value={currentReview.percentSexuallyExplicit} />
-                <ReviewIndividualProperty title="Is Misinformation" value={currentReview.isMisinformation ? 'Yes' : 'No'} />
-                <ReviewIndividualProperty title="Is Harmful Content" value={currentReview.isHarmfulContent ? 'Yes' : 'No'} />
-                <ReviewIndividualProperty title="Misinformation Explanation" value={currentReview.misinformationExplanation} />
-                <ReviewIndividualProperty title="Harmful Content Explanation" value={currentReview.harmfulContentExplanation} />
-            </div>
-            }
-            </div>
-        </Modal>
+
+                <div className={`${styles.content} ${styles.modal__content}`}>
+                    {currentReview &&
+                        <div>
+                            <ReviewIndividualProperty title="Reviewer" value={currentReview.reviewer} />
+                            <ReviewIndividualProperty title="Rating" value={currentReview.rating} />
+                            <ReviewIndividualProperty title="Percent Profanity" value={currentReview.percentProfanity} />
+                            <ReviewIndividualProperty title="Percent Threat" value={currentReview.percentThreat} />
+                            <ReviewIndividualProperty title="Percent Insult" value={currentReview.percentInsult} />
+                            <ReviewIndividualProperty title="Percent Toxicity" value={currentReview.percentToxicity} />
+                            <ReviewIndividualProperty title="Percent Severe Toxicity" value={currentReview.percentSevereToxicity} />
+                            <ReviewIndividualProperty title="Percent Sexually Explicit" value={currentReview.percentSexuallyExplicit} />
+                            <ReviewIndividualProperty title="Is Misinformation" value={currentReview.isMisinformation ? 'Yes' : 'No'} />
+                            <ReviewIndividualProperty title="Is Harmful Content" value={currentReview.isHarmfulContent ? 'Yes' : 'No'} />
+                            <ReviewIndividualProperty title="Misinformation Explanation" value={currentReview.misinformationExplanation} />
+                            <ReviewIndividualProperty title="Harmful Content Explanation" value={currentReview.harmfulContentExplanation} />
+                        </div>
+                    }
+                </div>
+            </Modal>
 
 
 
 
-       <div className={`${styles.content} ${styles.shadow}`} style={{flex: 0.45}}>
-           <div>
-               <div className={`${styles.title} text-xl font-medium text-black`}>{product.title}</div>
-               <img src={product.image_url} alt={product.title} className="h-48 w-full flex mx-auto p-10 object-cover mt-2" />
-               <p className={`${styles.description} text-gray-900 text-ms`}>{product.description}</p>
-               <p className="mt-2 text-xs text-gray-600">Posted on {new Date(product.date_posted).toLocaleDateString()}</p>
-               <button onClick={handleDetection} className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <div className={`${styles.content} ${styles.shadow}`} style={{ flex: 0.45,  }}>
+                <div style={{display:"flex", flexFlow:"column", justifyContent:"space-between", height:'100%'}}>
+                    <div className={`${styles.title} text-xl font-medium text-black`}>{product.title}</div>
+                    <div style={{
+                        width: '100%',
+                        height: 'auto',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        padding: '1rem',
+                        marginBottom: '1rem'
+                    }}>
+                        <img src={product.image_url} alt={product.title} className={styles.image} />
+                    </div>
+                    <p className={`${styles.description} text-gray-900 text-ms`}>{product.description}</p>
+                    <p className="mt-2 text-xs text-gray-600">Posted on {new Date(product.date_posted).toLocaleDateString()}</p>
+                    <button onClick={handleDetection} className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Analyze Reviews
-                </button>
-           </div>
-       </div>
-       <div className={`${styles.shadow} ${styles.content}`} style={{flex:0.55}}>
-            <div className='overflow-x-hidden overflow-y-scroll h-screen'>
-                <h1 className="text-xl">Reviews</h1>
-                {reviews.map((review) => 
-                    <ReviewCard key={review.id} review={review} />
-                )}
+                    </button>
+                </div>
             </div>
-        </div>
-        
-        <div className={`${styles.content} ${styles.shadow}`} style={{flex:0.45}}>
-            <ChartComponent analytics={analytics}></ChartComponent>
-        </div>
-        <div className={`${styles.content} ${styles.shadow}`} style={{flex:0.35}}>
-            <AverageRatingChart analytics={analytics}></AverageRatingChart>
+            <div className={`${styles.shadow} ${styles.content}`} style={{ flex: 0.55 }}>
+                <div className='overflow-x-hidden overflow-y-auto h-screen'>
+                    <h1 className="text-xl">Reviews</h1>
+                    {reviews.map((review) =>
+                        <ReviewCard key={review.id} review={review} />
+                    )}
+                </div>
+            </div>
 
-        </div>
-        {/* <div className={styles.analytics}>
+            <div className={`${styles.content} ${styles.shadow}`} style={{ flex: 0.45 }}>
+                <ChartComponent analytics={analytics}></ChartComponent>
+            </div>
+            <div className={`${styles.content} ${styles.shadow}`} style={{ flex: 0.35 }}>
+                <AverageRatingChart analytics={analytics}></AverageRatingChart>
+
+            </div>
+            {/* <div className={styles.analytics}>
 
             <div className="w-full h-fit p-5 mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 col-span-1">
                 <WordCloudHarmfulChart analytics={analytics}></WordCloudHarmfulChart>
@@ -228,7 +237,7 @@ export default function ProductPage() {
             </div>
         </div> */}
 
-        
-    </div>
-   );
+
+        </div>
+    );
 }
