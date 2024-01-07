@@ -211,6 +211,7 @@ def post_reviews():
                 percentToxicity=round(percentToxicity * 100, 2),
                 percentSevereToxicity=round(percentSevereToxicity * 100, 2),
                 percentSexuallyExplicit=round(percentSexuallyExplicit * 100, 2),
+                detectedFlag = misinformation_data["verdict"] == 'yes' or harmful_content_data["verdict"] == 'yes'
             )
 
             print(f"Product ID is: {entry.get('ProductId', 1)}")
@@ -243,7 +244,16 @@ def get_reviews(product_id):
 @app.route("/api/reviews", methods=["GET"])
 def get_all_reviews():
     reviews = Review.query.all()
-    return jsonify(reviews_schema.dump(reviews))
+    review_list = [
+        {
+            "id": review.id,
+            "title": review.title,
+            "detectedFlag": review.detectedFlag
+        }
+        for review in reviews
+    ]
+    
+    return jsonify(review_list)
 
 
 @app.route("/api/products", methods=["GET"])

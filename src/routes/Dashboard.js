@@ -13,8 +13,15 @@ export function Dashboard() {
   const [user, setUser] = useState("");
   const [amountOfProducts, setAmountOfProducts] = useState(0);
   const [amountOfReview, setAmountOfReview] = useState(0);
+  const [amountOfDetections, setAmountOfDetections] = useState(0);
+
+  function filterDetection(detections) {
+    return detections.filter((detection) => detection.detectedFlag === true);
+  }
 
   useEffect(() => {
+   
+
     axios.get("http://127.0.0.1:5000/api/users/1").then((res) => {
       setUser(res.data);
       console.log(res.data);
@@ -28,10 +35,11 @@ export function Dashboard() {
     axios.get("http://localhost:5000/api/reviews").then((res) => {
       setAmountOfReview(res.data.length);
       console.log(res.data);
+      setAmountOfDetections(filterDetection(res.data).length);
+      console.log(filterDetection(res.data).length);
     });
-
   }, []);
-  //   const user = "Mr. Kong";
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.header}>
@@ -40,7 +48,7 @@ export function Dashboard() {
       <div className={styles.glance}>
         <GlanceItem title="Total Reviews" value={amountOfReview} icon={<Comment />} />
         <GlanceItem title="Total Products" value={amountOfProducts} icon={<Ticket />} />
-        <GlanceItem title="Total Detections" value="20" icon={<People />} />
+        <GlanceItem title="Total Detections" value={amountOfDetections} icon={<People />} />
       </div>
       <div className={styles.container}>
         <ComponentWrapper

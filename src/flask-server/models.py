@@ -20,6 +20,7 @@ class Review(db.Model):
     isHarmfulContent = db.Column(db.Boolean())
     misinformationExplanation = db.Column(db.String(200))
     harmfulContentExplanation = db.Column(db.String(200))
+    detectedFlag = db.Column(db.Boolean(), default=False)
     product_id = db.Column(db.Integer, db.ForeignKey("product.id"), nullable=False)
 
     def to_dict(self):
@@ -39,6 +40,7 @@ class Review(db.Model):
             "isHarmfulContent": self.isHarmfulContent,
             "misinformationExplanation": self.misinformationExplanation,
             "harmfulContentExplanation": self.harmfulContentExplanation,
+            "detectedFlag": self.detectedFlag,
             "product_id": self.product_id,
         }
 
@@ -97,6 +99,7 @@ class ReviewShema(ma.Schema):
             "isHarmfulContent",
             "misinformationExplanation",
             "harmfulContentExplanation",
+            "detectedFlag",
         )
 
 
@@ -197,6 +200,7 @@ def create_reviews(*args, **kwargs):
                 isHarmfulContent=False,
                 misinformationExplanation="",
                 harmfulContentExplanation="",
+                detectedFlag=False,
                 product_id=product_id,
             )
         )
@@ -217,6 +221,7 @@ def create_reviews(*args, **kwargs):
                 isHarmfulContent=True,
                 misinformationExplanation="Contains misinformation.",
                 harmfulContentExplanation="Includes harmful content.",
+                detectedFlag=True,
                 product_id=product_id,
             )
         )
@@ -237,6 +242,7 @@ def create_reviews(*args, **kwargs):
                 isHarmfulContent=False,
                 misinformationExplanation="",
                 harmfulContentExplanation="",
+                detectedFlag=False,
                 product_id=product_id,
             )
         )
