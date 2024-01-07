@@ -8,12 +8,14 @@ import { Collections } from "./routes/Collections";
 import { Dashboard } from "./routes/Dashboard";
 import Home from "./routes/Home";
 import NavBar from "./Nav";
+import ProductPage from "./routes/ProductPage";
 import Products from "./routes/Products";
 import React from "react";
 import axios from "axios";
 import styles from "./App.module.scss";
 
 function App() {
+  const [products, changeProducts] = useState([]);
 
   useEffect(() => {
     // disable text select
@@ -24,6 +26,10 @@ function App() {
       element.style.mozUserSelect = "none";
       element.style.msUserSelect = "none";
       element.style.userSelect = "none";
+    });
+    axios.get("http://localhost:5000/api/products").then((res) => {
+      console.log(res.data);
+      changeProducts(res.data);
     });
   }, []);
 
@@ -41,6 +47,7 @@ function App() {
               <Products/*  products={products} changeProducts={changeProducts} */ />
             }
           ></Route>
+          <Route path="/product/:id" element={<ProductPage />} />
           <Route
             path="/collections"
             element={<Collections /* changeProducts={changeProducts} */ />}

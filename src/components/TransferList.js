@@ -132,7 +132,7 @@ export default function TransferList(props) {
   return (
     <div>
       <Grid container spacing={2} justifyContent="center" alignItems="center">
-        <Grid item>{customList("Choices", left)}</Grid>
+        <Grid item>{customList("All Products", left)}</Grid>
         <Grid item>
           <Grid container direction="column" alignItems="center">
             <Button
@@ -160,7 +160,7 @@ export default function TransferList(props) {
           </Grid>
         </Grid>
 
-        <Grid item>{customList("Chosen", right)}</Grid>
+        <Grid item>{customList("New Collection", right)}</Grid>
       </Grid>
       <Grid container justifyContent="center" alignItems="center">
         <Button

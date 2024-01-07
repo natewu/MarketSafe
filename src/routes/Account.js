@@ -25,10 +25,10 @@ export default function Account(){
 
             <div className={styles.content}>
                 <div className={styles.card}>
-                    <div class="card-content" style={{textAlign: "left"}}>
+                    <div className="card-content" style={{textAlign: "left"}}>
                         <h2 className={styles.user}>{user.firstName} {user.lastName}</h2>
                         <img src="https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortFlat&accessoriesType=Prescription01&hairColor=BrownDark&facialHairType=MoustacheMagnum&facialHairColor=Auburn&clotheType=ShirtScoopNeck&clotheColor=Gray01&eyeType=WinkWacky&eyebrowType=UpDownNatural&mouthType=Tongue&skinColor=Light" alt="avatar" className={styles.avatar}/>
-                        <div class="content">
+                        <div className="content">
                             <p>Email : {user.email}</p>
                             <p>Password : {user.password}</p>
                             <p>{user.description}</p>

@@ -73,7 +73,7 @@ function GlanceItem({ title, value, icon }) {
   );
 }
 
-function ComponentWrapper(props) {
+export function ComponentWrapper(props) {
   return (
     <div className={styles.component_wrapper}>
       <h1 className={styles.title}>{props.title}</h1>
