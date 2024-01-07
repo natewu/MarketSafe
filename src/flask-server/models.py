@@ -1,3 +1,4 @@
+from flask import jsonify
 from app import db, ma
 from datetime import datetime
 from sqlalchemy import event
@@ -51,6 +52,18 @@ class Product(db.Model):
     description = db.Column(db.Text, nullable=True)
     reviews = db.relationship("Review", backref="product", lazy=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "image_url": self.image_url,
+            "price": self.price,
+            "date_posted": self.date_posted,
+            "description": self.description,
+            "user_id": self.user_id,
+            "reviews": [review.to_dict() for review in self.reviews],
+        }
 
 
 class User(db.Model):

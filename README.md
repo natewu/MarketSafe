@@ -6,7 +6,8 @@ python -m pip install flask_cors
 python -m pip install python-dotenv
 python -m pip install google-api-python-client
 python -m pip install google-cloud-bigquery
-
+python -m pip install yake
+python -m pip install nltk
 python server.py
 ```
 

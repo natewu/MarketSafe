@@ -8,7 +8,6 @@ from models import (
     Review,
     Product,
     User,
-    # Collection,
     UsersShema,
     products_schema,
     product_schema,
