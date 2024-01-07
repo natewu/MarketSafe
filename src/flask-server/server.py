@@ -148,7 +148,6 @@ def post_reviews():
 
     if data is None:
         return jsonify({"error": "No data provided"}), 400
-
     try:
         for entry in data:
             analysis_result = analyze_product_reviews(

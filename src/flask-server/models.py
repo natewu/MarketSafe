@@ -51,6 +51,7 @@ class Product(db.Model):
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now)
     description = db.Column(db.Text, nullable=True)
     reviews = db.relationship("Review", backref="product", lazy=True)
+
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
     def to_dict(self):
@@ -74,12 +75,6 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60))
     products = db.relationship("Product", backref="user", lazy=True)
-
-
-# class Collection(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(100))
-#     products = db.relationship("Product", backref="collection", lazy=True)
 
 
 class ReviewShema(ma.Schema):
@@ -138,14 +133,6 @@ class UsersShema(ma.Schema):
     products = ma.Nested(ProductShema, many=True)
 
 
-# class CollectionShema(ma.Schema):
-#     class Meta:
-#         # Fields to expose
-#         fields = ("id", "name", "products")
-
-#     products = ma.Nested(ProductShema, many=True)
-
-
 # IMPORTANT: These events are for instantiating DEFAULT values in a database. Especially helpful in a hackathon to sync SQLite
 @event.listens_for(User.__table__, "after_create")
 def create_users(*args, **kwargs):
@@ -196,6 +183,3 @@ products_schema = ProductShema(many=True)
 
 review_schema = ProductShema()
 reviews_schema = ProductShema(many=True)
-
-# collection_schema = CollectionShema()
-# collections_schema = CollectionShema(many=True)

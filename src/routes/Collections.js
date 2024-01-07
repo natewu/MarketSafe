@@ -54,7 +54,7 @@ export function Collections(props) {
     navigate("/products");
   };
   return (
-    <div className={`${styles.Products} p6`}>
+    <div className={`${styles.Products} p6`} style={{ overflow: "scroll" }}>
       <Modal
         open={show}
         onClose={handleClose}
