@@ -240,6 +240,12 @@ def get_reviews(product_id):
     return jsonify(reviews_list)
 
 
+@app.route("/api/reviews", methods=["GET"])
+def get_all_reviews():
+    reviews = Review.query.all()
+    return jsonify(reviews_schema.dump(reviews))
+
+
 @app.route("/api/products", methods=["GET"])
 def get_products():
     products = Product.query.all()
