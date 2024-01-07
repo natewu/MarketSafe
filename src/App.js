@@ -3,137 +3,17 @@ import "./global.scss";
 import { Link, Route, Routes } from "react-router-dom";
 import { useEffect, useState } from "react";
 
+import Account from "./routes/Account";
 import { Collections } from "./routes/Collections";
 import { Dashboard } from "./routes/Dashboard";
 import Home from "./routes/Home";
 import NavBar from "./Nav";
 import Products from "./routes/Products";
 import React from "react";
+import axios from "axios";
 import styles from "./App.module.scss";
 
 function App() {
-  const [products, changeProducts] = useState([
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-    {
-      id: 1,
-      img: "https://via.placeholder.com/300",
-      title: "Product 1",
-      desc: "This is product 1",
-    },
-  ]);
 
   useEffect(() => {
     // disable text select
@@ -147,6 +27,7 @@ function App() {
     });
   }, []);
 
+ 
   return (
     <div className={`${styles.App}`}>
       <NavBar />
@@ -157,13 +38,14 @@ function App() {
           <Route
             path="/products"
             element={
-              <Products products={products} changeProducts={changeProducts} />
+              <Products/*  products={products} changeProducts={changeProducts} */ />
             }
           ></Route>
           <Route
             path="/collections"
-            element={<Collections changeProducts={changeProducts} />}
+            element={<Collections /* changeProducts={changeProducts} */ />}
           ></Route>
+          <Route path="/account" element={<Account />}></Route>
         </Routes>
       </div>
     </div>
