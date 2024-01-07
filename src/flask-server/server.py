@@ -103,24 +103,18 @@ def analyze():
 
 @app.route('/product/<int:product_id>', methods=['GET'])
 def get_product(product_id):
-   product = Product.query.get(product_id)
-   if product is None:
-	   return jsonify({"error": "Product not found"}), 404
-   else:
-	   return jsonify({
-		   "id": product.id,
-		   "title": product.title,
-		   "image_url": product.image_url,
-		   "date_posted": product.date_posted.isoformat(),
-		   "description": product.description,
-		   "user_id": product.user_id
-	   })
-
-	try:
-		analysis_result = analyze_product_reviews(product, reviews)
-		return jsonify(analysis_result)
-	except Exception as e:
-		return jsonify({"error": str(e)}), 500
+	product = Product.query.get(product_id)
+	if product is None:
+		return jsonify({"error": "Product not found"}), 404
+	else:
+		return jsonify({
+			"id": product.id,
+			"title": product.title,
+			"image_url": product.image_url,
+			"date_posted": product.date_posted.isoformat(),
+			"description": product.description,
+			"user_id": product.user_id
+		})
 	
 @app.route('/api/reviews/upload', methods=['POST'])
 def upload_reviews():
