@@ -32,8 +32,9 @@ Our application is technically complex, polished, original, useful, and built wi
 
 ## What's next?  🚀
 
+# Installation instructions
 
-# Backend (src/flask-server)
+## Backend (src/flask-server)
 ```
 python -m pip install flask_migrate
 python -m pip install flask_marshmallow
@@ -46,7 +47,7 @@ python -m pip install nltk
 python server.py
 ```
 
-# Frontend (root folder)
+## Frontend (root folder)
 ```
 npm i
 npm start
