@@ -11,12 +11,19 @@ import styles from "./Dashboard.module.scss";
 
 export function Dashboard() {
   const [user, setUser] = useState("");
+  const [amountOfProducts, setAmountOfProducts] = useState(0);
 
   useEffect(() => {
     axios.get("http://127.0.0.1:5000/api/users/1").then((res) => {
       setUser(res.data);
       console.log(res.data);
     });
+
+    axios.get("http://localhost:5000/api/products").then((res) => {
+      setAmountOfProducts(res.data.length);
+      console.log(res.data);
+    });
+
   }, []);
   //   const user = "Mr. Kong";
   return (
@@ -26,7 +33,7 @@ export function Dashboard() {
       </div>
       <div className={styles.glance}>
         <GlanceItem title="Total Reviews" value="5k" icon={<Comment />} />
-        <GlanceItem title="Total Products" value="500" icon={<Ticket />} />
+        <GlanceItem title="Total Products" value={amountOfProducts} icon={<Ticket />} />
         <GlanceItem title="Total Detections" value="20" icon={<People />} />
       </div>
       <div className={styles.container}>
