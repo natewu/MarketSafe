@@ -215,9 +215,6 @@ export default function ProductPage() {
                 </div>
             </Modal>
 
-
-
-
             <div className={`${styles.content} ${styles.shadow}`} style={{ flex: 0.45,  }}>
                 <div style={{display:"flex", flexFlow:"column", justifyContent:"space-between", height:'100%'}}>
                     <div className={`${styles.title} text-xl font-medium text-black`}>{product.title}</div>
@@ -233,7 +230,7 @@ export default function ProductPage() {
                     </div>
                     <p className={`${styles.description} text-gray-900 text-ms`}>{product.description}</p>
                     <p className="mt-2 text-xs text-gray-600">Posted on {new Date(product.date_posted).toLocaleDateString()}</p>
-                    <Button disabled={loadingReviews} onClick={handleDetection} className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    <Button disabled={loadingReviews} onClick={handleDetection} variant="contained">
                         Analyze Reviews
                     </Button>
                 </div>

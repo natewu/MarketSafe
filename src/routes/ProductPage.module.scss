@@ -7,6 +7,7 @@
     // -webkit-box-orient: vertical;
     text-align: left;
     padding: 0 1rem;
+    margin: 1rem 0;
 }
 
 .wrapper{
@@ -57,6 +58,7 @@
     display: -webkit-box;
     -webkit-line-clamp: 2; /* number of lines to show */
     -webkit-box-orient: vertical;
+    margin-bottom: 1rem;
 }
 .modal{
     display: flex;
