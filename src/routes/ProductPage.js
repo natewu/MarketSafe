@@ -10,7 +10,7 @@ export default function ProductPage() {
     const [reviews, setReviews] = useState(null);
     const [analytics, setAnalytics] = useState(null);
     const [currentReview, setCurrentReview] = useState(null);
-
+    
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -22,7 +22,7 @@ export default function ProductPage() {
     const closeModal = () => {
         setModalIsOpen(false);
     };
-
+              
     const { id } = useParams();
    console.log(id);
    useEffect(() => {
@@ -34,7 +34,7 @@ export default function ProductPage() {
         .catch(error => {
             console.error('Error fetching product data: ', error);
         });
-
+    
         axios.get(`http://127.0.0.1:5000/api/reviews/${id}`)
         .then(response => {
             setReviews(response.data);
@@ -50,7 +50,7 @@ export default function ProductPage() {
         .catch(error => {
             console.error('Error fetching analyze product data: ', error);
         });
-
+        
     }, []);
 
     const handleDetection = () => {
@@ -59,15 +59,16 @@ export default function ProductPage() {
             return;
         }
 
-    axios
-      .get(`http://127.0.0.1:5000/api/reviews/${id}`)
-      .then((response) => {
-        setReviews(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching product data: ", error);
-      });
-  }, []);
+        const csvReviewPath = '/data/phone_reviews.csv'; 
+        Papa.parse(csvReviewPath, {
+            download: true,
+            header: true,
+            complete: function (results) {
+                const updatedResults = results.data.map(review => ({
+                    ...review,
+                    Product: product.title,
+                    ProductId: product.id
+                }));
 
                 axios.post('http://127.0.0.1:5000/api/reviews/upload', updatedResults)
                     .then(response => {
@@ -85,19 +86,9 @@ export default function ProductPage() {
         return <div className="flex justify-center items-center h-screen">Loading...</div>;
     }
 
-    const csvReviewPath = "/data/phone_reviews.csv";
-    Papa.parse(csvReviewPath, {
-      download: true,
-      header: true,
-      complete: function (results) {
-        const updatedResults = results.data.map((review) => ({
-          ...review,
-          Product: product.title,
-          ProductId: product.id,
-        }));
 
     const ReviewIndividualProperty = ({title, value}) => {
-       return (
+       return ( 
         <div>
             {value != null &&
             <div className="flex items-center text-left">
@@ -109,8 +100,8 @@ export default function ProductPage() {
 
 
     const ReviewCard = ({ review }) => {
-        var bgColor = review.isMisinformation || review.isHarmfulContent ? "bg-red-50 hover:bg-red-100"  : "bg-gray-50 hover:bg-gray-100"
-        var fontColor = review.isMisinformation || review.isHarmfulContent ? "text-red-500"  : "text-indigo-500"
+        var bgColor = review.isMisinformation || review.isHarmfulContent ? "bg-red-50 hover:bg-red-100"  : "bg-gray-50 hover:bg-gray-100" 
+        var fontColor = review.isMisinformation || review.isHarmfulContent ? "text-red-500"  : "text-indigo-500" 
         return (
             <div onClick={() => openModal(review)} className={`max-w-md mx-auto rounded-xl shadow-md md:max-w-2xl m-4 ${bgColor}`}>
             <div className="">
@@ -123,7 +114,7 @@ export default function ProductPage() {
           </div>
         );
        };
-
+       
 
        const ChartComponent = ({ analytics }) => {
         const categories = ["isMisinformation", "isHarmfulContent", "percentProfanity", "percentThreat", "percentInsult", "percentToxicity", "percentSevereToxicity", "percentSexuallyExplicit"];
@@ -137,9 +128,9 @@ export default function ProductPage() {
             "percentSevereToxicity": "Severe Toxicity",
             "percentSexuallyExplicit": "Sexually Explicit"
         };
-
+     
         const [selectedCategory, setSelectedCategory] = useState(categories[0]);
-
+     
         return (
             <div>
                 <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
@@ -147,7 +138,7 @@ export default function ProductPage() {
                        <option key={category} value={category}>{titles[category]}</option>
                     ))}
                 </select>
-
+     
                 <PercentagePieChart analytics={analytics} category={selectedCategory} title={titles[selectedCategory]} />
             </div>
         );
@@ -163,7 +154,7 @@ export default function ProductPage() {
             <h2>Your Review</h2>
             <button onClick={closeModal}>Close</button>
             <div className="mt-4">
-            {currentReview &&
+            {currentReview && 
             <div>
                 <ReviewIndividualProperty title="Reviewer" value={currentReview.reviewer} />
                 <ReviewIndividualProperty title="Rating" value={currentReview.rating} />
@@ -199,7 +190,7 @@ export default function ProductPage() {
        <div className="w-full h-fit p-5 mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 col-span-1">
             <div className='overflow-x-hidden overflow-y-scroll h-screen'>
                 <h1 className="text-xl">Reviews</h1>
-                {reviews.map((review) =>
+                {reviews.map((review) => 
                     <ReviewCard key={review.id} review={review} />
                 )}
             </div>
@@ -219,7 +210,7 @@ export default function ProductPage() {
             <WordCloudMisInformationChart analytics={analytics}></WordCloudMisInformationChart>
         </div>
 
-
+        
     </div>
    );
 }
