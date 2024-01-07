@@ -1,0 +1,55 @@
+.account{
+  display: flex;
+  flex-flow: column nowrap;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2rem;
+}
+
+.top{
+  display: flex;
+  width: 100%;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.header{
+  font-size: 1.5rem;
+  font-weight: 500;
+  // text-align: left;
+}
+
+.content{
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  // box-sizing: border-box;
+  padding: 0 1rem;
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  overflow: hidden;
+  padding: 3rem 1rem;
+}
+
+.user{
+  font-size: 1.5rem;
+  font-weight: 500;
+  text-align: left;
+}
+
+.card{
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  // width: 100%;
+  // height: 100%;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.05);
+}
