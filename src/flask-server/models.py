@@ -17,8 +17,8 @@ class Review(db.Model):
     percentSexuallyExplicit = db.Column(db.Float())
     isMisinformation = db.Column(db.Boolean())
     isHarmfulContent = db.Column(db.Boolean())
-    misinformationExplanation = db.Column(db.String(100))
-    harmfulContentExplanation = db.Column(db.String(100))
+    misinformationExplanation = db.Column(db.String(200))
+    harmfulContentExplanation = db.Column(db.String(200))
     product_id = db.Column(db.Integer, db.ForeignKey("product.id"), nullable=False)
 
     def to_dict(self):
@@ -122,6 +122,70 @@ def create_products(*args, **kwargs):
                                 This phone is compatible with Telus, Rogers, Bell, Koodo, Fido, Virgin Mobile, Chatr, Public Mobile, Lucky Mobile, and other carriers run off their networks.(SIM Card Not Included)""",
                             user_id=1, image_url="https://m.media-amazon.com/images/I/61gPAJeN9ML._AC_SX425_.jpg", price=116.99))
     db.session.commit()
+
+@event.listens_for(Review.__table__, 'after_create')
+def create_reviews(*args, **kwargs):
+ # Create some mock reviews    
+
+ # Add the reviews to the session
+    db.session.add(Review(
+        content="Great product! I love it.",
+        title="Positive Review",
+        reviewer="John Doe",
+        rating=5.0,
+        percentProfanity=0.0,
+        percentThreat=0.0,
+        percentInsult=0.0,
+        percentToxicity=0.0,
+        percentSevereToxicity=0.0,
+        percentSexuallyExplicit=0.0,
+        isMisinformation=False,
+        isHarmfulContent=False,
+        misinformationExplanation="The reviewer used strong language and insulted the product.",
+        harmfulContentExplanation="this is a test",
+        product_id=1
+    ))
+
+    db.session.add(Review(
+        content="Terrible product. Don't buy it.",
+        title="Negative Review",
+        reviewer="Jane Smith",
+        rating=1.0,
+        percentProfanity=30.0,
+        percentThreat=20.0,
+        percentInsult=70.0,
+        percentToxicity=10.0,
+        percentSevereToxicity=10.0,
+        percentSexuallyExplicit=10.0,
+        isMisinformation=False,
+        isHarmfulContent=True,
+        misinformationExplanation="",
+        harmfulContentExplanation="The reviewer used strong language and insulted the product.",
+        product_id=1
+    ))
+
+    db.session.add(Review(
+        content="This product was exactly what I expected.",
+        title="Neutral Review",
+        reviewer="Bob Johnson",
+        rating=3.0,
+        percentProfanity=0.0,
+        percentThreat=0.0,
+        percentInsult=0.0,
+        percentToxicity=0.0,
+        percentSevereToxicity=0.0,
+        percentSexuallyExplicit=0.0,
+        isMisinformation=False,
+        isHarmfulContent=False,
+        misinformationExplanation="The reviewer used strong language and insulted the product.",
+        harmfulContentExplanation="this is a test",
+        product_id=1
+    ),)
+    
+    # Commit the changes
+    db.session.commit()
+
+
 
 user_schema = UsersShema()
 users_schema = UsersShema(many=True)
