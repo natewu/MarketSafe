@@ -169,9 +169,22 @@ export default function Products(props) {
     });
   }, []);
 
+  // const handleSubmit = () => {
+  //   axios
+  //     .post("http://localhost:5000/api/products", {
+  //       url: url,
+  //     })
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       setProducts([...products, res.data]);
+  //       setIsOpen(false);
+  //       setUrl("");
+  //     });
+  // };
+
   const handleSubmit = () => {
     axios
-      .post("http://localhost:5000/api/products", {
+      .post("http://localhost:5000/api/products/add", {
         url: url,
       })
       .then((res) => {
@@ -311,7 +324,6 @@ export function Product({ product }) {
       <div className={styles.product__info}>
         <p className={styles.product__title}>{product.title}</p>
         <p className={styles.product__desc}>{product.description}</p>
-        {/* <p classname={styles.product__reviews}>{}</p> */}
       </div>
     </div>
   );
