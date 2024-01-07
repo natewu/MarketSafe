@@ -81,7 +81,7 @@ export default function SignIn() {
             <Typography component="h1" variant="h5">
                 Sign in
             </Typography>
-            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1, color:'#003CFF' }}>
+            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                 <TextField
                 margin="normal"
                 required
@@ -110,7 +110,7 @@ export default function SignIn() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 3, mb: 2, backgroundColor: "#003CFF", color: "#003CFF" }}
                 onClick = {() => {
                     window.location.href = "/dashboard"
                 }}
