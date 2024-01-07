@@ -67,9 +67,9 @@ export default function ProductPage() {
         axios.get(`http://127.0.0.1:5000/api/reviews/${id}`).then((data) => {
           if (data.data.length == 0) {
             var csvReviewPath = "/data/other_reviews.csv";
-            if (product.id === 1) {
+            if (productData.id === 1) {
               csvReviewPath = "/data/phone_reviews.csv";
-            } else if (product.id === 2) {
+            } else if (productData.id === 2) {
               csvReviewPath = "/data/watch_reviews.csv";
             }
             Papa.parse(csvReviewPath, {
@@ -78,8 +78,8 @@ export default function ProductPage() {
               complete: function (results) {
                 const updatedResults = results.data.map((review) => ({
                   ...review,
-                  Product: product.title,
-                  ProductId: product.id,
+                  Product: productData.title,
+                  ProductId: productData.id,
                 }));
 
                 axios

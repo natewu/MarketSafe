@@ -230,6 +230,7 @@ def post_reviews():
 		print(data)
 		for entry in data:	
 			prescreening_result = analyze_review(entry.get("Description", ""))
+			print(entry, prescreening_result)
 			# Extracting prescreening scores
 			percentProfanity = prescreening_result["attributeScores"]["PROFANITY"][
 				"summaryScore"
