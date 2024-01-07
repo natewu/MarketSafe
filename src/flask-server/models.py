@@ -1,6 +1,7 @@
-from app import db,ma
+from app import db, ma
 from datetime import datetime
 from sqlalchemy import event
+
 
 class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -19,26 +20,28 @@ class Review(db.Model):
     misinformationExplanation = db.Column(db.String(100))
     harmfulContentExplanation = db.Column(db.String(100))
     product_id = db.Column(db.Integer, db.ForeignKey("product.id"), nullable=False)
-    
+
     def to_dict(self):
         return {
-            'id': self.id,
-            'content': self.content,
-            'title': self.title,
-            'reviewer': self.reviewer,
-            'rating': self.rating,
-            'percentProfanity': self.percentProfanity,
-            'percentThreat': self.percentThreat,
-            'percentInsult': self.percentInsult,
-            'percentToxicity': self.percentToxicity,
-            'percentSevereToxicity': self.percentSevereToxicity,
-            'percentSexuallyExplicit': self.percentSexuallyExplicit,
-            'isMisinformation': self.isMisinformation,
-            'isHarmfulContent': self.isHarmfulContent,
-            'misinformationExplanation': self.misinformationExplanation,
-            'harmfulContentExplanation': self.harmfulContentExplanation,
-            'product_id': self.product_id
+            "id": self.id,
+            "content": self.content,
+            "title": self.title,
+            "reviewer": self.reviewer,
+            "rating": self.rating,
+            "percentProfanity": self.percentProfanity,
+            "percentThreat": self.percentThreat,
+            "percentInsult": self.percentInsult,
+            "percentToxicity": self.percentToxicity,
+            "percentSevereToxicity": self.percentSevereToxicity,
+            "percentSexuallyExplicit": self.percentSexuallyExplicit,
+            "isMisinformation": self.isMisinformation,
+            "isHarmfulContent": self.isHarmfulContent,
+            "misinformationExplanation": self.misinformationExplanation,
+            "harmfulContentExplanation": self.harmfulContentExplanation,
+            "product_id": self.product_id,
         }
+
+
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100))
@@ -46,8 +49,9 @@ class Product(db.Model):
     price = db.Column(db.Float)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now)
     description = db.Column(db.Text, nullable=True)
-    reviews = db.relationship('Review', backref="product", lazy=True)
+    reviews = db.relationship("Review", backref="product", lazy=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -55,42 +59,96 @@ class User(db.Model):
     lastName = db.Column(db.String(20), nullable=False)
     description = db.Column(db.Text)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(60))    
+    password = db.Column(db.String(60))
     products = db.relationship("Product", backref="user", lazy=True)
 
+
+# class Collection(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(100))
+#     products = db.relationship("Product", backref="collection", lazy=True)
 
 
 class ReviewShema(ma.Schema):
     class Meta:
         # Fields to expose
-        fields = ("id","content", "title", "reviewer", "reviews", "rating",
-            "percentProfanity", "percentThreat", "percentInsult", "percentToxicity", "percentSevereToxicity",
-            "percentSexuallyExplicit", "isMisinformation", "isHarmfulContent", "misinformationExplanation",
-            "harmfulContentExplanation")
+        fields = (
+            "id",
+            "content",
+            "title",
+            "reviewer",
+            "reviews",
+            "rating",
+            "percentProfanity",
+            "percentThreat",
+            "percentInsult",
+            "percentToxicity",
+            "percentSevereToxicity",
+            "percentSexuallyExplicit",
+            "isMisinformation",
+            "isHarmfulContent",
+            "misinformationExplanation",
+            "harmfulContentExplanation",
+        )
+
+
 class ProductShema(ma.Schema):
     class Meta:
         # Fields to expose
-        fields = ("id","title", "date_posted", "description", "reviews", "user_id", "image_url", "price")
+        fields = (
+            "id",
+            "title",
+            "date_posted",
+            "description",
+            "reviews",
+            "user_id",
+            "image_url",
+            "price",
+        )
+
     reviews = ma.Nested(ReviewShema, many=True)
+
 
 class UsersShema(ma.Schema):
     class Meta:
         # Fields to expose
-        fields = ("id","firstName","lastName", "description", "email", "password", "products")
+        fields = (
+            "id",
+            "firstName",
+            "lastName",
+            "description",
+            "email",
+            "password",
+            "products",
+        )
+
     products = ma.Nested(ProductShema, many=True)
 
+
+# class CollectionShema(ma.Schema):
+#     class Meta:
+#         # Fields to expose
+#         fields = ("id", "name", "products")
+
+#     products = ma.Nested(ProductShema, many=True)
+
+
 # IMPORTANT: These events are for instantiating DEFAULT values in a database. Especially helpful in a hackathon to sync SQLite
-@event.listens_for(User.__table__, 'after_create')
+@event.listens_for(User.__table__, "after_create")
 def create_users(*args, **kwargs):
-    
-    db.session.add(User(id=1, firstName = "Allan", lastName = "Kong", email= "allan", password="allan"))
+    db.session.add(
+        User(id=1, firstName="Allan", lastName="Kong", email="allan", password="allan")
+    )
     db.session.commit()
 
-@event.listens_for(Product.__table__, 'after_create')
+
+@event.listens_for(Product.__table__, "after_create")
 def create_products(*args, **kwargs):
-    
-    db.session.add(Product(id=1, title = "Easyfone Prime-A1 Pro 4G Unlocked Flip Mobile Phone for Seniors",
-                           description = """
+    db.session.add(
+        Product(
+            id=1,
+            title="Easyfone Prime-A1 Pro 4G Unlocked Flip Mobile Phone for Seniors",
+            description="""
                                 Brand	Easyfone
                                 Wireless carrier	Unlocked for All Carriers
                                 Operating system	Easyfone OS
@@ -109,8 +167,13 @@ def create_products(*args, **kwargs):
                                 Powerful speaker with clear and loud sound, suitable for older users; HAC Compatible, good for user with hearing aid devices.
                                 Additional SOS Button, 8 Photo Speed Dial Buttons(8 number keys can be set); 3 dedicated shortcut button (Block Button & Alarm Clock & Photo Speed Dial).
                                 This phone is compatible with Telus, Rogers, Bell, Koodo, Fido, Virgin Mobile, Chatr, Public Mobile, Lucky Mobile, and other carriers run off their networks.(SIM Card Not Included)""",
-                            user_id=1, image_url="https://m.media-amazon.com/images/I/61gPAJeN9ML._AC_SX425_.jpg", price=116.99))
+            user_id=1,
+            image_url="https://m.media-amazon.com/images/I/61gPAJeN9ML._AC_SX425_.jpg",
+            price=116.99,
+        )
+    )
     db.session.commit()
+
 
 user_schema = UsersShema()
 users_schema = UsersShema(many=True)
@@ -120,3 +183,6 @@ products_schema = ProductShema(many=True)
 
 review_schema = ProductShema()
 reviews_schema = ProductShema(many=True)
+
+# collection_schema = CollectionShema()
+# collections_schema = CollectionShema(many=True)

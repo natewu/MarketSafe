@@ -37,10 +37,11 @@ export function Collections(props) {
 
   function createCollection(products) {
     handleClose();
+    if (collectionName.current.value === "") {
+      collectionName.current.value = "Untitled Collection";
+    }
     const collection = {
-      img: "https://via.placeholder.com/300",
       title: collectionName.current.value,
-      desc: "This is collection 23",
       num: products.length,
       collection: products,
     };
@@ -139,12 +140,11 @@ export function Collections(props) {
               }}
             >
               <div className={styles.product}>
-                <div className={styles.product__img}>
-                  <img src={collection.img} alt={collection.title} />
-                </div>
                 <div className={styles.product__info}>
                   <p className={styles.product__title}>{collection.title}</p>
-                  <p className={styles.product__desc}>{collection.desc}</p>
+                  <p className={styles.product__desc}>
+                    {collection.num} item(s)
+                  </p>
                 </div>
               </div>
             </div>
