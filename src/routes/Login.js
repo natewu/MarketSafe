@@ -52,16 +52,17 @@ export default function SignIn() {
   };
 
   return (
-    <div className="flex justify-center items-center">
-    {
-        loading ? (
-        <ScaleLoader
-            color='#000000'
-            loading={loading}
-            size={30}
-            aria-label="Loading Spinner"
-            data-testid="loader"
-        />
+    <div className="flex justify-center items-center min-h-screen"> {/* Full viewport height and gray background */}
+    {loading ? (
+        <div className="flex justify-center items-center h-full w-full"> {/* Centering the loader */}
+            <ScaleLoader
+                color='#003CFF'
+                loading={loading}
+                size={30}
+                aria-label="Loading Spinner"
+                data-testid="loader"
+            />
+        </div>
         ) : (
         <ThemeProvider theme={defaultTheme}>
         <Container component="main" maxWidth="xs">
@@ -80,7 +81,7 @@ export default function SignIn() {
             <Typography component="h1" variant="h5">
                 Sign in
             </Typography>
-            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1, color:'#003CFF' }}>
                 <TextField
                 margin="normal"
                 required
