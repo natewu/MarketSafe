@@ -13,6 +13,7 @@ export default function ProductPage() {
     const [reviews, setReviews] = useState(null);
     const [analytics, setAnalytics] = useState(null);
     const [currentReview, setCurrentReview] = useState(null);
+    const [loadingReviews, setLoading] = useState(false);
 
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -28,6 +29,28 @@ export default function ProductPage() {
 
     const { id } = useParams();
     console.log(id);
+
+    useEffect(() => {
+        fetchData(); // Fetch data on component mount
+    }, [id]);
+
+    const fetchData = () => {
+        let productData = null;
+
+        axios.get(`http://127.0.0.1:5000/product/${id}`)
+            .then(response => {
+                setProduct(response.data);
+                productData = response.data;
+                return axios.get(`http://127.0.0.1:5000/api/reviews/${id}`);
+            })
+            .then(response => {
+                setReviews(response.data);
+                // Perform analysis here if needed
+            })
+            .catch(error => {
+                console.error('Error fetching data: ', error);
+            });
+    };
 
     useEffect(() => {
         let productData = null;
@@ -64,6 +87,8 @@ export default function ProductPage() {
             return;
         }
 
+        setLoading(true);
+
         var csvReviewPath = '/data/other_reviews.csv';
         if (product.id === 1) {
             csvReviewPath = '/data/phone_reviews.csv';
@@ -83,9 +108,12 @@ export default function ProductPage() {
                 axios.post('http://127.0.0.1:5000/api/reviews/upload', updatedResults)
                     .then(response => {
                         console.log('Reviews added to the database', response);
+                        fetchData();
+                        setLoading(false);
                     })
                     .catch(error => {
                         console.error('Error uploading reviews to the database', error);
+                        setLoading(false);
                     });
             }
         });
@@ -213,8 +241,12 @@ export default function ProductPage() {
             <div className={`${styles.shadow} ${styles.content}`} style={{ flex: 0.55 }}>
                 <div className='overflow-x-hidden overflow-y-auto h-screen'>
                     <h1 className="text-xl">Reviews</h1>
-                    {reviews.map((review) =>
-                        <ReviewCard key={review.id} review={review} />
+                    {loadingReviews ? (
+                        <div className="flex justify-center items-center h-full">
+                            <CircularProgress />
+                        </div>
+                    ) : (
+                        reviews.map((review) => <ReviewCard key={review.id} review={review} />)
                     )}
                 </div>
             </div>
