@@ -1,6 +1,7 @@
 import {AverageRatingChart, PercentagePieChart, WordCloudHarmfulChart, WordCloudMisInformationChart} from './Analytics'
 import React, { useEffect, useState } from 'react';
 
+import { Button } from "@mui/material";
 import Modal from 'react-modal';
 import Papa from 'papaparse';
 import axios from 'axios';
@@ -154,15 +155,19 @@ export default function ProductPage() {
      };
 
    return (
-    <div className={`grid grid-cols-2 gap-3 overflow-scroll ${styles.wrapper}`}>
+    <div className={`${styles.wrapper}`}>
         <Modal
             isOpen={modalIsOpen}
             onRequestClose={closeModal}
             contentLabel="Example Modal"
+            className={`${styles.modal} ${styles.shadow}`}
             >
-            <h2>Your Review</h2>
-            <button onClick={closeModal}>Close</button>
-            <div className="mt-4">
+                <div className={styles.action}>
+                    <h2 className={styles.header}>Review Analytics</h2>
+                    <Button variant="outlined" onClick={closeModal}>Close</Button>
+                </div>
+            
+            <div className={`${styles.content} ${styles.modal__content}`}>
             {currentReview && 
             <div>
                 <ReviewIndividualProperty title="Reviewer" value={currentReview.reviewer} />
@@ -185,7 +190,7 @@ export default function ProductPage() {
 
 
 
-       <div className={`${styles.content} ${styles.shadow} w-full h-fit p-5 mx-auto bg-white rounded-xl  flex items-center space-x-4`}>
+       <div className={`${styles.content} ${styles.shadow}`} style={{flex: 0.45}}>
            <div>
                <div className={`${styles.title} text-xl font-medium text-black`}>{product.title}</div>
                <img src={product.image_url} alt={product.title} className="h-48 w-full flex mx-auto p-10 object-cover mt-2" />
@@ -196,7 +201,7 @@ export default function ProductPage() {
                 </button>
            </div>
        </div>
-       <div className={`${styles.shadow} ${styles.content} w-full h-fit p-5 mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 col-span-1`}>
+       <div className={`${styles.shadow} ${styles.content}`} style={{flex:0.55}}>
             <div className='overflow-x-hidden overflow-y-scroll h-screen'>
                 <h1 className="text-xl">Reviews</h1>
                 {reviews.map((review) => 
@@ -205,12 +210,14 @@ export default function ProductPage() {
             </div>
         </div>
         
-        <div className={styles.analytics}>
+        <div className={`${styles.content} ${styles.shadow}`} style={{flex:0.45}}>
             <ChartComponent analytics={analytics}></ChartComponent>
+        </div>
+        <div className={`${styles.content} ${styles.shadow}`} style={{flex:0.35}}>
+            <AverageRatingChart analytics={analytics}></AverageRatingChart>
 
-            <div className="w-full h-fit p-5 mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 col-span-1">
-                <AverageRatingChart analytics={analytics}></AverageRatingChart>
-            </div>
+        </div>
+        {/* <div className={styles.analytics}>
 
             <div className="w-full h-fit p-5 mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 col-span-1">
                 <WordCloudHarmfulChart analytics={analytics}></WordCloudHarmfulChart>
@@ -219,8 +226,7 @@ export default function ProductPage() {
             <div className="w-full h-fit p-5 mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 col-span-1">
                 <WordCloudMisInformationChart analytics={analytics}></WordCloudMisInformationChart>
             </div>
-        </div>
-        
+        </div> */}
 
         
     </div>
