@@ -25,9 +25,10 @@ export default function ProductPage() {
               
     const { id } = useParams();
    console.log(id);
+
    useEffect(() => {
     let productData = null;
-    let reviewsData = null;
+    let reviewsData = ' ';
 
     axios.get(`http://127.0.0.1:5000/product/${id}`)
         .then(response => {
@@ -52,13 +53,20 @@ export default function ProductPage() {
         });
     }, [id]);
 
+    console.log(analytics)
+
     const handleDetection = () => {
         if (!product) {
             console.error('Product data is not loaded yet');
             return;
         }
 
-        const csvReviewPath = '/data/phone_reviews.csv'; 
+        var csvReviewPath = '/data/other_reviews.csv';
+        if(product.id === 1) {
+            csvReviewPath = '/data/phone_reviews.csv'; 
+        } else if(product.id === 2) {
+            csvReviewPath = '/data/watch_reviews.csv';
+        }
         Papa.parse(csvReviewPath, {
             download: true,
             header: true,
