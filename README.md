@@ -1,6 +1,11 @@
 # MarketSafe
 
 ## Inspiration 💡
+In the digital era, we are constantly bombarded with information. It is hard to tell what is real and what is fake. We are inspired to create a platform that can help people to identify fake content and make better decisions.
+
+MarketSafe is a cutting edge platform using the latest machine learning technology to help people to identify fake content. Marketplaces such as Amazon, eBay, and Alibaba are filled with fake reviews. It is hard to tell which reviews are real and which are fake. MarketSafe is a platform that can help people to identify fake reviews and make better decisions.
+
+Businesses use MarketSafe to identify fake reviews and improve their products and services. MarketSafe can help businesses to identify fake reviews and automatically flag them for review.
 
 ## What it does 🤔
 
