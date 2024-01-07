@@ -1,19 +1,20 @@
 import * as React from 'react';
+
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import ScaleLoader from "react-spinners/ScaleLoader";
-import { Scale } from '@mui/icons-material';
+import CssBaseline from '@mui/material/CssBaseline';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Grid from '@mui/material/Grid';
+import Link from '@mui/material/Link';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import ScaleLoader from 'react-spinners/ScaleLoader';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 
 function Copyright(props) {
   return (
@@ -39,7 +40,7 @@ export default function SignIn() {
         setLoading(true);
         setTimeout(() => {
             setLoading(false);
-        }, 8000);
+        }, 2000);
     }, []);
 
   const handleSubmit = (event) => {
