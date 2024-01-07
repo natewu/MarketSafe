@@ -192,12 +192,17 @@
   }
   
 }
-
+.paymentItems{
+  height: 205px;
+  overflow-y: auto;
+}
 .historyBox{
   display: flex;
   flex-flow: row nowrap;
   width: 100%;
   margin-bottom: 1rem;
+  overflow-y: auto;
+  // height: 100px;
 }
 .detail{
   color: rgba(0, 0, 0, 0.5)
