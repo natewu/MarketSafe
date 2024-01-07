@@ -133,11 +133,10 @@ def post_reviews():
 
     if data is None:
         return jsonify({"error": "No data provided"}), 400
-
     try:
         for entry in data:
             analysis_result = analyze_product_reviews('Xbox 360', entry.get('Description', ''))
-
+        
             misinformation_data = next((item for item in analysis_result['detection'] if item['name'] == 'misinformation'), None)
             harmful_content_data = next((item for item in analysis_result['detection'] if item['name'] == 'harmful_content'), None)
 
