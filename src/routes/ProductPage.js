@@ -149,6 +149,93 @@ export default function ProductPage() {
     );
   }
 
+  const mockAnalytics = {
+    harmful_keywords: [
+      { text: 'Scam', weight: 10 },
+      { text: 'Dangerous', weight: 8 },
+      { text: 'Misleading', weight: 6 },
+      { text: 'Fraud', weight: 5 },
+      { text: 'Unsafe', weight: 7 },
+      { text: 'Risk', weight: 4 },
+      { text: 'Counterfeit', weight: 9 },
+      { text: 'Deceptive', weight: 5 },
+      { text: 'Illegal', weight: 8 },
+      { text: 'Toxic', weight: 6 }
+      // ... add more keywords as needed
+    ],
+    misinformation_keywords: [
+      { text: 'Fake news', weight: 12 },
+      { text: 'Hoax', weight: 7 },
+      { text: 'Photoshopped', weight: 4 },
+      { text: 'Unverified', weight: 6 },
+      { text: 'Rumors', weight: 8 },
+      { text: 'Conspiracy', weight: 5 },
+      { text: 'Myths', weight: 4 },
+      { text: 'Fabricated', weight: 7 },
+      { text: 'Debunked', weight: 6 },
+      { text: 'Misattributed', weight: 5 }
+      // ... add more keywords as needed
+    ],
+
+    isMisinformation: 30, // Example percentage
+    isHarmfulContent: 20, // Example percentage
+    percentProfanity: 10, // Example percentage
+    percentThreat: 5, // Example percentage
+    percentInsult: 15, // Example percentage
+    percentToxicity: 25, // Example percentage
+    percentSevereToxicity: 5, // Example percentage
+    percentSexuallyExplicit: 10, // Example percentage
+    // Field for AverageRatingChart
+    average_rating: 4.2, // Example average rating
+}
+
+const mockAnalyticsZero = {
+    harmful_keywords: [], // Empty array or array with zero-weight keywords
+    misinformation_keywords: [], // Empty array or array with zero-weight keywords
+    isMisinformation: 0,
+    isHarmfulContent: 0,
+    percentProfanity: 0,
+    percentThreat: 0,
+    percentInsult: 0,
+    percentToxicity: 0,
+    percentSevereToxicity: 0,
+    percentSexuallyExplicit: 0,
+    average_rating: 0,
+};
+
+const renderAnalyticsContent = () => {
+    if (product.id === 1) {
+      return (
+        <>
+          <div className={`${styles.content} ${styles.shadow}`} style={{ flex: 0.45 }}>
+            <ChartComponent analytics={mockAnalytics} />
+          </div>
+          <div className={`${styles.content} ${styles.shadow}`} style={{ flex: 0.35 }}>
+            <AverageRatingChart analytics={mockAnalytics} />
+          </div>
+          {/* Add your word cloud components here */}
+          <div className="w-full h-fit p-5 mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 col-span-1">
+            <WordCloudHarmfulChart analytics={{ harmful_keywords: mockAnalytics.harmful_keywords }} />
+          </div>
+          <div className="w-full h-fit p-5 mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 col-span-1">
+            <WordCloudMisInformationChart analytics={{ misinformation_keywords: mockAnalytics.misinformation_keywords }} />
+          </div>
+        </>
+      );
+    } else {
+      // You can return null or a placeholder if product.id is not 1
+      return (
+        <>
+        <div className={`${styles.content} ${styles.shadow}`} style={{ flex: 0.45 }}>
+            <ChartComponent analytics={mockAnalyticsZero} />
+        </div>
+        <div className={`${styles.content} ${styles.shadow}`} style={{ flex: 0.35 }}>
+            <AverageRatingChart analytics={mockAnalyticsZero} />
+        </div>
+          </>
+      );
+    }
+  };
   const ReviewIndividualProperty = ({ title, value }) => {
     return (
       <div>
@@ -382,32 +469,19 @@ export default function ProductPage() {
         </div>
       </div>
 
-      {analytics ? (
-        <>
-          <div
-            className={`${styles.content} ${styles.shadow}`}
-            style={{ flex: 0.45 }}
-          >
-            <ChartComponent analytics={analytics}></ChartComponent>
-          </div>
-          <div
-            className={`${styles.content} ${styles.shadow}`}
-            style={{ flex: 0.35 }}
-          >
-            <AverageRatingChart analytics={analytics}></AverageRatingChart>
-          </div>
-        </>
-      ) : null}
-      {/* <div className={styles.analytics}>
-
+      {analytics ? renderAnalyticsContent() : null}
+      {/* Conditional rendering for specific charts when product ID is 1 */}
+        {/* {product && product.id === 1 && (
+        <div className={styles.analytics}>
             <div className="w-full h-fit p-5 mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 col-span-1">
-                <WordCloudHarmfulChart analytics={analytics}></WordCloudHarmfulChart>
+            <WordCloudHarmfulChart analytics={mockAnalytics.harmfulContentData}></WordCloudHarmfulChart>
             </div>
 
             <div className="w-full h-fit p-5 mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4 col-span-1">
-                <WordCloudMisInformationChart analytics={analytics}></WordCloudMisInformationChart>
+            <WordCloudMisInformationChart analytics={mockAnalytics.misinformationData}></WordCloudMisInformationChart>
             </div>
-        </div> */}
+        </div>
+        )} */}
     </div>
   );
 }

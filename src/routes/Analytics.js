@@ -2,23 +2,23 @@ import React from 'react';
 import { Chart } from 'react-google-charts';
 import WordCloud from 'react-wordcloud';
 
-export const AverageRatingChart = (analytics) => {
-    analytics = analytics["analytics"]
+export const AverageRatingChart = ({ analytics }) => {
     const data = [
-      ['Category', 'Value'],
-      ['Average Rating', analytics["average_rating"]],
+        ['Category', 'Value'],
+        ['Average Rating', analytics ? analytics.average_rating : 0],
     ];
    
     return (
-      <Chart
-        chartType="Bar"
-        data={data}
-        options={{ title: 'Review Statistics' }}
-        width="100%"
-        height="400px"
-      />
+        <Chart
+            chartType="Bar"
+            data={data}
+            options={{ title: 'Review Statistics' }}
+            width="100%"
+            height="400px"
+        />
     );
-   };
+};
+
    
 // Create a pie chart for percentages of different review categories
 export const PieChart = (analytics) => {
@@ -44,41 +44,35 @@ const options = {
 
 
 // Create a word cloud for misinformation keywords
-export const WordCloudMisInformationChart = (analytics) => {
-    analytics = analytics["analytics"]
+export const WordCloudMisInformationChart = ({ analytics }) => {
     console.log(analytics);
-    if (analytics["misinformation_keywords"]) {
-    const words = Object.entries(analytics["misinformation_keywords"])
-        .map(([keyword, count]) => ({ text: keyword, value: count }));
+    if (analytics && analytics.misinformation_keywords) {
+        const words = analytics.misinformation_keywords.map(({ text, weight }) => ({ text, value: weight }));
         return (
             <div>
                 <h1 className='font-bold text-lg'>Misinformation Keywords</h1>
                 <WordCloud 
-                options={options}
-                words={words} />        
+                    options={options}
+                    words={words} />        
             </div>       
-            );
-        }
-    return <></>
-
+        );
+    }
+    return <></>;
 };
 
-export const WordCloudHarmfulChart = (analytics) => {
-    analytics = analytics["analytics"]
-    if (analytics["harmful_keywords"]) {
-    const words = Object.entries(analytics["harmful_keywords"])
-        .map(([keyword, count]) => ({ text: keyword, value: count }));
+export const WordCloudHarmfulChart = ({ analytics }) => {
+    if (analytics && analytics.harmful_keywords) {
+        const words = analytics.harmful_keywords.map(({ text, weight }) => ({ text, value: weight }));
         return (
             <div>
                 <h1 className='font-bold text-lg'>Harmful Keywords</h1>
                 <WordCloud 
-                options={options}
-                words={words} />        
+                    options={options}
+                    words={words} />        
             </div>
-            );
-        }
-    return <></>
-
+        );
+    }
+    return <></>;
 };
 
 function getPieChartData(analytics, category, title) {

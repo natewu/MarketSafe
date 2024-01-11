@@ -171,6 +171,7 @@ export function Product({ product }) {
         <p className={styles.product__reviews}>
           Reviews: {product.reviews.length}
         </p>
+        <p className={styles.product__reviews}>${product.price}</p>
       </div>
     </div>
   );
